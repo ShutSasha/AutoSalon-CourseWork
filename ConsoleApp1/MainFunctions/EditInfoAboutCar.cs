@@ -59,7 +59,7 @@ namespace CarDealership.MainFunctions
             {
                 EditInfoAboutCar changesAboutCar = new EditInfoAboutCar();
                 changesAboutCar.SelectChanges(lines, id, filePath);
-                ExitOrComtinue.ExitOrContinueEditCar(MenuText.exitOrContinueOutputText + "\n3. Зробити ще зміни");
+                ExitOrContinue.ExitOrContinueEditCar(MenuText.exitOrContinueOutputText + "\n3. Зробити ще зміни");
 
             }
 

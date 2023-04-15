@@ -51,7 +51,7 @@ namespace CarDealership.ValidatorsMethods
             else if (selectedNumber == 1)
             {
                 AddCar.AddCarToFileMethod();
-                ExitOrComtinue.ExitOrContinue(MenuText.exitOrContinueForChanges + "\n3. Добавити ще один автомобіль");
+                ExitOrContinue.ExitOrContinueAddCar(MenuText.exitOrContinueForChanges + "\n3. Добавити ще один автомобіль");
             }
 
             else if (selectedNumber == 2)
@@ -64,14 +64,14 @@ namespace CarDealership.ValidatorsMethods
                 List<Car> allCars = new List<Car>();
                 Console.WriteLine();
                 PrintAllCars.PrintAllCarsMethod(allCars);
-                ExitOrComtinue.ExitOrContinue(MenuText.exitOrContinueForChanges);
+                ExitOrContinue.ExitOrContinueProgram();
             }
 
             else if (selectedNumber == 7)
             {
                 Search search = new Search();
                 search.SearchMethod();
-                ExitOrComtinue.ExitOrContinueForSearch(MenuText.exitOrContinueForChanges + "\n3. Зробити знову пошук.");
+                ExitOrContinue.ExitOrContinueForSearch(MenuText.exitOrContinueForChanges + "\n3. Зробити знову пошук.");
             }
 
             else if (selectedNumber == 8)

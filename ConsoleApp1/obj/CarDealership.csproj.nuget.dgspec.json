@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\1 курс(2 семестр)\\OOP\\курсач\\project\\CarDealership\\ConsoleApp1\\CarDealership.csproj": {}
+    "E:\\1 курс(2 семестр)\\OOP\\курсач\\CourseWork-V2.0\\ConsoleApp1\\CarDealership.csproj": {}
   },
   "projects": {
-    "E:\\1 курс(2 семестр)\\OOP\\курсач\\project\\CarDealership\\ConsoleApp1\\CarDealership.csproj": {
+    "E:\\1 курс(2 семестр)\\OOP\\курсач\\CourseWork-V2.0\\ConsoleApp1\\CarDealership.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\1 курс(2 семестр)\\OOP\\курсач\\project\\CarDealership\\ConsoleApp1\\CarDealership.csproj",
+        "projectUniqueName": "E:\\1 курс(2 семестр)\\OOP\\курсач\\CourseWork-V2.0\\ConsoleApp1\\CarDealership.csproj",
         "projectName": "CarDealership",
-        "projectPath": "E:\\1 курс(2 семестр)\\OOP\\курсач\\project\\CarDealership\\ConsoleApp1\\CarDealership.csproj",
+        "projectPath": "E:\\1 курс(2 семестр)\\OOP\\курсач\\CourseWork-V2.0\\ConsoleApp1\\CarDealership.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "E:\\1 курс(2 семестр)\\OOP\\курсач\\project\\CarDealership\\ConsoleApp1\\obj\\",
+        "outputPath": "E:\\1 курс(2 семестр)\\OOP\\курсач\\CourseWork-V2.0\\ConsoleApp1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",

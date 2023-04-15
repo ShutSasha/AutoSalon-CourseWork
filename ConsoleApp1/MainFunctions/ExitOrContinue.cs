@@ -6,10 +6,33 @@ using System.Threading.Tasks;
 
 namespace CarDealership.MainFunctions
 {
-    internal class ExitOrComtinue
+    internal class ExitOrContinue
     {
+        public static void ExitOrContinueProgram()
+        {
+            Console.WriteLine(MenuText.exitOrContinueForChanges);
 
-        public static void ExitOrContinue(string outputText = MenuText.exitOrContinueOutputText)
+            int selectedNumber = Convert.ToInt32(Console.ReadLine());
+
+            if (selectedNumber == 1)
+            {
+                Console.WriteLine("\nВи обрали функцію вийти до головного меню");
+                Program.Start();
+            }
+
+            else if (selectedNumber == 2)
+            {
+                Console.WriteLine("Exiting...");
+                Environment.Exit(Environment.ExitCode);
+            }
+
+            else
+            {
+                Console.WriteLine("Значення введено не вірно, напишіть знову");
+                ExitOrContinueProgram();
+            }
+        }
+        public static void ExitOrContinueAddCar(string outputText = MenuText.exitOrContinueOutputText)
         {
 
             string exitOrContinue = outputText;
@@ -33,13 +56,13 @@ namespace CarDealership.MainFunctions
             else if (selectedNumber == 3)
             {
                 AddCar.AddCarToFileMethod();
-                ExitOrContinue(MenuText.exitOrContinueForChanges + "\n3. Добавити ще один автомобіль");
+                ExitOrContinueAddCar(MenuText.exitOrContinueForChanges + "\n3. Добавити ще один автомобіль");
             }
 
             else
             {
                 Console.WriteLine("Значення введено не вірно, напишіть знову");
-                ExitOrContinue();
+                ExitOrContinueAddCar(MenuText.exitOrContinueForChanges + "\n3. Добавити ще один автомобіль");
             }
         }
 
@@ -73,7 +96,7 @@ namespace CarDealership.MainFunctions
             else
             {
                 Console.WriteLine("Значення введено не вірно, напишіть знову");
-                ExitOrContinueEditCar();
+                ExitOrContinueEditCar(MenuText.exitOrContinueForChanges + "\n3. Зробити ще зміни");
             }
         }
 
@@ -107,7 +130,7 @@ namespace CarDealership.MainFunctions
             else
             {
                 Console.WriteLine("Значення введено не вірно, напишіть знову");
-                ExitOrContinueEditCar();
+                ExitOrContinueEditCar(MenuText.exitOrContinueForChanges + "\n3. Зробити знову пошук.");
             }
         }
 
