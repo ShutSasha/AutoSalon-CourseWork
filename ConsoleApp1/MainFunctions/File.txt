@@ -1,0 +1,4 @@
+1,BMW,2020,M5,Black,good,24400
+2,Honda,2022,Lex,White,normal,19000
+3,Honda,2019,Men,White,bad,21000
+4,Audi,2019,Q7,White,perfect,29400
