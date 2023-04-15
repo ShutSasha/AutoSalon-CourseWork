@@ -51,12 +51,13 @@ namespace CarDealership.ValidatorsMethods
             else if (selectedNumber == 1)
             {
                 AddCar.AddCarToFileMethod();
-                ExitOrContinue.ExitOrContinueAddCar(MenuText.exitOrContinueForChanges + "\n3. Добавити ще один автомобіль");
+                ExitOrContinue.ExitOrContinueShorter("\n3. Добавити ще один автомобіль", AddCar.AddCarToFileMethod);
             }
 
             else if (selectedNumber == 2)
             {
                 EditInfoAboutCar.EditInfoAboutCarMethod();
+                ExitOrContinue.ExitOrContinueShorter("\n3. Зробити ще зміни", EditInfoAboutCar.EditInfoAboutCarMethod);
             }
 
             else if (selectedNumber == 6)
@@ -64,7 +65,8 @@ namespace CarDealership.ValidatorsMethods
                 List<Car> allCars = new List<Car>();
                 Console.WriteLine();
                 PrintAllCars.PrintAllCarsMethod(allCars);
-                ExitOrContinue.ExitOrContinueProgram();
+                //ExitOrContinue.ExitOrContinueProgram();
+                ExitOrContinue.ExitOrContinueShorter();
             }
 
             else if (selectedNumber == 7)
