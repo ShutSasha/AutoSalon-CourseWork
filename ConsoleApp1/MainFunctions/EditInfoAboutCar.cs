@@ -47,7 +47,7 @@ namespace CarDealership.MainFunctions
             Console.OutputEncoding = Encoding.UTF8;
 
             List<Car> allCars = new List<Car>();
-            PrintAllCars.PrintAllCarsMethod(allCars);
+            PrintAllCars.PrintAllCarsMethod();
 
             Console.Write("\nВведіть id автомобіля: ");
             int id = int.Parse(Console.ReadLine());
@@ -59,7 +59,8 @@ namespace CarDealership.MainFunctions
             {
                 EditInfoAboutCar changesAboutCar = new EditInfoAboutCar();
                 changesAboutCar.SelectChanges(lines, id, filePath);
-                ExitOrContinue.ExitOrContinueEditCar(MenuText.exitOrContinueOutputText + "\n3. Зробити ще зміни");
+                ExitOrContinue.ExitOrContinueShorter("\n3. Зробити ще зміни", EditInfoAboutCarMethod);
+                //ExitOrContinue.ExitOrContinueEditCar(MenuText.exitOrContinueOutputText + "\n3. Зробити ще зміни");
 
             }
 

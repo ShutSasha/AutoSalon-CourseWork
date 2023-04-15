@@ -1,4 +1,5 @@
 ﻿using CarDealership.MainFunctions;
+using static CarDealership.MainFunctions.ExitOrContinue;
 
 namespace CarDealership.ValidatorsMethods
 {
@@ -62,10 +63,8 @@ namespace CarDealership.ValidatorsMethods
 
             else if (selectedNumber == 6)
             {
-                List<Car> allCars = new List<Car>();
                 Console.WriteLine();
-                PrintAllCars.PrintAllCarsMethod(allCars);
-                //ExitOrContinue.ExitOrContinueProgram();
+                PrintAllCars.PrintAllCarsMethod();
                 ExitOrContinue.ExitOrContinueShorter();
             }
 
@@ -73,13 +72,12 @@ namespace CarDealership.ValidatorsMethods
             {
                 Search search = new Search();
                 search.SearchMethod();
-                ExitOrContinue.ExitOrContinueForSearch(MenuText.exitOrContinueForChanges + "\n3. Зробити знову пошук.");
+                ExitOrContinue.ExitOrContinueShorter("\n3. Зробити знову пошук.", search.SearchMethod);
             }
 
             else if (selectedNumber == 8)
             {
-                List<Car> allCars = new List<Car>();
-                PrintAllCars.PrintAllCarsMethod(allCars);
+                PrintAllCars.PrintAllCarsMethod();
                 DeleteCar delete = new DeleteCar();
                 Console.Write("\nВведіть id автомобіля, який хочете видалити");
                 int id = Convert.ToInt32(Console.ReadLine());

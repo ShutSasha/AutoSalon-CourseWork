@@ -4,9 +4,9 @@ namespace CarDealership.MainFunctions
 {
     internal class PrintAllCars
     {
-        static public void PrintAllCarsMethod(List<Car> cars)
+        static public void PrintAllCarsMethod()
         {
-            
+            List<Car> allCars = new List<Car>();
             Console.OutputEncoding = Encoding.UTF8;
 
             string fileName = "File.txt";
@@ -28,10 +28,11 @@ namespace CarDealership.MainFunctions
                 int price = int.Parse(values[6]);
 
                 Car newCar = new Car(id,brand, year, model, color, condition, price);
-                cars.Add(newCar);
+                
+                allCars.Add(newCar);
             }
 
-            foreach (Car product in cars)
+            foreach (Car product in allCars)
             {
 
                 Console.WriteLine($"Id:{product.Id}, Brand: {product.Brand}, Year: {product.Year}, Model: {product.Model}, Color: {product.Color}, Condition: {product.Condition}, Price: {product.Price}");
