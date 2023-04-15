@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using CarDealership.MainFunctions;
 using CarDealership.ValidatorsMethods;
+using static CarDealership.MainFunctions.ExitOrContinue;
 
 namespace CarDealership.MainFunctions
 {
@@ -52,6 +53,22 @@ namespace CarDealership.MainFunctions
             Console.Write("\nВведіть id автомобіля: ");
             int id = int.Parse(Console.ReadLine());
 
+            foreach (string line in lines)
+            {
+                string[] values = line.Split(',');
+
+                int idParse = int.Parse(values[0]);
+                string brand = values[1];
+                int year = int.Parse(values[2]);
+                string model = values[3];
+                string color = values[4];
+                string condition = values[5];
+                int price = int.Parse(values[6]);
+
+                Car newCar = new Car(idParse, brand, year, model, color, condition, price);
+
+                allCars.Add(newCar);
+            }
 
             bool checkId = CheckCarIdExists.CheckCarIdExistsMethod(allCars, id);
 
@@ -59,9 +76,6 @@ namespace CarDealership.MainFunctions
             {
                 EditInfoAboutCar changesAboutCar = new EditInfoAboutCar();
                 changesAboutCar.SelectChanges(lines, id, filePath);
-                ExitOrContinue.ExitOrContinueShorter("\n3. Зробити ще зміни", EditInfoAboutCarMethod);
-                //ExitOrContinue.ExitOrContinueEditCar(MenuText.exitOrContinueOutputText + "\n3. Зробити ще зміни");
-
             }
 
             else

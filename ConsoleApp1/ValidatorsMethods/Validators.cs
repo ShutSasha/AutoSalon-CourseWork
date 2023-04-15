@@ -52,13 +52,21 @@ namespace CarDealership.ValidatorsMethods
             else if (selectedNumber == 1)
             {
                 AddCar.AddCarToFileMethod();
-                ExitOrContinue.ExitOrContinueShorter("\n3. Добавити ще один автомобіль", AddCar.AddCarToFileMethod);
+                List<MethodDelegate> methods = new List<MethodDelegate>();
+                methods.Add(AddCar.AddCarToFileMethod);
+                methods.Add(PrintAllCars.PrintAllCarsMethod);
+                ExitOrContinue.ExitOrContinueShorter("\n3. Добавити ще один автомобіль" +
+                    "\n4. Показати базу автомобілей", methods);
             }
 
             else if (selectedNumber == 2)
             {
                 EditInfoAboutCar.EditInfoAboutCarMethod();
-                ExitOrContinue.ExitOrContinueShorter("\n3. Зробити ще зміни", EditInfoAboutCar.EditInfoAboutCarMethod);
+                List<MethodDelegate> methods = new List<MethodDelegate>();
+                methods.Add(EditInfoAboutCar.EditInfoAboutCarMethod);
+                methods.Add(PrintAllCars.PrintAllCarsMethod);
+                ExitOrContinue.ExitOrContinueShorter("\n3. Зробити ще зміни" +
+                    "\n4. Показати базу автомобілей", methods);
             }
 
             else if (selectedNumber == 6)
@@ -72,7 +80,9 @@ namespace CarDealership.ValidatorsMethods
             {
                 Search search = new Search();
                 search.SearchMethod();
-                ExitOrContinue.ExitOrContinueShorter("\n3. Зробити знову пошук.", search.SearchMethod);
+                List<MethodDelegate> methods = new List<MethodDelegate>();
+                methods.Add(search.SearchMethod);
+                ExitOrContinue.ExitOrContinueShorter("\n3. Зробити знову пошук.", methods);
             }
 
             else if (selectedNumber == 8)
