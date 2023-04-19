@@ -2,17 +2,16 @@
 
 namespace CarDealership.ValidatorsMethods
 {
-    internal class CheckCarIdExists
+    internal class CheckIdExists
     {
 
-
-        public static bool CheckCarIdExistsMethod(List<Car> allCars, int id)
+        public static bool CheckIdExistsVehicle<T>(List<T> items, int id) where T : Vehicle
         {
             bool idExists = false;
 
-            foreach (Car car in allCars)
+            foreach (T item in items)
             {
-                if (car.Id == id)
+                if (item.Id == id)
                 {
                     idExists = true;
                     break;
@@ -22,6 +21,20 @@ namespace CarDealership.ValidatorsMethods
             return idExists;
         }
 
+        public static bool CheckClientExistID(List<Client> allClients, int id)
+        {
+            bool idExists = false;
 
+            foreach (Client client in allClients)
+            {
+                if (client.Id == id)
+                {
+                    idExists = true;
+                    break;
+                }
+            }
+
+            return idExists;
+        }
     }
 }

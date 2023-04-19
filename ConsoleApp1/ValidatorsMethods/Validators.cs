@@ -106,14 +106,23 @@ namespace CarDealership.ValidatorsMethods
                 ExitOrContinue.ExitOrContinueShorter("\n3. Зробити ще зміни" +
                     "\n4. Показати базу автомобілей", methods);
             }
-
-            else if (selectedNumber == 5)
+            
+                else if (selectedNumber == 3)
+            {
+                EditClientInfo.EditInfoAboutClientMethod();
+                List<MethodDelegate> methods = new List<MethodDelegate>();
+                methods.Add(EditClientInfo.EditInfoAboutClientMethod);
+                methods.Add(PrintClients.PrintAllClients);
+                ExitOrContinue.ExitOrContinueShorter("\n3. Зробити ще зміни" +
+                    "\n4. Показати базу клієнтів", methods);
+            }
+            else if (selectedNumber == 4)
             {
                 AutomationOfSelectionForClient.AutomationSearch();
                 ExitOrContinue.ExitOrContinueShorter();
             }
 
-            else if (selectedNumber == 6)
+            else if (selectedNumber == 5)
             {
                 ChoosePrint();
 
@@ -146,7 +155,7 @@ namespace CarDealership.ValidatorsMethods
 
             }
 
-            else if (selectedNumber == 7)
+            else if (selectedNumber == 6)
             {
                 Search search = new Search();
                 search.SearchMethod();
@@ -155,7 +164,7 @@ namespace CarDealership.ValidatorsMethods
                 ExitOrContinue.ExitOrContinueShorter("\n3. Зробити знову пошук.", methods);
             }
 
-            else if (selectedNumber == 8)
+            else if (selectedNumber == 7)
             {
                 PrintAllCars.PrintAllCarsMethod();
                 DeleteCar delete = new DeleteCar();
@@ -164,7 +173,7 @@ namespace CarDealership.ValidatorsMethods
                 delete.DeleteCarMethod(id);
             }
 
-            else if (selectedNumber == 9)
+            else if (selectedNumber == 8)
             {
                 //AddCar.AddCarToFileMethod();
                 AddClient.AddClientToFileMethod();

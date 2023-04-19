@@ -70,7 +70,7 @@ namespace CarDealership.MainFunctions
                 allCars.Add(newCar);
             }
 
-            bool checkId = CheckCarIdExists.CheckCarIdExistsMethod(allCars, id);
+            bool checkId = CheckIdExists.CheckIdExistsVehicle(allCars, id);
 
             if (checkId)
             {
