@@ -28,9 +28,6 @@ namespace CarDealership.MainFunctions
             Console.Write("Введіть ціну мотоцикла(8000): ");
             int price = int.Parse(Console.ReadLine());
 
-            Console.Write("Введіть кількість коліс мотоцикла(2): ");
-            int numberOfWheels = int.Parse(Console.ReadLine());
-
             Console.Write("Введіть тип мотоцикла(sport, cruiser): ");
             string motorcycleType = Console.ReadLine();
 
@@ -40,7 +37,7 @@ namespace CarDealership.MainFunctions
 
             using (StreamWriter writer = new StreamWriter(accessFile.FilePath, true))
             {
-                writer.WriteLine($"{id},{brand},{year},{model},{color},{condition},{price},{numberOfWheels},{motorcycleType}");
+                writer.WriteLine($"{id},{brand},{year},{model},{color},{condition},{price},{motorcycleType}");
             }
 
             Console.ForegroundColor = ConsoleColor.Yellow;

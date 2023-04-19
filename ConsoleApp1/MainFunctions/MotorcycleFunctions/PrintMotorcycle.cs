@@ -27,10 +27,9 @@ namespace CarDealership.MainFunctions.MotorcycleFunctions
                 string color = values[4] != "0" ? values[4] : "Даних немає";
                 string condition = values[5] != "0" ? values[5] : "Даних немає";
                 int price = values[6] != "0" ? int.Parse(values[6]) : 0;
-                int numberOfWheels = values[7] != "0" ? int.Parse(values[7]) : 0;
-                string motorcycleType = values[8] != "0" ? values[8] : "Даних немає";
+                string motorcycleType = values[7] != "0" ? values[7] : "Даних немає";
 
-                Motorcycle newMotorcycle = new Motorcycle(id, brand, year, model, color, condition, price, numberOfWheels, motorcycleType);
+                Motorcycle newMotorcycle = new Motorcycle(id, brand, year, model, color, condition, price, motorcycleType);
 
                 allMotorcycles.Add(newMotorcycle);
             }
@@ -38,7 +37,7 @@ namespace CarDealership.MainFunctions.MotorcycleFunctions
             foreach (Motorcycle motorcycle in allMotorcycles)
             {
                 Console.OutputEncoding = Encoding.UTF8;
-                Console.WriteLine($"Id:{motorcycle.Id}, Бренд: {motorcycle.Brand}, Рік випуску: {motorcycle.Year},\nМодель: {motorcycle.Model}, Колір: {motorcycle.Color}, Стан: {motorcycle.Condition},\nЦіна: {motorcycle.Price}, Кількість коліс: {motorcycle.NumberOfWheels}, Тип мотоцикла: {motorcycle.MotorcycleType} \n---------------------------------------------------------------------");
+                Console.WriteLine($"Id:{motorcycle.Id}, Бренд: {motorcycle.Brand}, Рік випуску: {motorcycle.Year},\nМодель: {motorcycle.Model}, Колір: {motorcycle.Color}, Стан: {motorcycle.Condition},\nЦіна: {motorcycle.Price}, Тип мотоцикла: {motorcycle.MotorcycleType} \n---------------------------------------------------------------------");
             }
         }
     }

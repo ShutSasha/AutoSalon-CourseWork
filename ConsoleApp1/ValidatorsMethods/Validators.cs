@@ -68,6 +68,7 @@ namespace CarDealership.ValidatorsMethods
                 {
                     methods.Add(EditInfoAboutCar.EditInfoAboutCarMethod);
                     methods.Add(EditClientInfo.EditInfoAboutClientMethod);
+                    methods.Add(EditMotorcycleInfo.EditInfoAboutMotorcycleMethod);
                 }
 
                 methods.Add(PrintAllCars.PrintAllCarsMethod);
@@ -133,9 +134,10 @@ namespace CarDealership.ValidatorsMethods
                         }
                         else if (selectedNumber == 2)
                         {
-                            //EditInfoAboutCar.EditInfoAboutCarMethod();
-                            //ExitOrContinueShorter("\n3. Змінити ще один автомобіль.\n" +
-                            //   "4. Змінити ще одного клієнта", methods);
+                            EditMotorcycleInfo.EditInfoAboutMotorcycleMethod();
+                            ExitOrContinueShorter("\n3. Змінити ще один автомобіль.\n" +
+                               "4. Змінити ще одного клієнта\n" +
+                               "5. Змінити ще один мотоцикл", methods);
                         }
                     }
                     else
