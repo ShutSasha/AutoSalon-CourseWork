@@ -8,7 +8,7 @@
         static public void PrintAllClients()
         {
             List<Client> allClients = new List<Client>();
-            Console.OutputEncoding = Encoding.UTF8;
+            
 
             string fileName = "ClientDB.txt";
             string projectPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\MainFunctions\\ClientFunctions"));
@@ -37,7 +37,7 @@
 
             foreach (Client client in allClients)
             {
-
+                Console.OutputEncoding = Encoding.UTF8;
                 Console.WriteLine($"Id:{client.Id}, ПІБ: {client.Name}, Телефон: {client.Phone},\nЕлектронна пошта: {client.Email}, Бажаний бренд: {client.PreferredBrand}, Мінімальна ціна: {client.MinPrice},\nМаксимальна ціна: {client.MaxPrice}, Мінімальний бажаний рік випуску: {client.MinYear}, Максимальний бажаний рік випуску: {client.MaxYear} \n---------------------------------------------------------------------");
 
             }

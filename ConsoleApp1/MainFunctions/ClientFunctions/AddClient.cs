@@ -6,6 +6,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
     {
         static public void AddClientToFileMethod()
         {
+            
             Console.OutputEncoding = Encoding.UTF8;
 
             Console.Write("Введіть Ваш ПІБ: ");
