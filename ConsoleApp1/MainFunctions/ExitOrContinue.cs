@@ -1,6 +1,6 @@
 ﻿namespace CarDealership.MainFunctions
 {
-    internal class ExitOrContinue
+    public class ExitOrContinue
     {
         public delegate void MethodDelegate();
 

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using CarDealership.MainFunctions;
 using CarDealership.ValidatorsMethods;
 
 namespace CarDealership
@@ -17,7 +18,6 @@ namespace CarDealership
         {
             string chooseOneFunction = MenuText.chooseOneFunction;
             bool checkLoop = true;
-
 
             do
             {

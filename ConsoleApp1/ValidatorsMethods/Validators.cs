@@ -1,4 +1,5 @@
 ﻿using CarDealership.MainFunctions;
+using CarDealership.MainFunctions.ClientFunctions;
 using static CarDealership.MainFunctions.ExitOrContinue;
 
 namespace CarDealership.ValidatorsMethods
@@ -36,7 +37,9 @@ namespace CarDealership.ValidatorsMethods
 
             if (inputNumber > maxNumberInInput || inputNumber < 1 && inputNumber != -1)
             {
-                throw new Exception("Input value is not valid.");
+                Console.WriteLine("Введене значення не валідне, спробуйте ще раз");
+                Program.Start();
+                //throw new Exception("\nВведене значення не валідне.");
             }
         }
 
@@ -69,6 +72,12 @@ namespace CarDealership.ValidatorsMethods
                     "\n4. Показати базу автомобілей", methods);
             }
 
+            else if (selectedNumber == 5)
+            {
+                PrintAllCars.PrintAllCarsMethod();
+                ExitOrContinue.ExitOrContinueShorter();
+            }
+
             else if (selectedNumber == 6)
             {
                 Console.WriteLine();
@@ -93,6 +102,22 @@ namespace CarDealership.ValidatorsMethods
                 int id = Convert.ToInt32(Console.ReadLine());
                 delete.DeleteCarMethod(id);
             }
+
+            else if (selectedNumber == 9)
+            {
+                //AddCar.AddCarToFileMethod();
+                AddClient.AddClientToFileMethod();
+                List<MethodDelegate> methods = new List<MethodDelegate>();
+                methods.Add(AddClient.AddClientToFileMethod);
+                ExitOrContinue.ExitOrContinueShorter("\n3. Добавити ще одного клієнта", methods);
+            }
+
+            else if (selectedNumber == 10)
+            {
+                PrintClients.PrintAllClients();
+                ExitOrContinue.ExitOrContinueShorter();
+            }
+
         }
     }
 }
