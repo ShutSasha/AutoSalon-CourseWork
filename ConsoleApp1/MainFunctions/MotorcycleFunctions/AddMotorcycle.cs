@@ -6,46 +6,46 @@ namespace CarDealership.MainFunctions
 {
     internal class AddMotorcycle
     {
-        static public void AddMotorcycleToFileMethod()
+        public static void AddMotorcycleToFileMethod()
         {
             Console.OutputEncoding = Encoding.UTF8;
 
-            Console.Write("Введіть назву бренду(Audi) мотоцикла: ");
+            Console.Write("Введіть назву бренду(Honda) мотоцикла: ");
             string brand = Console.ReadLine();
 
-            Console.Write("Введіть рік випуску(2020): ");
+            Console.Write("Введіть рік випуску(2022): ");
             int year = int.Parse(Console.ReadLine());
 
-            Console.Write("Введіть модель мотоцикла(A3): ");
+            Console.Write("Введіть модель мотоцикла(CBR500R): ");
             string model = Console.ReadLine();
 
-            Console.Write("Введіть колір мотоцикла(red): ");
+            Console.Write("Введіть колір мотоцикла(black): ");
             string color = Console.ReadLine();
 
             Console.Write("Введіть стан мотоцикла(good, normal): ");
             string condition = Console.ReadLine();
 
-            Console.Write("Введіть ціну мотоцикла(14500): ");
+            Console.Write("Введіть ціну мотоцикла(8000): ");
             int price = int.Parse(Console.ReadLine());
 
-            Console.Write("Введіть кількість колес(1-4): ");
+            Console.Write("Введіть кількість коліс мотоцикла(2): ");
             int numberOfWheels = int.Parse(Console.ReadLine());
 
-            Console.Write("Введіть кількість колес(1-4): ");
-            string motorcycle = Console.ReadLine();
+            Console.Write("Введіть тип мотоцикла(sport, cruiser): ");
+            string motorcycleType = Console.ReadLine();
 
-
-            AccessFile accessFileOfMotorcycle = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
-            string[] lines = accessFileOfMotorcycle.Lines;
+            AccessFile accessFile = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
+            string[] lines = accessFile.Lines;
             int id = lines.Length > 0 ? int.Parse(lines[lines.Length - 1].Split(',')[0]) + 1 : 1;
 
-
-            using (StreamWriter writer = new StreamWriter(accessFileOfMotorcycle.FilePath, true))
+            using (StreamWriter writer = new StreamWriter(accessFile.FilePath, true))
             {
-                writer.WriteLine($"{id},{brand},{year},{model},{color},{condition},{price},{numberOfWheels},{motorcycle}");
+                writer.WriteLine($"{id},{brand},{year},{model},{color},{condition},{price},{numberOfWheels},{motorcycleType}");
             }
 
-            Console.WriteLine("Motorcycle added to file successfully!");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\nMotorcycle added to file successfully!");
+            Console.ResetColor();
         }
     }
 }
