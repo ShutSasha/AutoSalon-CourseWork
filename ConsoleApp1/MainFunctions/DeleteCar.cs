@@ -59,7 +59,8 @@
                 string color = fields[4];
                 string condition = fields[5];
                 int price = int.Parse(fields[6]);
-                Car car = new Car(id, brand, year, model, color, condition, price);
+                int numberOfDoors = int.Parse(fields[7]);
+                Car car = new Car(id, brand, year, model, color, condition, price, numberOfDoors);
                 cars.Add(car);
             }
 

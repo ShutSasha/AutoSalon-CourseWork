@@ -26,8 +26,8 @@ namespace CarDealership.MainFunctions
                 string color = values[4];
                 string condition = values[5];
                 int price = int.Parse(values[6]);
-
-                Car newCar = new Car(id,brand, year, model, color, condition, price);
+                int numberOfDoors = int.Parse(values[7]);
+                Car newCar = new Car(id,brand, year, model, color, condition, price, numberOfDoors);
                 
                 allCars.Add(newCar);
             }
@@ -35,7 +35,7 @@ namespace CarDealership.MainFunctions
             foreach (Car product in allCars)
             {
 
-                Console.WriteLine($"Id:{product.Id}, Brand: {product.Brand}, Year: {product.Year}, Model: {product.Model}, Color: {product.Color}, Condition: {product.Condition}, Price: {product.Price}");
+                Console.WriteLine($"Id:{product.Id}, Brand: {product.Brand}, Year: {product.Year}, Model: {product.Model}, Color: {product.Color}, Condition: {product.Condition}, Price: {product.Price}, numberOfDoors: {product.NumberOfDoors}");
   
             }
         }

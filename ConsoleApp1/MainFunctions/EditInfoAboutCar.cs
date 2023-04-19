@@ -12,13 +12,13 @@ namespace CarDealership.MainFunctions
     {
         public void SelectChanges(string[] lines, int id, string filePath)
         {
-            Console.WriteLine("Оберіть, що ви хочете в ньому змінити\n" + "1. Бренд\n" + "2. Рік\n" + "3. Модель\n" + "4. Колір\n" + "5. Стан автомобіля\n" + "6. Ціна\n");
+            Console.WriteLine("Оберіть, що ви хочете в ньому змінити\n" + "1. Бренд\n" + "2. Рік\n" + "3. Модель\n" + "4. Колір\n" + "5. Стан автомобіля\n" + "6. Ціна\n" +"7. Кількість дверей автомобіля");
 
             int selectedNumber = Convert.ToInt32(Console.ReadLine());
 
-            if (selectedNumber >= 1 && selectedNumber <= 6)
+            if (selectedNumber >= 1 && selectedNumber <= 7)
             {
-                string[] fieldNames = { "бренд", "рік", "модель", "колір", "стан автомобіля", "ціна" };
+                string[] fieldNames = { "бренд", "рік", "модель", "колір", "стан автомобіля", "ціна", "кількість дверей" };
                 Console.Write($"Введіть нове значення для поля '{fieldNames[selectedNumber - 1]}': ");
                 string newValue = Console.ReadLine();
                 string[] carData = lines[id - 1].Split(',');
@@ -63,8 +63,8 @@ namespace CarDealership.MainFunctions
                 string color = values[4];
                 string condition = values[5];
                 int price = int.Parse(values[6]);
-
-                Car newCar = new Car(idParse, brand, year, model, color, condition, price);
+                int numberOfDoors = int.Parse(values[7]);
+                Car newCar = new Car(idParse, brand, year, model, color, condition, price, numberOfDoors);
 
                 allCars.Add(newCar);
             }

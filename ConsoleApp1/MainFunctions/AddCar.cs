@@ -28,6 +28,9 @@ namespace CarDealership.MainFunctions
             Console.Write("Введіть ціну автомобіля(14500): ");
             int price = int.Parse(Console.ReadLine());
 
+            Console.Write("Введіть кількість дверей автомобіля(4): ");
+            int numberOfDoors = int.Parse(Console.ReadLine());
+
 
             string fileName = "File.txt";
             string projectPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\MainFunctions"));
@@ -39,7 +42,7 @@ namespace CarDealership.MainFunctions
 
             using (StreamWriter writer = new StreamWriter(filePath, true))
             {
-                writer.WriteLine($"{id},{brand},{year},{model},{color},{condition},{price}");
+                writer.WriteLine($"{id},{brand},{year},{model},{color},{condition},{price},{numberOfDoors}");
             }
 
             Console.WriteLine("Car added to file successfully!");

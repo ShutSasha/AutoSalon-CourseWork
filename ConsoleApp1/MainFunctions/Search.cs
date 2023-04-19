@@ -39,21 +39,16 @@ namespace CarDealership.MainFunctions
             Console.Write("Enter the price to: ");
             int priceTo;
             int.TryParse(Console.ReadLine(), out priceTo);
+            Console.Write("Enter the number of doors: ");
+            int numberOfDoors;
+            int.TryParse(Console.ReadLine(), out numberOfDoors);
 
             // Шукаємо всі автомобілі, які відповідають критеріям
             foreach (string line in lines)
             {
                 string[] fields = line.Split(',');
-                Car car = new()
-                {
-                    Id = int.Parse(fields[0]),
-                    Brand = fields[1],
-                    Year = int.Parse(fields[2]),
-                    Model = fields[3],
-                    Color = fields[4],
-                    Condition = fields[5],
-                    Price = int.Parse(fields[6])
-                };
+                Car car = new Car(int.Parse(fields[0]), fields[1], int.Parse(fields[2]), fields[3], fields[4], fields[5], int.Parse(fields[6]), int.Parse(fields[7]));
+
 
                 if ((brand == "" || car.Brand == brand)
                     && (yearFrom == 0 || car.Year >= yearFrom)
@@ -62,7 +57,8 @@ namespace CarDealership.MainFunctions
                     && (color == "" || car.Color == color)
                     && (condition == "" || car.Condition == condition)
                     && (priceFrom == 0 || car.Price >= priceFrom)
-                    && (priceTo == 0 || car.Price <= priceTo))
+                    && (priceTo == 0 || car.Price <= priceTo)
+                    && (numberOfDoors == 0 || car.NumberOfDoors == numberOfDoors))
                 {
                     matchingCars.Add(car);
                 }
@@ -74,7 +70,7 @@ namespace CarDealership.MainFunctions
                 Console.WriteLine("\nMatching cars:");
                 foreach (Car car in matchingCars)
                 {
-                    Console.WriteLine("{0}, {1}, {2}, {3}, {4}, {5}, {6}", car.Id, car.Brand, car.Year, car.Model, car.Color, car.Condition, car.Price);
+                    Console.WriteLine("Id: {0}, Brand: {1}, Year: {2}, Model: {3}, Color: {4}, Condition: {5}, Price: {6}, NumberOfDoors: {7}", car.Id, car.Brand, car.Year, car.Model, car.Color, car.Condition, car.Price, car.NumberOfDoors);
                 }
             }
             else
