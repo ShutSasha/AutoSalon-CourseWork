@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using CarDealership.Models;
 
 namespace CarDealership.MainFunctions
 {

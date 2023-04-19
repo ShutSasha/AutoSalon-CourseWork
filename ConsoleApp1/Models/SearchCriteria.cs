@@ -1,4 +1,4 @@
-﻿namespace CarDealership
+﻿namespace CarDealership.Models
 {
     internal class SearchCriteria
     {
@@ -11,6 +11,6 @@
         public string Color { get; set; }
         public string Condition { get; set; }
         public int? PriceFrom { get; set; }
-    
+
     }
 }

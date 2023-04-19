@@ -1,6 +1,7 @@
 ﻿namespace CarDealership.MainFunctions.ClientFunctions
 {
     using System.Text;
+    using CarDealership.Models;
 
     public class PrintClients
     {
@@ -29,9 +30,9 @@
                 int minYear = values[7] != "0" ? int.Parse(values[7]) : 1900;
                 int maxYear = values[8] != "0" ? int.Parse(values[8]) : 2023;
                 
-                Client newCar = new Client(id, name, phone, email, preferredBrand, minPrice, maxPrice, minYear, maxYear);
+                Client newClient = new Client(id, name, phone, email, preferredBrand, minPrice, maxPrice, minYear, maxYear);
 
-                allClients.Add(newCar);
+                allClients.Add(newClient);
             }
 
             foreach (Client client in allClients)

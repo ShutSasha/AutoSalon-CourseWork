@@ -1,4 +1,4 @@
-﻿namespace CarDealership
+﻿namespace CarDealership.Models
 {
     //class Car
     //{   

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CarDealership
+namespace CarDealership.Models
 {
     public class Motorcycle : Vehicle
     {

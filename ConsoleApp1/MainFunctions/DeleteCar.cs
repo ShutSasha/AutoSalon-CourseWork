@@ -1,4 +1,6 @@
-﻿namespace CarDealership.MainFunctions
+﻿using CarDealership.Models;
+
+namespace CarDealership.MainFunctions
 {
     internal class DeleteCar
     {

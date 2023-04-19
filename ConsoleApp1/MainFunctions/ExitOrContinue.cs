@@ -1,4 +1,6 @@
-﻿namespace CarDealership.MainFunctions
+﻿using CarDealership.Utils;
+
+namespace CarDealership.MainFunctions
 {
     public class ExitOrContinue
     {
@@ -8,13 +10,18 @@
         {
             string outputText = MenuText.exitOrContinueOutputText;
 
+            
             Console.WriteLine(outputText + textOfNewAction);
+           
 
             int selectedNumber = Convert.ToInt32(Console.ReadLine());
 
             if (selectedNumber == 1)
             {
+                Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\nВи обрали функцію вийти до головного меню");
+                Console.ResetColor();
+
                 Program.Start();
             }
 
@@ -34,15 +41,17 @@
             {
                 if (methods != null)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Значення введено не вірно, напишіть знову");
-
+                    Console.ResetColor();
                     ExitOrContinueShorter(textOfNewAction, methods);
                 }
 
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Значення введено не вірно, напишіть знову");
-
+                    Console.ResetColor();
                     ExitOrContinueShorter(textOfNewAction, null);
                 }
             }

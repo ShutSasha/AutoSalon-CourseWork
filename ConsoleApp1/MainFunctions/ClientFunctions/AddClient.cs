@@ -52,7 +52,9 @@ namespace CarDealership.MainFunctions.ClientFunctions
                 writer.WriteLine($"{id},{username},{phone},{email},{PreferredBrand},{priceFrom},{priceTo},{yearFrom},{yearTo}");
             }
 
-            Console.WriteLine("Client added to file successfully!");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\nClient added to file successfully!");
+            Console.ResetColor();
         }
     }
 }

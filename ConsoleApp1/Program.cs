@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using CarDealership.MainFunctions;
+using CarDealership.Utils;
 using CarDealership.ValidatorsMethods;
 
 namespace CarDealership
@@ -23,7 +24,10 @@ namespace CarDealership
             {
                 Console.WriteLine(chooseOneFunction);
 
+                Console.ForegroundColor = ConsoleColor.Blue;
                 Console.Write("\nНапишіть тут номер функції, яку хочете виконати: ");
+                Console.ResetColor();
+
                 int selectedNumber = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine();
 

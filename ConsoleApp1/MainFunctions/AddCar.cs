@@ -45,7 +45,9 @@ namespace CarDealership.MainFunctions
                 writer.WriteLine($"{id},{brand},{year},{model},{color},{condition},{price},{numberOfDoors}");
             }
 
-            Console.WriteLine("Car added to file successfully!");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\nCar added to file successfully!");
+            Console.ResetColor();
         }
     }
 }

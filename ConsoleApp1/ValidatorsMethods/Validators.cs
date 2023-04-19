@@ -55,12 +55,46 @@ namespace CarDealership.ValidatorsMethods
 
             else if (selectedNumber == 1)
             {
-                AddCar.AddCarToFileMethod();
+
                 List<MethodDelegate> methods = new List<MethodDelegate>();
                 methods.Add(AddCar.AddCarToFileMethod);
+                methods.Add(AddClient.AddClientToFileMethod);
                 methods.Add(PrintAllCars.PrintAllCarsMethod);
-                ExitOrContinue.ExitOrContinueShorter("\n3. Добавити ще один автомобіль" +
-                    "\n4. Показати базу автомобілей", methods);
+                methods.Add(PrintClients.PrintAllClients);
+
+                ChooseAdd();
+                void ChooseAdd()
+                {
+                    Console.WriteLine("Оберіть, що хочете додати\n" +
+                    "1. Автомобілі\n" +
+                    "2. Клієнтів");
+
+                    int selectedNumberOfAdd = int.Parse(Console.ReadLine());
+
+                    if (selectedNumberOfAdd == 1)
+                    {
+                        AddCar.AddCarToFileMethod();
+                        ExitOrContinue.ExitOrContinueShorter("\n3. Добавити ще один автомобіль." +
+                    "\n4. Добавити ще одного клієнта." +
+                    "\n5. Показати базу автомобілів." +
+                    "\n6. Показати базу клієнтівю", methods);
+                        
+                    }
+                    else if (selectedNumberOfAdd == 2)
+                    {
+                        AddClient.AddClientToFileMethod();
+                        ExitOrContinue.ExitOrContinueShorter("\n3. Добавити ще один автомобіль." +
+                    "\n4. Добавити ще одного клієнта." +
+                    "\n5. Показати базу автомобілів." +
+                    "\n6. Показати базу клієнтівю", methods);
+                    }
+
+                    else
+                    {
+                        Console.WriteLine("Не вірно введене значення, спробуйте ще раз");
+                        ChooseAdd();
+                    }
+                }
             }
 
             else if (selectedNumber == 2)
@@ -75,14 +109,14 @@ namespace CarDealership.ValidatorsMethods
 
             else if (selectedNumber == 5)
             {
-                PrintAllCars.PrintAllCarsMethod();
+                AutomationOfSelectionForClient.AutomationSearch();
                 ExitOrContinue.ExitOrContinueShorter();
             }
 
             else if (selectedNumber == 6)
             {
                 ChoosePrint();
-                
+
                 void ChoosePrint()
                 {
                     Console.WriteLine("Оберіть, що хочете надрукувати\n" +

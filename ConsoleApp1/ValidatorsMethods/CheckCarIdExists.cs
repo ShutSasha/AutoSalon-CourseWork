@@ -1,4 +1,6 @@
-﻿namespace CarDealership.ValidatorsMethods
+﻿using CarDealership.Models;
+
+namespace CarDealership.ValidatorsMethods
 {
     internal class CheckCarIdExists
     {
