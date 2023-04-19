@@ -1,8 +1,7 @@
-﻿using CarDealership.MainFunctions.ClientFunctions;
-using CarDealership.Models;
+﻿using CarDealership.Models;
 using System.Text;
 
-namespace CarDealership.MainFunctions
+namespace CarDealership.MainFunctions.ClientFunctions
 {
     public class AutomationOfSelectionForClient
     {
@@ -12,13 +11,11 @@ namespace CarDealership.MainFunctions
             List<Client> allClients = new List<Client>();
             Console.OutputEncoding = Encoding.UTF8;
 
-            string fileClient = "ClientDB.txt";
-            string clientPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\MainFunctions\\ClientFunctions"));
-            string fileClientPath = Path.Combine(clientPath, fileClient);
+            AccessFile accessFileOfClients = AccessFile.GetAccessToFile("ClientDB.txt", "..\\..\\..\\MainFunctions\\ClientFunctions");
+            string[] linesClients = accessFileOfClients.Lines;
+            
 
-            string[] linesClient = File.ReadAllLines(fileClientPath);
-
-            foreach (string line in linesClient)
+            foreach (string line in linesClients)
             {
                 string[] values = line.Split(',');
 
@@ -45,11 +42,10 @@ namespace CarDealership.MainFunctions
 
             int id = Convert.ToInt32(Console.ReadLine());
 
-            string fileName = "File.txt";
-            string projectPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\MainFunctions"));
-            string filePath = Path.Combine(projectPath, fileName);
-            string[] lines = File.ReadAllLines(filePath);
-
+           
+            AccessFile accessFileOfCar = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
+            string[] lines = accessFileOfCar.Lines;
+       
             List<Car> matchingCars = new List<Car>();
 
 

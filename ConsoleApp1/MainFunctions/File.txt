@@ -1,3 +1,0 @@
-1,Kia,2019,M5,Black,good,12000,4
-2,Audi,2020,Q7,White,Good,53800,4
-3,BMW,2021,M5,Black,Normal,24000,4

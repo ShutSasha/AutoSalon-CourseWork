@@ -8,12 +8,8 @@ namespace CarDealership.MainFunctions
 
         public static void ExitOrContinueShorter(string textOfNewAction = "", List<MethodDelegate> methods = null)
         {
-            string outputText = MenuText.exitOrContinueOutputText;
-
-            
-            Console.WriteLine(outputText + textOfNewAction);
+            Console.WriteLine(MenuText.exitOrContinueForChanges + textOfNewAction);
            
-
             int selectedNumber = Convert.ToInt32(Console.ReadLine());
 
             if (selectedNumber == 1)

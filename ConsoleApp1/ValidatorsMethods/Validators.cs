@@ -1,6 +1,6 @@
 ﻿using CarDealership.MainFunctions;
+using CarDealership.MainFunctions.CarFunctions;
 using CarDealership.MainFunctions.ClientFunctions;
-using System.Security.Cryptography.X509Certificates;
 using static CarDealership.MainFunctions.ExitOrContinue;
 
 namespace CarDealership.ValidatorsMethods
@@ -52,165 +52,151 @@ namespace CarDealership.ValidatorsMethods
                 Environment.Exit(Environment.ExitCode);
             }
 
-            else if (selectedNumber == 1)
+            else if (selectedNumber == 1 || selectedNumber == 2)
             {
+                var methods = new List<MethodDelegate>();
 
-                List<MethodDelegate> methods = new List<MethodDelegate>();
-                methods.Add(AddCar.AddCarToFileMethod);
-                methods.Add(AddClient.AddClientToFileMethod);
+                if (selectedNumber == 1)
+                {
+                    methods.Add(AddCar.AddCarToFileMethod);
+                    methods.Add(AddClient.AddClientToFileMethod);
+                }
+
+                else if (selectedNumber == 2)
+                {
+                    methods.Add(EditInfoAboutCar.EditInfoAboutCarMethod);
+                    methods.Add(EditClientInfo.EditInfoAboutClientMethod);
+                }
+
                 methods.Add(PrintAllCars.PrintAllCarsMethod);
                 methods.Add(PrintClients.PrintAllClients);
+                
 
                 ChooseAdd();
                 void ChooseAdd()
                 {
-                    Console.WriteLine("Оберіть, що хочете додати\n" +
+                    
+                    string prompt = selectedNumber == 1 ? "додати" : "редагувати";
+                    
+                    Console.WriteLine($"Оберіть, що хочете {prompt}\n" +
                     "1. Автомобілі\n" +
                     "2. Клієнтів");
 
-                    int selectedNumberOfAdd = int.Parse(Console.ReadLine());
-
-                    if (selectedNumberOfAdd == 1)
+                    if (!int.TryParse(Console.ReadLine(), out int selectedAction))
                     {
-                        AddCar.AddCarToFileMethod();
-                        ExitOrContinue.ExitOrContinueShorter("\n3. Добавити ще один автомобіль." +
-                    "\n4. Добавити ще одного клієнта." +
-                    "\n5. Показати базу автомобілів." +
-                    "\n6. Показати базу клієнтівю", methods);
-                        
-                    }
-                    else if (selectedNumberOfAdd == 2)
-                    {
-                        AddClient.AddClientToFileMethod();
-                        ExitOrContinue.ExitOrContinueShorter("\n3. Добавити ще один автомобіль." +
-                    "\n4. Добавити ще одного клієнта." +
-                    "\n5. Показати базу автомобілів." +
-                    "\n6. Показати базу клієнтів", methods);
+                        Console.WriteLine("Не вірно введене значення, спробуйте ще раз");
+                        ChooseAdd();
+                        return;
                     }
 
+                    if (selectedAction == 1)
+                    {
+                        if (selectedNumber == 1)
+                        {
+                            AddCar.AddCarToFileMethod();
+                            ExitOrContinueShorter("\n3. Додати ще один автомобіль.\n" +
+                                "4. Додати ще одного клієнта", methods);
+                        }
+                        else if (selectedNumber == 2)
+                        {
+                            EditInfoAboutCar.EditInfoAboutCarMethod();
+                            ExitOrContinueShorter("\n3. Змінити ще один автомобіль.\n" +
+                               "4. Змінити ще одного клієнта", methods);
+                        }
+                    }
+                    else if (selectedAction == 2)
+                    {
+                        if (selectedNumber == 1)
+                        {
+                            AddClient.AddClientToFileMethod();
+                            ExitOrContinueShorter("\n3. Додати ще один автомобіль.\n" +
+                               "4. Додати ще одного клієнта", methods);
+                        }
+                        else if (selectedNumber == 2)
+                        {
+                            EditClientInfo.EditInfoAboutClientMethod();
+                            ExitOrContinueShorter("\n3. Змінити ще один автомобіль.\n" +
+                               "4. Змінити ще одного клієнта", methods);
+                        }
+                    }
                     else
                     {
                         Console.WriteLine("Не вірно введене значення, спробуйте ще раз");
                         ChooseAdd();
+                        return;
                     }
                 }
             }
-
-            else if (selectedNumber == 2)
-            {
-                List<MethodDelegate> methods = new List<MethodDelegate>();
-                methods.Add(EditInfoAboutCar.EditInfoAboutCarMethod);
-                methods.Add(EditClientInfo.EditInfoAboutClientMethod);
-                methods.Add(PrintAllCars.PrintAllCarsMethod);
-                methods.Add(PrintClients.PrintAllClients);
-
-
-
-                ChooseAdd();
-                void ChooseAdd()
-                {
-                    Console.WriteLine("Оберіть, що хочете додати\n" +
-                    "1. Редагувати автомобіль\n" +
-                    "2. Редагувати клієнта\n" +
-                    "3. Показати базу автомобілів\n" +
-                    "4. Показати базу клієнтів");
-
-                    int selectedNumberOfAdd = int.Parse(Console.ReadLine());
-
-                    if (selectedNumberOfAdd == 1)
-                    {
-                        EditInfoAboutCar.EditInfoAboutCarMethod();
-                        ExitOrContinue.ExitOrContinueShorter("\n3. Редагувати ще один автомобіль." +
-                    "\n4. Редагувати ще одного клієнта." +
-                    "\n5. Показати базу автомобілів." +
-                    "\n6. Показати базу клієнтівю", methods);
-
-                    }
-                    else if (selectedNumberOfAdd == 2)
-                    {
-                       EditClientInfo.EditInfoAboutClientMethod();
-                        ExitOrContinue.ExitOrContinueShorter("\n3. Добавити ще один автомобіль." +
-                    "\n4. Добавити ще одного клієнта." +
-                    "\n5. Показати базу автомобілів." +
-                    "\n6. Показати базу клієнтівю", methods);
-                    }
-
-                    else
-                    {
-                        Console.WriteLine("Не вірно введене значення, спробуйте ще раз");
-                        ChooseAdd();
-                    }
-                }
-            }
-            
-              
+     
             else if (selectedNumber == 3)
             {
                 AutomationOfSelectionForClient.AutomationSearch();
-                ExitOrContinue.ExitOrContinueShorter();
+                ExitOrContinueShorter();
             }
 
             else if (selectedNumber == 4)
             {
-                ChoosePrint();
+                var printMethods = new List<MethodDelegate>();
+                printMethods.Add(PrintAllCars.PrintAllCarsMethod);
+                printMethods.Add(PrintClients.PrintAllClients);
 
-                void ChoosePrint()
+                ChoosePrint(printMethods);
+
+                void ChoosePrint(List<MethodDelegate> methods)
                 {
                     Console.WriteLine("Оберіть, що хочете надрукувати\n" +
-                    "1. Автомобілі\n" +
-                    "2. Клієнтів");
+                        "1. Автомобілі\n" +
+                        "2. Клієнтів");
 
                     int selectedNumberOfPrints = int.Parse(Console.ReadLine());
 
-                    if (selectedNumberOfPrints == 1)
+                    if (selectedNumberOfPrints == 1 || selectedNumberOfPrints == 2)
                     {
-                        PrintAllCars.PrintAllCarsMethod();
+                        methods[selectedNumberOfPrints - 1]();
                         ExitOrContinue.ExitOrContinueShorter();
                     }
-                    else if (selectedNumberOfPrints == 2)
-                    {
-                        PrintClients.PrintAllClients();
-                        ExitOrContinue.ExitOrContinueShorter();
-                    }
-
                     else
                     {
                         Console.WriteLine("Не вірно введене значення, спробуйте ще раз");
-                        ChoosePrint();
+                        ChoosePrint(methods);
                     }
                 }
-
-
             }
 
             else if (selectedNumber == 5)
             {
-                Search search = new Search();
-                search.SearchMethod();
-                List<MethodDelegate> methods = new List<MethodDelegate>();
-                methods.Add(search.SearchMethod);
-                ExitOrContinue.ExitOrContinueShorter("\n3. Зробити знову пошук.", methods);
+                PerformSearch();
             }
-
+            
             else if (selectedNumber == 6)
             {
-                PrintAllCars.PrintAllCarsMethod();
-                DeleteCar delete = new DeleteCar();
-                Console.Write("\nВведіть id автомобіля, який хочете видалити");
-                int id = Convert.ToInt32(Console.ReadLine());
-                delete.DeleteCarMethod(id);
+                PerformDeleteCar();
             }
-
+            
             else if (selectedNumber == 7)
             {
-                //AddCar.AddCarToFileMethod();
-                AddClient.AddClientToFileMethod();
-                List<MethodDelegate> methods = new List<MethodDelegate>();
-                methods.Add(AddClient.AddClientToFileMethod);
-                ExitOrContinue.ExitOrContinueShorter("\n3. Добавити ще одного клієнта", methods);
+                PerformAddClient();
             }
+            
+        }
+        private static void PerformSearch()
+        {
+            Search.SearchMethod();
+            List<MethodDelegate> methods = new List<MethodDelegate>();
+            methods.Add(Search.SearchMethod);
+            ExitOrContinue.ExitOrContinueShorter("\n3. Зробити знову пошук.", methods);
+        }
 
-
+        private static void PerformDeleteCar()
+        {
+          DeleteCar.DeleteCarMethod();
+        }
+        private static void PerformAddClient()
+        {
+            AddClient.AddClientToFileMethod();
+            List<MethodDelegate> methods = new List<MethodDelegate>();
+            methods.Add(AddClient.AddClientToFileMethod);
+            ExitOrContinue.ExitOrContinueShorter("\n3. Добавити ще одного клієнта", methods);
         }
     }
 }

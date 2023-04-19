@@ -8,15 +8,11 @@
         static public void PrintAllClients()
         {
             List<Client> allClients = new List<Client>();
-            
 
-            string fileName = "ClientDB.txt";
-            string projectPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\MainFunctions\\ClientFunctions"));
-            string filePath = Path.Combine(projectPath, fileName);
+            AccessFile accessFileOfClients = AccessFile.GetAccessToFile("ClientDB.txt", "..\\..\\..\\MainFunctions\\ClientFunctions");
+            string[] linesClients = accessFileOfClients.Lines;
 
-            string[] lines = File.ReadAllLines(filePath);
-
-            foreach (string line in lines)
+            foreach (string line in linesClients)
             {
                 string[] values = line.Split(',');
 
@@ -43,6 +39,4 @@
             }
         }
     }
-
-
 }

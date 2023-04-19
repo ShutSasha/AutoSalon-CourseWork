@@ -41,6 +41,5 @@ namespace CarDealership
                 }
             } while (checkLoop);
         }
-
     }
 }

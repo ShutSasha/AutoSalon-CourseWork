@@ -1,18 +1,19 @@
 ﻿using CarDealership.Models;
 
-namespace CarDealership.MainFunctions
+namespace CarDealership.MainFunctions.CarFunctions
 {
     internal class DeleteCar
     {
-        public void DeleteCarMethod(int idToDelete)
+        public static void DeleteCarMethod()
         {
-            
-            string fileName = "File.txt";
-            string projectPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\MainFunctions"));
-            string filePath = Path.Combine(projectPath, fileName);
+            PrintAllCars.PrintAllCarsMethod();
 
-           
-            string[] lines = File.ReadAllLines(filePath);
+            Console.Write("\nВведіть id автомобіля, який хочете видалити");
+            int idToDelete = Convert.ToInt32(Console.ReadLine());
+
+            AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
+            string[] lines = accessFile.Lines;
+
 
             // Пошук індексу рядка з айді, який потрібно видалити
             int indexToDelete = -1;
@@ -40,7 +41,7 @@ namespace CarDealership.MainFunctions
             lines = newLines.ToArray();
 
             // Перезаписуємо файл
-            using (StreamWriter writer = new StreamWriter(filePath))
+            using (StreamWriter writer = new StreamWriter(accessFile.FilePath))
             {
                 for (int i = lines.Length - 1; i >= 0; i--)
                 {
@@ -70,7 +71,7 @@ namespace CarDealership.MainFunctions
             cars = cars.OrderBy(car => car.Id).ToList();
 
             // Перезаписуємо файл
-            using (StreamWriter sw = new StreamWriter(filePath))
+            using (StreamWriter sw = new StreamWriter(accessFile.FilePath))
             {
                 foreach (Car car in cars)
                 {
@@ -82,7 +83,7 @@ namespace CarDealership.MainFunctions
             Array.Sort(lines, (a, b) => int.Parse(a.Split(',')[0]).CompareTo(int.Parse(b.Split(',')[0])));
 
             // Перезаписуємо файл з відсортованими рядками та новими айді
-            using (StreamWriter writer = new StreamWriter(filePath))
+            using (StreamWriter writer = new StreamWriter(accessFile.FilePath))
             {
                 int newId = 1;
 

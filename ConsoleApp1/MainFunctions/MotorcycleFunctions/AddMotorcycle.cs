@@ -35,18 +35,12 @@ namespace CarDealership.MainFunctions
             string motorcycle = Console.ReadLine();
 
 
-
-
-            string fileName = "MotorcycleDB.txt";
-            string projectPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\MainFunctions\\MotorcycleFunctions"));
-            
-            string filePath = Path.Combine(projectPath, fileName);
-
-            string[] lines = File.ReadAllLines(filePath);
+            AccessFile accessFileOfMotorcycle = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
+            string[] lines = accessFileOfMotorcycle.Lines;
             int id = lines.Length > 0 ? int.Parse(lines[lines.Length - 1].Split(',')[0]) + 1 : 1;
 
 
-            using (StreamWriter writer = new StreamWriter(filePath, true))
+            using (StreamWriter writer = new StreamWriter(accessFileOfMotorcycle.FilePath, true))
             {
                 writer.WriteLine($"{id},{brand},{year},{model},{color},{condition},{price},{numberOfWheels},{motorcycle}");
             }

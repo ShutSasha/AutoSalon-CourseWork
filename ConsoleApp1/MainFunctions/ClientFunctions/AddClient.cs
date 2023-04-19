@@ -37,18 +37,12 @@ namespace CarDealership.MainFunctions.ClientFunctions
             int yearTo;
             int.TryParse(Console.ReadLine(), out yearTo);
 
-
-
-
-            string fileName = "ClientDB.txt";
-            string projectPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\MainFunctions\\ClientFunctions"));
-            string filePath = Path.Combine(projectPath, fileName);
-
-            string[] lines = File.ReadAllLines(filePath);
+           
+            AccessFile accessFile = AccessFile.GetAccessToFile("ClientDB.txt", "..\\..\\..\\MainFunctions\\ClientFunctions");
+            string[] lines = accessFile.Lines;
             int id = lines.Length > 0 ? int.Parse(lines[lines.Length - 1].Split(',')[0]) + 1 : 1;
 
-
-            using (StreamWriter writer = new StreamWriter(filePath, true))
+            using (StreamWriter writer = new StreamWriter(accessFile.FilePath, true))
             {
                 writer.WriteLine($"{id},{username},{phone},{email},{PreferredBrand},{priceFrom},{priceTo},{yearFrom},{yearTo}");
             }

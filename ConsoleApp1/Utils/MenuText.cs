@@ -19,9 +19,9 @@ namespace CarDealership.Utils
             "\n1. Вийти до головного меню" +
             "\n2. Вихід з програми";
 
-        public const string exitOrContinueOutputText = "\n\nВибиріть одну з функцій нижче:\n" +
-            "\n1. Вийти до головного меню" +
-            "\n2. Вихід з програми";
+        //public const string exitOrContinueOutputText = "\n\nВибиріть одну з функцій нижче:\n" +
+        //    "\n1. Вийти до головного меню" +
+        //    "\n2. Вихід з програми";
 
     }
 }

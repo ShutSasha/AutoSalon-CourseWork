@@ -35,11 +35,8 @@ namespace CarDealership.MainFunctions.ClientFunctions
         public static void EditInfoAboutClientMethod()
         {
 
-            string fileName = "ClientDb.txt";
-            string projectPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\MainFunctions\\ClientFunctions"));
-            string filePath = Path.Combine(projectPath, fileName);
-
-            string[] lines = File.ReadAllLines(filePath);
+            AccessFile accessFileOfClients = AccessFile.GetAccessToFile("ClientDB.txt", "..\\..\\..\\MainFunctions\\ClientFunctions");
+            string[] linesClients = accessFileOfClients.Lines;
 
             Console.OutputEncoding = Encoding.UTF8;
 
@@ -49,7 +46,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
             Console.Write("\nВведіть id клієнта: ");
             int id = int.Parse(Console.ReadLine());
 
-            foreach (string line in lines)
+            foreach (string line in linesClients)
             {
                 string[] values = line.Split(',');
 
@@ -74,7 +71,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
             if (checkId)
             {
                 EditClientInfo changesAboutClient = new EditClientInfo();
-                changesAboutClient.SelectChanges(lines, id, filePath);
+                changesAboutClient.SelectChanges(linesClients, id, accessFileOfClients.FilePath);
             }
 
             else

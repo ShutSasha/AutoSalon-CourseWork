@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace CarDealership.MainFunctions
+namespace CarDealership.MainFunctions.CarFunctions
 {
     internal class AddCar
     {
@@ -32,15 +32,15 @@ namespace CarDealership.MainFunctions
             int numberOfDoors = int.Parse(Console.ReadLine());
 
 
-            string fileName = "File.txt";
-            string projectPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\MainFunctions"));
-            string filePath = Path.Combine(projectPath, fileName);
 
-            string[] lines = File.ReadAllLines(filePath);
+
+
+            AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
+            string[] lines = accessFile.Lines;
             int id = lines.Length > 0 ? int.Parse(lines[lines.Length - 1].Split(',')[0]) + 1 : 1;
 
 
-            using (StreamWriter writer = new StreamWriter(filePath, true))
+            using (StreamWriter writer = new StreamWriter(accessFile.FilePath, true))
             {
                 writer.WriteLine($"{id},{brand},{year},{model},{color},{condition},{price},{numberOfDoors}");
             }

@@ -11,8 +11,7 @@
             NumberOfDoors = numberOfDoors;
         }
 
-        public Car()
-            : base()
+        public Car(): base()
         {
         }
     }

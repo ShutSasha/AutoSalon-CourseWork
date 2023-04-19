@@ -5,17 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using CarDealership.Models;
 
-namespace CarDealership.MainFunctions
+namespace CarDealership.MainFunctions.CarFunctions
 {
     internal class Search
     {
 
-        public void SearchMethod()
+        public static void SearchMethod()
         {
-            string fileName = "File.txt";
-            string projectPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\MainFunctions"));
-            string filePath = Path.Combine(projectPath, fileName);
-            string[] lines = File.ReadAllLines(filePath);
+            AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
+            string[] lines = accessFile.Lines;
 
             List<Car> matchingCars = new List<Car>();
 

@@ -2,18 +2,17 @@
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
-using CarDealership.MainFunctions;
 using CarDealership.Models;
 using CarDealership.ValidatorsMethods;
 using static CarDealership.MainFunctions.ExitOrContinue;
 
-namespace CarDealership.MainFunctions
+namespace CarDealership.MainFunctions.CarFunctions
 {
     internal class EditInfoAboutCar
     {
         public void SelectChanges(string[] lines, int id, string filePath)
         {
-            Console.WriteLine("Оберіть, що ви хочете в ньому змінити\n" + "1. Бренд\n" + "2. Рік\n" + "3. Модель\n" + "4. Колір\n" + "5. Стан автомобіля\n" + "6. Ціна\n" +"7. Кількість дверей автомобіля");
+            Console.WriteLine("Оберіть, що ви хочете в ньому змінити\n" + "1. Бренд\n" + "2. Рік\n" + "3. Модель\n" + "4. Колір\n" + "5. Стан автомобіля\n" + "6. Ціна\n" + "7. Кількість дверей автомобіля");
 
             int selectedNumber = Convert.ToInt32(Console.ReadLine());
 
@@ -39,11 +38,9 @@ namespace CarDealership.MainFunctions
         public static void EditInfoAboutCarMethod()
         {
 
-            string fileName = "File.txt";
-            string projectPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\MainFunctions"));
-            string filePath = Path.Combine(projectPath, fileName);
+            AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
+            string[] lines = accessFile.Lines;
 
-            string[] lines = File.ReadAllLines(filePath);
 
             Console.OutputEncoding = Encoding.UTF8;
 
@@ -75,7 +72,7 @@ namespace CarDealership.MainFunctions
             if (checkId)
             {
                 EditInfoAboutCar changesAboutCar = new EditInfoAboutCar();
-                changesAboutCar.SelectChanges(lines, id, filePath);
+                changesAboutCar.SelectChanges(lines, id, accessFile.FilePath);
             }
 
             else

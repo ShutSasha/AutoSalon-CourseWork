@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using CarDealership.Models;
 
-namespace CarDealership.MainFunctions
+namespace CarDealership.MainFunctions.CarFunctions
 {
     internal class PrintAllCars
     {
@@ -10,11 +10,8 @@ namespace CarDealership.MainFunctions
             List<Car> allCars = new List<Car>();
             Console.OutputEncoding = Encoding.UTF8;
 
-            string fileName = "File.txt";
-            string projectPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\MainFunctions"));
-            string filePath = Path.Combine(projectPath, fileName);
-     
-            string[] lines = File.ReadAllLines(filePath);
+            AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
+            string[] lines = accessFile.Lines;
 
             foreach (string line in lines)
             {
@@ -28,8 +25,8 @@ namespace CarDealership.MainFunctions
                 string condition = values[5];
                 int price = int.Parse(values[6]);
                 int numberOfDoors = int.Parse(values[7]);
-                Car newCar = new Car(id,brand, year, model, color, condition, price, numberOfDoors);
-                
+                Car newCar = new Car(id, brand, year, model, color, condition, price, numberOfDoors);
+
                 allCars.Add(newCar);
             }
 
@@ -37,7 +34,7 @@ namespace CarDealership.MainFunctions
             {
 
                 Console.WriteLine($"Id:{product.Id}, Brand: {product.Brand}, Year: {product.Year}, Model: {product.Model}, Color: {product.Color}, Condition: {product.Condition}, Price: {product.Price}, numberOfDoors: {product.NumberOfDoors}");
-  
+
             }
         }
     }
