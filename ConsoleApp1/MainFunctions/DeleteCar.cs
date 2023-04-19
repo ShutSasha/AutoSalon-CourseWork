@@ -4,7 +4,7 @@
     {
         public void DeleteCarMethod(int idToDelete)
         {
-            // Зчитуємо всі рядки з файлу
+            
             string fileName = "File.txt";
             string projectPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\MainFunctions"));
             string filePath = Path.Combine(projectPath, fileName);

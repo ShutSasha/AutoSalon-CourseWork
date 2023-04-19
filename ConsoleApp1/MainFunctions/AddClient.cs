@@ -17,7 +17,6 @@ namespace CarDealership.MainFunctions
         {
             List<Client> clients = new List<Client>();
 
-            // Читаем данные из файла
             if (File.Exists(_filePath))
             {
                 string[] lines = File.ReadAllLines(_filePath);
@@ -39,7 +38,7 @@ namespace CarDealership.MainFunctions
                 }
             }
 
-            // Считываем данные нового клиента
+
             Console.Write("Enter client's first name: ");
             string firstName = Console.ReadLine();
 
@@ -59,14 +58,14 @@ namespace CarDealership.MainFunctions
                 Console.Write("Invalid date format, please try again (in format MM/dd/yyyy): ");
             }
 
-            // Генерируем новый ID
+            
             int newId = 1;
             if (clients.Count > 0)
             {
                 newId = clients[clients.Count - 1].Id + 1;
             }
 
-            // Создаем новый объект клиента и добавляем его в список
+           
             Client newClient = new Client(
                 id: newId,
                 firstName: firstName,
@@ -78,7 +77,7 @@ namespace CarDealership.MainFunctions
 
             clients.Add(newClient);
 
-            // Записываем данные в файл
+            
             using (StreamWriter sw = new StreamWriter(_filePath))
             {
                 foreach (Client client in clients)

@@ -36,9 +36,6 @@ namespace CarDealership.MainFunctions
             string[] lines = File.ReadAllLines(filePath);
             int id = lines.Length > 0 ? int.Parse(lines[lines.Length - 1].Split(',')[0]) + 1 : 1;
 
-            //string fileName = "File.txt";
-            //string filePath = Path.Combine(Directory.GetCurrentDirectory(), fileName);
-
 
             using (StreamWriter writer = new StreamWriter(filePath, true))
             {
