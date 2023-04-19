@@ -1,5 +1,6 @@
 ﻿using CarDealership.MainFunctions;
 using CarDealership.MainFunctions.ClientFunctions;
+using System.Security.Cryptography.X509Certificates;
 using static CarDealership.MainFunctions.ExitOrContinue;
 
 namespace CarDealership.ValidatorsMethods
@@ -80,9 +81,35 @@ namespace CarDealership.ValidatorsMethods
 
             else if (selectedNumber == 6)
             {
-                Console.WriteLine();
-                PrintAllCars.PrintAllCarsMethod();
-                ExitOrContinue.ExitOrContinueShorter();
+                ChoosePrint();
+                
+                void ChoosePrint()
+                {
+                    Console.WriteLine("Оберіть, що хочете надрукувати\n" +
+                    "1. Автомобілі\n" +
+                    "2. Клієнтів");
+
+                    int selectedNumberOfPrints = int.Parse(Console.ReadLine());
+
+                    if (selectedNumberOfPrints == 1)
+                    {
+                        PrintAllCars.PrintAllCarsMethod();
+                        ExitOrContinue.ExitOrContinueShorter();
+                    }
+                    else if (selectedNumberOfPrints == 2)
+                    {
+                        PrintClients.PrintAllClients();
+                        ExitOrContinue.ExitOrContinueShorter();
+                    }
+
+                    else
+                    {
+                        Console.WriteLine("Не вірно введене значення, спробуйте ще раз");
+                        ChoosePrint();
+                    }
+                }
+
+
             }
 
             else if (selectedNumber == 7)
@@ -112,11 +139,6 @@ namespace CarDealership.ValidatorsMethods
                 ExitOrContinue.ExitOrContinueShorter("\n3. Добавити ще одного клієнта", methods);
             }
 
-            else if (selectedNumber == 10)
-            {
-                PrintClients.PrintAllClients();
-                ExitOrContinue.ExitOrContinueShorter();
-            }
 
         }
     }
