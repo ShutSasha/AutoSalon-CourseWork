@@ -45,7 +45,7 @@ namespace CarDealership.MainFunctions.CarFunctions
             Console.OutputEncoding = Encoding.UTF8;
 
             List<Car> allCars = new List<Car>();
-            PrintAllCars.PrintAllCarsMethod();
+            PrintCars.PrintCarsMethod();
 
             Console.Write("\nВведіть id автомобіля: ");
             int id = int.Parse(Console.ReadLine());

@@ -3,9 +3,9 @@ using CarDealership.Models;
 
 namespace CarDealership.MainFunctions.CarFunctions
 {
-    internal class PrintAllCars
+    internal class PrintCars
     {
-        static public void PrintAllCarsMethod()
+        static public void PrintCarsMethod()
         {
             List<Car> allCars = new List<Car>();
             Console.OutputEncoding = Encoding.UTF8;

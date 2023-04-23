@@ -74,7 +74,7 @@ namespace CarDealership.ValidatorsMethods
                     methods.Add(EditTruckInfo.EditInfoAboutTruckMethod);
                 }
 
-                methods.Add(PrintAllCars.PrintAllCarsMethod);
+                methods.Add(PrintCars.PrintCarsMethod);
                 methods.Add(PrintClients.PrintAllClients);
 
 
@@ -180,7 +180,7 @@ namespace CarDealership.ValidatorsMethods
             else if (selectedNumber == 4)
             {
                 var printMethods = new List<MethodDelegate>();
-                printMethods.Add(PrintAllCars.PrintAllCarsMethod);
+                printMethods.Add(PrintCars.PrintCarsMethod);
                 printMethods.Add(PrintClients.PrintAllClients);
                 printMethods.Add(PrintMotorcycle.PrintAllMotorcycles);
                 printMethods.Add(PrintTruck.PrintAllTrucks);
@@ -238,23 +238,48 @@ namespace CarDealership.ValidatorsMethods
         private static void PerformDelete()
         {
             List<MethodDelegate> methods = new List<MethodDelegate>();
-            methods.Add(DeleteCar.DeleteCarMethod);
+            methods.Add(DeleteVehicle.DeleteCar);
             methods.Add(DeleteClient.DeleteClientMethod);
+            methods.Add(DeleteVehicle.DeleteMotorcycle);
+            methods.Add (DeleteVehicle.DeleteTruck);
             Console.Write("Виберіть, що хочете видалити:\n" +
                 "1. Автомобіль.\n" +
-                "2. Клієнта.\n");
+                "2. Клієнта.\n" +
+                "3. Мотоцикл.\n" +
+                "4. Грузовик.");
             int selectOfDelete = int.Parse(Console.ReadLine());
             if(selectOfDelete == 1)
             {
-              DeleteCar.DeleteCarMethod();
+               
+                DeleteVehicle.DeleteCar();
                 ExitOrContinueShorter("\n3. Видалити ще один автомобіль.\n" +
-                    "4. Видалити ще одного клієнта", methods);
+                    "4. Видалити ще одного клієнта\n" +
+                    "5. Видалити ще один мотоцикл\n" +
+                    "6. Видалити ще один грузовик", methods);
             }
             else if (selectOfDelete == 2)
             {
                 DeleteClient.DeleteClientMethod();
                 ExitOrContinueShorter("\n3. Видалити ще один автомобіль.\n" +
-                    "4. Видалити ще одного клієнта", methods);
+                     "4. Видалити ще одного клієнта\n" +
+                     "5. Видалити ще один мотоцикл\n" +
+                     "6. Видалити ще один грузовик", methods);
+            }
+            else if (selectOfDelete == 3)
+            {
+                DeleteVehicle.DeleteMotorcycle();
+                ExitOrContinueShorter("\n3. Видалити ще один автомобіль.\n" +
+                     "4. Видалити ще одного клієнта\n" +
+                     "5. Видалити ще один мотоцикл\n" +
+                     "6. Видалити ще один грузовик", methods);
+            }
+            else if (selectOfDelete == 4)
+            {
+                DeleteVehicle.DeleteTruck();
+                ExitOrContinueShorter("\n3. Видалити ще один автомобіль.\n" +
+                     "4. Видалити ще одного клієнта\n" +
+                     "5. Видалити ще один мотоцикл\n" +
+                     "6. Видалити ще один грузовик", methods);
             }
             else
             {
