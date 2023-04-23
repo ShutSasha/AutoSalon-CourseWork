@@ -84,7 +84,8 @@ namespace CarDealership.ValidatorsMethods
                     Console.WriteLine($"Оберіть, що хочете {prompt}\n" +
                     "1. Автомобіль\n" +
                     "2. Клієнта\n" +
-                    "3. Мотоцикл");
+                    "3. Мотоцикл\n" +
+                    "4. Грузовик");
 
                     if (!int.TryParse(Console.ReadLine(), out int selectedAction))
                     {
@@ -138,6 +139,15 @@ namespace CarDealership.ValidatorsMethods
                             ExitOrContinueShorter("\n3. Змінити ще один автомобіль.\n" +
                                "4. Змінити ще одного клієнта\n" +
                                "5. Змінити ще один мотоцикл", methods);
+                        }
+                    }
+                    else if (selectedAction == 4) {
+                        if (selectedNumber == 1)
+                        {
+                            AddVehicle.AddVehicleToFileMethod("Truck");
+                            ExitOrContinueShorter("\n3. Додати ще один автомобіль.\n" +
+                                "4. Додати ще одного клієнта\n" +
+                                "5. Додати мотоцикл", methods);
                         }
                     }
                     else
@@ -196,10 +206,7 @@ namespace CarDealership.ValidatorsMethods
                 PerformDeleteCar();
             }
 
-            else if (selectedNumber == 7)
-            {
-                PerformAddClient();
-            }
+          
 
         }
         private static void PerformSearch()
@@ -213,13 +220,6 @@ namespace CarDealership.ValidatorsMethods
         private static void PerformDeleteCar()
         {
             DeleteCar.DeleteCarMethod();
-        }
-        private static void PerformAddClient()
-        {
-            AddClient.AddClientToFileMethod();
-            List<MethodDelegate> methods = new List<MethodDelegate>();
-            methods.Add(AddClient.AddClientToFileMethod);
-            ExitOrContinueShorter("\n3. Добавити ще одного клієнта", methods);
         }
     }
 }

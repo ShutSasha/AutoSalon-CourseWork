@@ -91,8 +91,53 @@ namespace CarDealership.MainFunctions.ClientFunctions
                 Console.WriteLine("\nNo matching cars found.");
                 Console.ResetColor();
             }
+
+
+            AccessFile accessFileOfMotorcycle = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
+            string[] linesOfBike = accessFileOfMotorcycle.Lines;
+
+            List<Motorcycle> matchingBikes = new List<Motorcycle>();
+
+
+            string brandOfBikes = allClients[id - 1].PreferredBrand;
+            
+
+
+            // Шукаємо всі автомобілі, які відповідають критеріям
+            foreach (string line in linesOfBike)
+            {
+                string[] fields = line.Split(',');
+                Motorcycle bike = new Motorcycle(int.Parse(fields[0]), fields[1], int.Parse(fields[2]), fields[3], fields[4], fields[5], int.Parse(fields[6]), fields[7]);
+
+
+                if ((brandOfBikes == "" || bike.Brand == brandOfBikes)
+                    && (yearFrom == 0 || bike.Year >= yearFrom)
+                    && (yearTo == 0 || bike.Year <= yearTo)
+                    && (priceFrom == 0 || bike.Price >= priceFrom)
+                    && (priceTo == 0 || bike.Price <= priceTo))
+                {
+                    matchingBikes.Add(bike);
+                }
+            }
+
+            // Виводимо знайдені bikes
+            if (matchingBikes.Count > 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("\nMatching bikes:\n");
+                Console.ResetColor();
+
+                foreach (Motorcycle bike in matchingBikes)
+                {
+                    Console.WriteLine("Id: {0}, Brand: {1}, Year: {2}, Model: {3}, Color: {4}, Condition: {5}, Price: {6}, bikeType: {7}", bike.Id, bike.Brand, bike.Year, bike.Model, bike.Color, bike.Condition, bike.Price, bike.MotorcycleType);
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nNo matching bikes found.");
+                Console.ResetColor();
+            }
         }
-
-
     }
 }
