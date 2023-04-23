@@ -1,19 +1,18 @@
 ﻿using CarDealership.Models;
-
-namespace CarDealership.MainFunctions.CarFunctions
+namespace CarDealership.MainFunctions.ClientFunctions
 {
-    internal class DeleteCar
+    internal class DeleteClient
     {
-        public static void DeleteCarMethod()
+        public static void DeleteClientMethod()
         {
-            PrintAllCars.PrintAllCarsMethod();
+           
+            PrintClients.PrintAllClients();
 
-            Console.Write("\nВведіть id автомобіля, який хочете видалити");
+            Console.Write("\nВведіть id клієнта, якого хочете видалити: ");
             int idToDelete = Convert.ToInt32(Console.ReadLine());
 
-            AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
+            AccessFile accessFile = AccessFile.GetAccessToFile("ClientDB.txt", "..\\..\\..\\MainFunctions\\ClientFunctions");
             string[] lines = accessFile.Lines;
-
 
             // Пошук індексу рядка з айді, який потрібно видалити
             int indexToDelete = -1;
@@ -31,7 +30,7 @@ namespace CarDealership.MainFunctions.CarFunctions
 
             if (indexToDelete == -1)
             {
-                Console.WriteLine($"Автомобіля з айді {idToDelete} не знайдено.");
+                Console.WriteLine($"Клієнта з айді {idToDelete} не знайдено в файлі.");
                 return;
             }
 
@@ -49,37 +48,36 @@ namespace CarDealership.MainFunctions.CarFunctions
                 }
             }
 
-            Console.WriteLine($"Автомобіль з айді {idToDelete} успішно видалений з файлу.");
 
-            List<Car> cars = new List<Car>();
+            List<Client> clients = new List<Client>();
             foreach (string line in lines)
             {
                 string[] fields = line.Split(',');
                 int id = int.Parse(fields[0]);
-                string brand = fields[1];
-                int year = int.Parse(fields[2]);
-                string model = fields[3];
-                string color = fields[4];
-                string condition = fields[5];
-                int price = int.Parse(fields[6]);
-                int numberOfDoors = int.Parse(fields[7]);
-                Car car = new Car(id, brand, year, model, color, condition, price, numberOfDoors);
-                cars.Add(car);
+                string name = fields[1];
+                string phone = fields[2];
+                string email = fields[3];
+                string preferredBrand = fields[4];
+                int minPrice = int.Parse(fields[5]);
+                int maxPrice = int.Parse(fields[6]);
+                int minYear = int.Parse(fields[7]);
+                int maxYear = int.Parse(fields[8]);
+                Client client = new Client(id, name, phone, email, preferredBrand, minPrice, maxPrice, minYear, maxYear);
+                clients.Add(client);
             }
 
-            // Сортуємо машини за айдішником
-            cars = cars.OrderBy(car => car.Id).ToList();
+            // Сортуємо клієнтів за айдішником
+            clients = clients.OrderBy(client => client.Id).ToList();
 
             // Перезаписуємо файл
             using (StreamWriter sw = new StreamWriter(accessFile.FilePath))
             {
-                foreach (Car car in cars)
+                foreach (Client client in clients)
                 {
-                    string line = $"{car.Id},{car.Brand},{car.Year},{car.Model},{car.Color},{car.Condition},{car.Price}";
+                    string line = $"{client.Id},{client.Name},{client.Phone},{client.Email},{client.PreferredBrand},{client.MinPrice},{client.MaxPrice},{client.MinYear},{client.MaxYear}";
                     sw.WriteLine(line);
                 }
             }
-
             Array.Sort(lines, (a, b) => int.Parse(a.Split(',')[0]).CompareTo(int.Parse(b.Split(',')[0])));
 
             // Перезаписуємо файл з відсортованими рядками та новими айді
@@ -96,6 +94,7 @@ namespace CarDealership.MainFunctions.CarFunctions
                 }
             }
 
+            Console.WriteLine($"Клієнт з айді {idToDelete} успішно видалений з файлу.");
         }
     }
 }

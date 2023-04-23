@@ -13,7 +13,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
 
             AccessFile accessFileOfClients = AccessFile.GetAccessToFile("ClientDB.txt", "..\\..\\..\\MainFunctions\\ClientFunctions");
             string[] linesClients = accessFileOfClients.Lines;
-            
+
 
             foreach (string line in linesClients)
             {
@@ -42,10 +42,10 @@ namespace CarDealership.MainFunctions.ClientFunctions
 
             int id = Convert.ToInt32(Console.ReadLine());
 
-           
+
             AccessFile accessFileOfCar = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
             string[] lines = accessFileOfCar.Lines;
-       
+
             List<Car> matchingCars = new List<Car>();
 
 
@@ -100,7 +100,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
 
 
             string brandOfBikes = allClients[id - 1].PreferredBrand;
-            
+
 
 
             // Шукаємо всі мотоцикли, які відповідають критеріям

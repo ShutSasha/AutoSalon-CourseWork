@@ -217,9 +217,13 @@ namespace CarDealership.ValidatorsMethods
 
             else if (selectedNumber == 6)
             {
-                PerformDeleteCar();
+                PerformDelete();
             }
 
+            else if(selectedNumber == 7)
+            {
+                //Order.CreateOrder();
+            }
           
 
         }
@@ -231,9 +235,33 @@ namespace CarDealership.ValidatorsMethods
             ExitOrContinueShorter("\n3. Зробити знову пошук.", methods);
         }
 
-        private static void PerformDeleteCar()
+        private static void PerformDelete()
         {
-            DeleteCar.DeleteCarMethod();
+            List<MethodDelegate> methods = new List<MethodDelegate>();
+            methods.Add(DeleteCar.DeleteCarMethod);
+            methods.Add(DeleteClient.DeleteClientMethod);
+            Console.Write("Виберіть, що хочете видалити:\n" +
+                "1. Автомобіль.\n" +
+                "2. Клієнта.\n");
+            int selectOfDelete = int.Parse(Console.ReadLine());
+            if(selectOfDelete == 1)
+            {
+              DeleteCar.DeleteCarMethod();
+                ExitOrContinueShorter("\n3. Видалити ще один автомобіль.\n" +
+                    "4. Видалити ще одного клієнта", methods);
+            }
+            else if (selectOfDelete == 2)
+            {
+                DeleteClient.DeleteClientMethod();
+                ExitOrContinueShorter("\n3. Видалити ще один автомобіль.\n" +
+                    "4. Видалити ще одного клієнта", methods);
+            }
+            else
+            {
+                Console.WriteLine("Значення введено невірно, спробуйте ще раз.");
+                PerformDelete();
+            }
+            
         }
     }
 }
