@@ -1,1 +1,1 @@
-﻿1,DAF,2022,XF,White,good,42000,Truck
+1,DAF,2020,XR,White,Good,43000,18,24

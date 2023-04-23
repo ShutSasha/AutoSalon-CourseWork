@@ -103,7 +103,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
             
 
 
-            // Шукаємо всі автомобілі, які відповідають критеріям
+            // Шукаємо всі мотоцикли, які відповідають критеріям
             foreach (string line in linesOfBike)
             {
                 string[] fields = line.Split(',');
@@ -136,6 +136,53 @@ namespace CarDealership.MainFunctions.ClientFunctions
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\nNo matching bikes found.");
+                Console.ResetColor();
+            }
+
+            // Truck
+            AccessFile accessFileOfTruck = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
+            string[] linesOfTruck = accessFileOfTruck.Lines;
+
+            List<Truck> matchingTrucks = new List<Truck>();
+
+
+            string brandOfTrucks = allClients[id - 1].PreferredBrand;
+
+
+
+            // Шукаємо всі trucks, які відповідають критеріям
+            foreach (string line in linesOfTruck)
+            {
+                string[] fields = line.Split(',');
+                Truck truck = new Truck(int.Parse(fields[0]), fields[1], int.Parse(fields[2]), fields[3], fields[4], fields[5], int.Parse(fields[6]), int.Parse(fields[7]), int.Parse(fields[8]));
+
+
+                if ((brandOfTrucks == "" || truck.Brand == brandOfTrucks)
+                    && (yearFrom == 0 || truck.Year >= yearFrom)
+                    && (yearTo == 0 || truck.Year <= yearTo)
+                    && (priceFrom == 0 || truck.Price >= priceFrom)
+                    && (priceTo == 0 || truck.Price <= priceTo))
+                {
+                    matchingTrucks.Add(truck);
+                }
+            }
+
+            // Виводимо знайдені trucks
+            if (matchingTrucks.Count > 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("\nMatching trucks:\n");
+                Console.ResetColor();
+
+                foreach (Truck truck in matchingTrucks)
+                {
+                    Console.WriteLine("Id: {0}, Brand: {1}, Year: {2}, Model: {3}, Color: {4}, Condition: {5}, Price: {6}, Number of wheels: {7}, loadCapacity: {8}", truck.Id, truck.Brand, truck.Year, truck.Model, truck.Color, truck.Condition, truck.Price, truck.NumberOfWheels, truck.LoadCapacity);
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nNo matching trucks found.");
                 Console.ResetColor();
             }
         }

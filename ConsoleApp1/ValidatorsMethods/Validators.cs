@@ -2,6 +2,7 @@
 using CarDealership.MainFunctions.CarFunctions;
 using CarDealership.MainFunctions.ClientFunctions;
 using CarDealership.MainFunctions.MotorcycleFunctions;
+using CarDealership.MainFunctions.TruckFunctions;
 using static CarDealership.MainFunctions.ExitOrContinue;
 
 namespace CarDealership.ValidatorsMethods
@@ -62,6 +63,7 @@ namespace CarDealership.ValidatorsMethods
                     methods.Add(AddCar.AddCarToFileMethod);
                     methods.Add(AddClient.AddClientToFileMethod);
                     methods.Add(AddMotorcycle.AddMotorcycleToFileMethod);
+                    methods.Add(AddTruck.AddTruckToFileMethod);
                 }
 
                 else if (selectedNumber == 2)
@@ -69,6 +71,7 @@ namespace CarDealership.ValidatorsMethods
                     methods.Add(EditInfoAboutCar.EditInfoAboutCarMethod);
                     methods.Add(EditClientInfo.EditInfoAboutClientMethod);
                     methods.Add(EditMotorcycleInfo.EditInfoAboutMotorcycleMethod);
+                    methods.Add(EditTruckInfo.EditInfoAboutTruckMethod);
                 }
 
                 methods.Add(PrintAllCars.PrintAllCarsMethod);
@@ -144,10 +147,19 @@ namespace CarDealership.ValidatorsMethods
                     else if (selectedAction == 4) {
                         if (selectedNumber == 1)
                         {
-                            AddVehicle.AddVehicleToFileMethod("Truck");
+                            AddTruck.AddTruckToFileMethod();
                             ExitOrContinueShorter("\n3. Додати ще один автомобіль.\n" +
                                 "4. Додати ще одного клієнта\n" +
-                                "5. Додати мотоцикл", methods);
+                                "5. Додати мотоцикл\n" +
+                                "6. Додати грузовик", methods);
+                        }
+                        else if (selectedNumber == 2)
+                        {
+                            EditTruckInfo.EditInfoAboutTruckMethod();
+                            ExitOrContinueShorter("\n3. Змінити ще один автомобіль.\n" +
+                               "4. Змінити ще одного клієнта\n" +
+                               "5. Змінити ще один мотоцикл\n" +
+                               "6. Змінити ще один грузовик", methods);
                         }
                     }
                     else
@@ -171,6 +183,7 @@ namespace CarDealership.ValidatorsMethods
                 printMethods.Add(PrintAllCars.PrintAllCarsMethod);
                 printMethods.Add(PrintClients.PrintAllClients);
                 printMethods.Add(PrintMotorcycle.PrintAllMotorcycles);
+                printMethods.Add(PrintTruck.PrintAllTrucks);
 
                 ChoosePrint(printMethods);
 
@@ -179,11 +192,12 @@ namespace CarDealership.ValidatorsMethods
                     Console.WriteLine("Оберіть, що хочете надрукувати\n" +
                         "1. Автомобілі\n" +
                         "2. Клієнтів\n" +
-                        "3. Мотоцикли");
+                        "3. Мотоцикли\n" +
+                        "4. Грузовики");
 
                     int selectedNumberOfPrints = int.Parse(Console.ReadLine());
 
-                    if (selectedNumberOfPrints == 1 || selectedNumberOfPrints == 2 || selectedNumberOfPrints == 3)
+                    if (selectedNumberOfPrints == 1 || selectedNumberOfPrints == 2 || selectedNumberOfPrints == 3 || selectedNumber == 4)
                     {
                         methods[selectedNumberOfPrints - 1]();
                         ExitOrContinueShorter();
