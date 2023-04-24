@@ -222,7 +222,7 @@ namespace CarDealership.ValidatorsMethods
 
             else if(selectedNumber == 7)
             {
-                //Order.CreateOrder();
+                Order.CreateOrder();
             }
           
 
