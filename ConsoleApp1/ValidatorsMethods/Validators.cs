@@ -229,6 +229,7 @@ namespace CarDealership.ValidatorsMethods
         }
         private static void PerformSearch()
         {
+           
             Search.SearchMethod();
             List<MethodDelegate> methods = new List<MethodDelegate>();
             methods.Add(Search.SearchMethod);
