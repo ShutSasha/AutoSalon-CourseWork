@@ -38,7 +38,7 @@ namespace CarDealership.MainFunctions
                 if (methods != null)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Значення введено не вірно, напишіть знову");
+                    Console.WriteLine("\nЗначення введено не вірно, напишіть знову");
                     Console.ResetColor();
                     ExitOrContinueShorter(textOfNewAction, methods);
                 }
@@ -46,7 +46,7 @@ namespace CarDealership.MainFunctions
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Значення введено не вірно, напишіть знову");
+                    Console.WriteLine("\nЗначення введено не вірно, напишіть знову");
                     Console.ResetColor();
                     ExitOrContinueShorter(textOfNewAction, null);
                 }

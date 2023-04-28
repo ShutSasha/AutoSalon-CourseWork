@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text;
+﻿using System.Text;
 
 namespace CarDealership.MainFunctions.CarFunctions
 {
@@ -11,19 +9,19 @@ namespace CarDealership.MainFunctions.CarFunctions
             Console.OutputEncoding = Encoding.UTF8;
 
             Console.Write("Введіть назву бренду(Audi) машини: ");
-            string brand = Console.ReadLine();
+            string? brand = Console.ReadLine();
 
             Console.Write("Введіть рік випуску(2020): ");
             int year = int.Parse(Console.ReadLine());
 
             Console.Write("Введіть модель автомобіля(A3): ");
-            string model = Console.ReadLine();
+            string? model = Console.ReadLine();
 
             Console.Write("Введіть колір автомобіля(red): ");
-            string color = Console.ReadLine();
+            string? color = Console.ReadLine();
 
             Console.Write("Введіть стан автомобіля(good, normal): ");
-            string condition = Console.ReadLine();
+            string? condition = Console.ReadLine();
 
             Console.Write("Введіть ціну автомобіля(14500): ");
             int price = int.Parse(Console.ReadLine());
@@ -31,12 +29,8 @@ namespace CarDealership.MainFunctions.CarFunctions
             Console.Write("Введіть кількість дверей автомобіля(4): ");
             int numberOfDoors = int.Parse(Console.ReadLine());
 
-
-
-
-
             AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
-            string[] lines = accessFile.Lines;
+            string[]? lines = accessFile.Lines;
             int id = lines.Length > 0 ? int.Parse(lines[lines.Length - 1].Split(',')[0]) + 1 : 1;
 
 

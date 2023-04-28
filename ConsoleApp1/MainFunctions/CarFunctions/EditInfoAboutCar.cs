@@ -1,17 +1,15 @@
-﻿using System;
-using System.IO;
-using System.Runtime.CompilerServices;
-using System.Text;
-using CarDealership.Models;
+﻿using System.Text;
 using CarDealership.ValidatorsMethods;
-using static CarDealership.MainFunctions.ExitOrContinue;
 
 namespace CarDealership.MainFunctions.CarFunctions
 {
     internal class EditInfoAboutCar
     {
+
         public void SelectChanges(string[] lines, int id, string filePath)
         {
+            Console.OutputEncoding = Encoding.UTF8;
+
             Console.WriteLine("Оберіть, що ви хочете в ньому змінити\n" + "1. Бренд\n" + "2. Рік\n" + "3. Модель\n" + "4. Колір\n" + "5. Стан автомобіля\n" + "6. Ціна\n" + "7. Кількість дверей автомобіля");
 
             int selectedNumber = Convert.ToInt32(Console.ReadLine());
@@ -26,8 +24,6 @@ namespace CarDealership.MainFunctions.CarFunctions
                 lines[id - 1] = string.Join(",", carData);
                 File.WriteAllLines(filePath, lines);
                 Console.WriteLine($"Поле '{fieldNames[selectedNumber - 1]}' змінено на '{newValue}'");
-
-
             }
             else
             {
@@ -41,31 +37,11 @@ namespace CarDealership.MainFunctions.CarFunctions
             AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
             string[] lines = accessFile.Lines;
 
-
-            Console.OutputEncoding = Encoding.UTF8;
-
-            List<Car> allCars = new List<Car>();
+            var allCars = CarImporter.ImportCarsFromFile(lines);
             PrintCars.PrintCarsMethod();
 
             Console.Write("\nВведіть id автомобіля: ");
             int id = int.Parse(Console.ReadLine());
-
-            foreach (string line in lines)
-            {
-                string[] values = line.Split(',');
-
-                int idParse = int.Parse(values[0]);
-                string brand = values[1];
-                int year = int.Parse(values[2]);
-                string model = values[3];
-                string color = values[4];
-                string condition = values[5];
-                int price = int.Parse(values[6]);
-                int numberOfDoors = int.Parse(values[7]);
-                Car newCar = new Car(idParse, brand, year, model, color, condition, price, numberOfDoors);
-
-                allCars.Add(newCar);
-            }
 
             bool checkId = CheckIdExists.CheckIdExistsVehicle(allCars, id);
 
@@ -77,8 +53,9 @@ namespace CarDealership.MainFunctions.CarFunctions
 
             else
             {
-
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\nВи ввели неіснуючий id автомобіля, спробуйте ще раз");
+                Console.ResetColor();
                 EditInfoAboutCarMethod();
 
             }

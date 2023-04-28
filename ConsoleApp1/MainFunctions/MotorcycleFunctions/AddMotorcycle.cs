@@ -11,25 +11,25 @@ namespace CarDealership.MainFunctions
             Console.OutputEncoding = Encoding.UTF8;
 
             Console.Write("Введіть назву бренду(Honda) мотоцикла: ");
-            string brand = Console.ReadLine();
+            string? brand = Console.ReadLine();
 
             Console.Write("Введіть рік випуску(2022): ");
             int year = int.Parse(Console.ReadLine());
 
             Console.Write("Введіть модель мотоцикла(CBR500R): ");
-            string model = Console.ReadLine();
+            string? model = Console.ReadLine();
 
             Console.Write("Введіть колір мотоцикла(black): ");
-            string color = Console.ReadLine();
+            string? color = Console.ReadLine();
 
             Console.Write("Введіть стан мотоцикла(good, normal): ");
-            string condition = Console.ReadLine();
+            string? condition = Console.ReadLine();
 
             Console.Write("Введіть ціну мотоцикла(8000): ");
             int price = int.Parse(Console.ReadLine());
 
             Console.Write("Введіть тип мотоцикла(sport, cruiser): ");
-            string motorcycleType = Console.ReadLine();
+            string? motorcycleType = Console.ReadLine();
 
             AccessFile accessFile = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
             string[] lines = accessFile.Lines;

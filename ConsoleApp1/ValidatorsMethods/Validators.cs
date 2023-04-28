@@ -40,7 +40,9 @@ namespace CarDealership.ValidatorsMethods
 
             if (inputNumber > maxNumberInInput || inputNumber < 1 && inputNumber != -1)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Введене значення не валідне, спробуйте ще раз");
+                Console.ResetColor();
                 Program.Start();
             }
         }
@@ -81,6 +83,14 @@ namespace CarDealership.ValidatorsMethods
                 ChooseAdd();
                 void ChooseAdd()
                 {
+                    string textForAdding = "\n3. Додати ще один автомобіль.\n" +
+                                "4. Додати ще одного клієнта\n" +
+                                "5. Додати ще один мотоцикл\n" +
+                                "6. Додати ще один грузовик";
+                    string textForEditing = "\n3. Змінити ще один автомобіль.\n" +
+                               "4. Змінити ще одного клієнта\n" +
+                               "5. Змінити ще один мотоцикл\n" +
+                               "6. Змінити ще один грузовик";
 
                     string prompt = selectedNumber == 1 ? "додати" : "редагувати";
 
@@ -102,14 +112,12 @@ namespace CarDealership.ValidatorsMethods
                         if (selectedNumber == 1)
                         {
                             AddCar.AddCarToFileMethod();
-                            ExitOrContinueShorter("\n3. Додати ще один автомобіль.\n" +
-                                "4. Додати ще одного клієнта", methods);
+                            ExitOrContinueShorter(textForAdding, methods);
                         }
                         else if (selectedNumber == 2)
                         {
                             EditInfoAboutCar.EditInfoAboutCarMethod();
-                            ExitOrContinueShorter("\n3. Змінити ще один автомобіль.\n" +
-                               "4. Змінити ще одного клієнта", methods);
+                            ExitOrContinueShorter(textForEditing, methods);
                         }
                     }
                     else if (selectedAction == 2)
@@ -117,14 +125,12 @@ namespace CarDealership.ValidatorsMethods
                         if (selectedNumber == 1)
                         {
                             AddClient.AddClientToFileMethod();
-                            ExitOrContinueShorter("\n3. Додати ще один автомобіль.\n" +
-                               "4. Додати ще одного клієнта", methods);
+                            ExitOrContinueShorter(textForAdding, methods);
                         }
                         else if (selectedNumber == 2)
                         {
                             EditClientInfo.EditInfoAboutClientMethod();
-                            ExitOrContinueShorter("\n3. Змінити ще один автомобіль.\n" +
-                               "4. Змінити ще одного клієнта", methods);
+                            ExitOrContinueShorter(textForEditing, methods);
                         }
                     }
                     else if (selectedAction == 3)
@@ -132,39 +138,31 @@ namespace CarDealership.ValidatorsMethods
                         if (selectedNumber == 1)
                         {
                             AddMotorcycle.AddMotorcycleToFileMethod();
-                            ExitOrContinueShorter("\n3. Додати ще один автомобіль.\n" +
-                                "4. Додати ще одного клієнта\n" +
-                                "5. Додати мотоцикл", methods);
+                            ExitOrContinueShorter(textForAdding, methods);
                         }
                         else if (selectedNumber == 2)
                         {
                             EditMotorcycleInfo.EditInfoAboutMotorcycleMethod();
-                            ExitOrContinueShorter("\n3. Змінити ще один автомобіль.\n" +
-                               "4. Змінити ще одного клієнта\n" +
-                               "5. Змінити ще один мотоцикл", methods);
+                            ExitOrContinueShorter(textForEditing, methods);
                         }
                     }
                     else if (selectedAction == 4) {
                         if (selectedNumber == 1)
                         {
                             AddTruck.AddTruckToFileMethod();
-                            ExitOrContinueShorter("\n3. Додати ще один автомобіль.\n" +
-                                "4. Додати ще одного клієнта\n" +
-                                "5. Додати мотоцикл\n" +
-                                "6. Додати грузовик", methods);
+                            ExitOrContinueShorter(textForAdding, methods);
                         }
                         else if (selectedNumber == 2)
                         {
                             EditTruckInfo.EditInfoAboutTruckMethod();
-                            ExitOrContinueShorter("\n3. Змінити ще один автомобіль.\n" +
-                               "4. Змінити ще одного клієнта\n" +
-                               "5. Змінити ще один мотоцикл\n" +
-                               "6. Змінити ще один грузовик", methods);
+                            ExitOrContinueShorter(textForEditing, methods);
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Не вірно введене значення, спробуйте ще раз");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("\nНе вірно введене значення, спробуйте ще раз\n");
+                        Console.ResetColor();
                         ChooseAdd();
                         return;
                     }
@@ -204,7 +202,9 @@ namespace CarDealership.ValidatorsMethods
                     }
                     else
                     {
-                        Console.WriteLine("Не вірно введене значення, спробуйте ще раз");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("\nНе вірно введене значення, спробуйте ще раз");
+                        Console.ResetColor();
                         ChoosePrint(methods);
                     }
                 }
@@ -238,6 +238,11 @@ namespace CarDealership.ValidatorsMethods
 
         private static void PerformDelete()
         {
+            string textForDelete = "\n3. Видалити ще один автомобіль.\n" +
+                    "4. Видалити ще одного клієнта\n" +
+                    "5. Видалити ще один мотоцикл\n" +
+                    "6. Видалити ще один грузовик";
+
             List<MethodDelegate> methods = new List<MethodDelegate>();
             methods.Add(DeleteVehicle.DeleteCar);
             methods.Add(DeleteClient.DeleteClientMethod);
@@ -253,38 +258,28 @@ namespace CarDealership.ValidatorsMethods
             {
                
                 DeleteVehicle.DeleteCar();
-                ExitOrContinueShorter("\n3. Видалити ще один автомобіль.\n" +
-                    "4. Видалити ще одного клієнта\n" +
-                    "5. Видалити ще один мотоцикл\n" +
-                    "6. Видалити ще один грузовик", methods);
+                ExitOrContinueShorter(textForDelete, methods);
             }
             else if (selectOfDelete == 2)
             {
                 DeleteClient.DeleteClientMethod();
-                ExitOrContinueShorter("\n3. Видалити ще один автомобіль.\n" +
-                     "4. Видалити ще одного клієнта\n" +
-                     "5. Видалити ще один мотоцикл\n" +
-                     "6. Видалити ще один грузовик", methods);
+                ExitOrContinueShorter(textForDelete, methods);
             }
             else if (selectOfDelete == 3)
             {
                 DeleteVehicle.DeleteMotorcycle();
-                ExitOrContinueShorter("\n3. Видалити ще один автомобіль.\n" +
-                     "4. Видалити ще одного клієнта\n" +
-                     "5. Видалити ще один мотоцикл\n" +
-                     "6. Видалити ще один грузовик", methods);
+                ExitOrContinueShorter(textForDelete, methods);
             }
             else if (selectOfDelete == 4)
             {
                 DeleteVehicle.DeleteTruck();
-                ExitOrContinueShorter("\n3. Видалити ще один автомобіль.\n" +
-                     "4. Видалити ще одного клієнта\n" +
-                     "5. Видалити ще один мотоцикл\n" +
-                     "6. Видалити ще один грузовик", methods);
+                ExitOrContinueShorter(textForDelete, methods);
             }
             else
             {
-                Console.WriteLine("Значення введено невірно, спробуйте ще раз.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\nЗначення введено невірно, спробуйте ще раз.\n");
+                Console.ResetColor();
                 PerformDelete();
             }
             

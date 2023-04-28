@@ -2,8 +2,8 @@
 {
     public class AccessFile
     {
-        public string[] Lines { get; set; }
-        public string FilePath { get; set; }
+        public string[]? Lines { get; set; }
+        public string? FilePath { get; set; }
 
         public static AccessFile GetAccessToFile(string fileName, string directoryPath)
         {

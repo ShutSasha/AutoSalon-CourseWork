@@ -11,7 +11,6 @@ namespace CarDealership
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.UTF8;
-
             Start(); 
         }
 
@@ -32,7 +31,6 @@ namespace CarDealership
                 Console.WriteLine();
 
                 Validators.ValidatorInputValue(selectedNumber, Validators.FindMaxNumberInString(chooseOneFunction));
-
 
                 Validators.CheckSelectedFunction(selectedNumber);
                 if (selectedNumber == -1)

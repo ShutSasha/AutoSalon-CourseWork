@@ -1,6 +1,6 @@
 ﻿namespace CarDealership.Models
 {
-    class Car : Vehicle
+    public class Car : Vehicle
     {
 
         public int NumberOfDoors { get; set; }

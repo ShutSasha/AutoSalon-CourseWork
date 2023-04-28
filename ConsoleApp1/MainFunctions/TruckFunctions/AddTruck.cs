@@ -9,19 +9,19 @@ namespace CarDealership.MainFunctions.TruckFunctions
             Console.OutputEncoding = Encoding.UTF8;
 
             Console.Write("Введіть назву бренду(Honda) грузовика: ");
-            string brand = Console.ReadLine();
+            string? brand = Console.ReadLine();
 
             Console.Write("Введіть рік випуску(2022): ");
             int year = int.Parse(Console.ReadLine());
 
             Console.Write("Введіть модель грузовика: ");
-            string model = Console.ReadLine();
+            string? model = Console.ReadLine();
 
             Console.Write("Введіть колір грузовика: ");
-            string color = Console.ReadLine();
+            string? color = Console.ReadLine();
 
             Console.Write("Введіть стан грузовика(good, normal): ");
-            string condition = Console.ReadLine();
+            string? condition = Console.ReadLine();
 
             Console.Write("Введіть ціну грузовика: ");
             int price = int.Parse(Console.ReadLine());

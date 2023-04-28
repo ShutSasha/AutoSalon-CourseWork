@@ -10,16 +10,16 @@ namespace CarDealership.MainFunctions.ClientFunctions
             Console.OutputEncoding = Encoding.UTF8;
 
             Console.Write("Введіть Ваш ПІБ: ");
-            string username = Console.ReadLine();
+            string? username = Console.ReadLine();
 
             Console.Write("Введіть номер телефону: ");
-            string phone = Console.ReadLine();
+            string? phone = Console.ReadLine();
 
             Console.Write("Введіть електронну пошту: ");
-            string email = Console.ReadLine();
+            string? email = Console.ReadLine();
 
             Console.Write("Введіть бренд який би Ви хотіли: ");
-            string PreferredBrand = Console.ReadLine();
+            string? PreferredBrand = Console.ReadLine();
 
             Console.Write("Enter the price from: ");
             int priceFrom;
