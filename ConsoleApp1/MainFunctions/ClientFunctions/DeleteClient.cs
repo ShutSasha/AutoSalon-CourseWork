@@ -66,10 +66,8 @@ namespace CarDealership.MainFunctions.ClientFunctions
                 clients.Add(client);
             }
 
-            // Сортуємо клієнтів за айдішником
             clients = clients.OrderBy(client => client.Id).ToList();
 
-            // Перезаписуємо файл
             using (StreamWriter sw = new StreamWriter(accessFile.FilePath))
             {
                 foreach (Client client in clients)
@@ -93,8 +91,9 @@ namespace CarDealership.MainFunctions.ClientFunctions
                     newId++;
                 }
             }
-
-            Console.WriteLine($"Клієнт з айді {idToDelete} успішно видалений з файлу.");
+            Console.ForegroundColor= ConsoleColor.Yellow;
+            Console.WriteLine($"\nКлієнт з айді {idToDelete} успішно видалений з файлу.\n");
+            Console.ResetColor();
         }
     }
 }

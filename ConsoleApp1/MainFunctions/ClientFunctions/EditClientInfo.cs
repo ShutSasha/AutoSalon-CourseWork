@@ -40,31 +40,11 @@ namespace CarDealership.MainFunctions.ClientFunctions
 
             Console.OutputEncoding = Encoding.UTF8;
 
-            List<Client> allClients = new List<Client>();
+            var allClients = ClientImporter.ImportClientsFromFile(linesClients);
             PrintClients.PrintAllClients();
 
             Console.Write("\nВведіть id клієнта: ");
             int id = int.Parse(Console.ReadLine());
-
-            foreach (string line in linesClients)
-            {
-                string[] values = line.Split(',');
-
-                int idParse = int.Parse(values[0]);
-                string name = values[1];
-                string phone = values[2];
-                string email = values[3];
-                string preferredBrand = values[4];
-                int minPrice = int.Parse(values[5]);
-                int maxPrice = int.Parse(values[6]);
-                int minYear = int.Parse(values[7]);
-                int maxYear = int.Parse(values[8]);
-
-               
-                Client newClient = new Client(idParse, name, phone, email, preferredBrand, minPrice, maxPrice, minYear, maxYear);
-
-                allClients.Add(newClient);
-            }
 
             bool checkId = CheckIdExists.CheckClientExistID(allClients, id);
 

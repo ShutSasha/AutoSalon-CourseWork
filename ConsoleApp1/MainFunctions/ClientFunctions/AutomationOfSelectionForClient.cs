@@ -55,8 +55,6 @@ namespace CarDealership.MainFunctions.ClientFunctions
             int yearFrom = allClients[id - 1].MinYear;
             int yearTo = allClients[id - 1].MaxYear;
 
-
-            // Шукаємо всі автомобілі, які відповідають критеріям
             foreach (string line in lines)
             {
                 string[] fields = line.Split(',');
@@ -101,9 +99,6 @@ namespace CarDealership.MainFunctions.ClientFunctions
 
             string brandOfBikes = allClients[id - 1].PreferredBrand;
 
-
-
-            // Шукаємо всі мотоцикли, які відповідають критеріям
             foreach (string line in linesOfBike)
             {
                 string[] fields = line.Split(',');
@@ -120,7 +115,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
                 }
             }
 
-            // Виводимо знайдені bikes
+  
             if (matchingBikes.Count > 0)
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
@@ -139,7 +134,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
                 Console.ResetColor();
             }
 
-            // Truck
+       
             AccessFile accessFileOfTruck = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
             string[] linesOfTruck = accessFileOfTruck.Lines;
 
@@ -149,8 +144,6 @@ namespace CarDealership.MainFunctions.ClientFunctions
             string brandOfTrucks = allClients[id - 1].PreferredBrand;
 
 
-
-            // Шукаємо всі trucks, які відповідають критеріям
             foreach (string line in linesOfTruck)
             {
                 string[] fields = line.Split(',');
@@ -167,7 +160,6 @@ namespace CarDealership.MainFunctions.ClientFunctions
                 }
             }
 
-            // Виводимо знайдені trucks
             if (matchingTrucks.Count > 0)
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
