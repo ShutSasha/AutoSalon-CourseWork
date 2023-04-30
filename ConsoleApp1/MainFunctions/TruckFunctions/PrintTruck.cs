@@ -1,5 +1,6 @@
 ﻿using CarDealership.Models;
 using System.Text;
+using ConsoleTables;
 
 namespace CarDealership.MainFunctions.TruckFunctions
 {
@@ -7,6 +8,8 @@ namespace CarDealership.MainFunctions.TruckFunctions
     {
         static public void PrintAllTrucks()
         {
+            Console.OutputEncoding = Encoding.UTF8;
+
             List<Truck> allTrucks = new List<Truck>();
 
             AccessFile accessFileOfTruck = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
@@ -31,11 +34,24 @@ namespace CarDealership.MainFunctions.TruckFunctions
                 allTrucks.Add(newTruck);
             }
 
+            var table = new ConsoleTable("ID", "Бренд", "Рік випуску", "Модель", "Колір", "Стан", "Ціна", "Кількість коліс", "Грузопідйомність(У тоннах)");
+
             foreach (Truck truck in allTrucks)
             {
-                Console.OutputEncoding = Encoding.UTF8;
-                Console.WriteLine($"Id:{truck.Id}, Бренд: {truck.Brand}, Рік випуску: {truck.Year}, Модель: {truck.Model}, Колір: {truck.Color}, Стан: {truck.Condition},\nЦіна: {truck.Price}, Кількість коліс: {truck.NumberOfWheels}, Грузопідйомність(У тоннах): {truck.LoadCapacity} \n---------------------------------------------------------------------");
+                table.AddRow(
+                 truck.Id,
+                 truck.Brand,
+                 truck.Year,
+                 truck.Model,
+                 truck.Color,
+                 truck.Condition,
+                 truck.Price,
+                 truck.NumberOfWheels,
+                 truck.LoadCapacity
+                    );
+                //Console.WriteLine($"Id:{truck.Id}, Бренд: {truck.Brand}, Рік випуску: {truck.Year}, Модель: {truck.Model}, Колір: {truck.Color}, Стан: {truck.Condition},\nЦіна: {truck.Price}, Кількість коліс: {truck.NumberOfWheels}, Грузопідйомність(У тоннах): {truck.LoadCapacity} \n---------------------------------------------------------------------");
             }
+            Console.Write(table.ToString());
         }
     }
 }

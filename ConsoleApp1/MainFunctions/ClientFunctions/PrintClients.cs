@@ -1,23 +1,40 @@
-﻿namespace CarDealership.MainFunctions.ClientFunctions
+﻿using System.Text;
+using CarDealership.Models;
+using ConsoleTables;
+
+namespace CarDealership.MainFunctions.ClientFunctions
 {
-    using System.Text;
-    using CarDealership.Models;
+
 
     public class PrintClients
     {
         static public void PrintAllClients()
         {
+            Console.OutputEncoding = Encoding.UTF8;
+
             AccessFile accessFileOfClients = AccessFile.GetAccessToFile("ClientDB.txt", "..\\..\\..\\MainFunctions\\ClientFunctions");
             string[] linesClients = accessFileOfClients.Lines;
 
             var allClients = ClientImporter.ImportClientsFromFileForPrint(linesClients);
 
+            var table = new ConsoleTable("ID", "ПІБ", "Телефон", "Електронна пошта", "Бажаний бренд", "Мінімальна ціна", "Максимальна ціна", " Мін. рік випуску", "Макс. рік випуску");
+
             foreach (Client client in allClients)
             {
-                Console.OutputEncoding = Encoding.UTF8;
-                Console.WriteLine($"Id:{client.Id}, ПІБ: {client.Name}, Телефон: {client.Phone},\nЕлектронна пошта: {client.Email}, Бажаний бренд: {client.PreferredBrand}, Мінімальна ціна: {client.MinPrice},\nМаксимальна ціна: {client.MaxPrice}, Мінімальний бажаний рік випуску: {client.MinYear}, Максимальний бажаний рік випуску: {client.MaxYear} \n---------------------------------------------------------------------");
+                table.AddRow(
+                  client.Id,
+                  client.Name,
+                  client.Phone,
+                  client.Email,
+                  client.PreferredBrand,
+                  client.MinPrice,
+                  client.MaxPrice,
+                  client.MinYear,
+                  client.MaxYear
+                   );
 
             }
+            Console.Write(table.ToString());
         }
     }
 }

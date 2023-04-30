@@ -1,9 +1,6 @@
 ﻿using CarDealership.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using ConsoleTables;
 
 namespace CarDealership.MainFunctions.MotorcycleFunctions
 {
@@ -11,6 +8,8 @@ namespace CarDealership.MainFunctions.MotorcycleFunctions
     {
         static public void PrintAllMotorcycles()
         {
+            Console.OutputEncoding = Encoding.UTF8;
+
             List<Motorcycle> allMotorcycles = new List<Motorcycle>();
 
             AccessFile accessFileOfMotorcycle = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
@@ -34,11 +33,24 @@ namespace CarDealership.MainFunctions.MotorcycleFunctions
                 allMotorcycles.Add(newMotorcycle);
             }
 
+            var table = new ConsoleTable("ID", "Бренд", "Рік випуску", "Модель", "Колір", "Стан", "Ціна", "Тип мотоцикла");
+
             foreach (Motorcycle motorcycle in allMotorcycles)
             {
-                Console.OutputEncoding = Encoding.UTF8;
-                Console.WriteLine($"Id:{motorcycle.Id}, Бренд: {motorcycle.Brand}, Рік випуску: {motorcycle.Year},\nМодель: {motorcycle.Model}, Колір: {motorcycle.Color}, Стан: {motorcycle.Condition},\nЦіна: {motorcycle.Price}, Тип мотоцикла: {motorcycle.MotorcycleType} \n---------------------------------------------------------------------");
+
+                table.AddRow(
+                 motorcycle.Id,
+                 motorcycle.Brand,
+                 motorcycle.Year,
+                 motorcycle.Model,
+                 motorcycle.Color,
+                 motorcycle.Condition,
+                 motorcycle.Price,
+                 motorcycle.MotorcycleType
+                   );
+
             }
+            Console.Write(table.ToString());
         }
     }
 }
