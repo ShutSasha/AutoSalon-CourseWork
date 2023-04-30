@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using CarDealership.ValidatorsMethods;
+using System.Text;
 
 namespace CarDealership.MainFunctions.ClientFunctions
 {
@@ -12,11 +13,10 @@ namespace CarDealership.MainFunctions.ClientFunctions
             Console.Write("Введіть Ваш ПІБ: ");
             string? username = Console.ReadLine();
 
-            Console.Write("Введіть номер телефону: ");
-            string? phone = Console.ReadLine();
+            string? phone = Validators.ValidatePhoneNumber();
 
             Console.Write("Введіть електронну пошту: ");
-            string? email = Console.ReadLine();
+            string? email = Validators.EmailInputValidator();
 
             Console.Write("Введіть бренд який би Ви хотіли: ");
             string? PreferredBrand = Console.ReadLine();

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using CarDealership.ValidatorsMethods;
+using System.Text;
 
 namespace CarDealership.MainFunctions.CarFunctions
 {
@@ -11,8 +12,7 @@ namespace CarDealership.MainFunctions.CarFunctions
             Console.Write("Введіть назву бренду(Audi) машини: ");
             string? brand = Console.ReadLine();
 
-            Console.Write("Введіть рік випуску(2020): ");
-            int year = int.Parse(Console.ReadLine());
+            int year = Validators.YearInputOfVehicle();
 
             Console.Write("Введіть модель автомобіля(A3): ");
             string? model = Console.ReadLine();

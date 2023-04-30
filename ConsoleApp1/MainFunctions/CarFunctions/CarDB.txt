@@ -6,3 +6,5 @@
 6,Audi,2018,Q8,White,Good,72000,4
 7,audi,2020,a3,red,good,13900,4
 8,Kia,2010,QS3,White,good,12000,4
+9,audi,1998,a3,red,good,14500,4
+10,audi,2020,a7865,yellow,normal,90102,4

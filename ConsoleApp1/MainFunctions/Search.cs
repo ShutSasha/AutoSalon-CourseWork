@@ -41,9 +41,6 @@ namespace CarDealership.MainFunctions
             Console.Write("Enter the price to: ");
             int priceTo;
             int.TryParse(Console.ReadLine(), out priceTo);
-            //Console.Write("Enter the number of doors: ");
-            //int numberOfDoors;
-            //int.TryParse(Console.ReadLine(), out numberOfDoors);
 
             // Шукаємо всі автомобілі, які відповідають критеріям
             foreach (string line in linesOfCars)
@@ -133,7 +130,6 @@ namespace CarDealership.MainFunctions
                     && (condition == "" || truck.Condition == condition)
                     && (priceFrom == 0 || truck.Price >= priceFrom)
                     && (priceTo == 0 || truck.Price <= priceTo))
-                //&& (numberOfDoors == 0 || car.NumberOfDoors == numberOfDoors))
                 {
                     matchingTrucks.Add(truck);
                 }
@@ -155,12 +151,6 @@ namespace CarDealership.MainFunctions
                 Console.ResetColor();
 
             }
-
-
         }
-
-
     }
-
-
 }

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using CarDealership.ValidatorsMethods;
+using System.Text;
 
 namespace CarDealership.MainFunctions.TruckFunctions
 {
@@ -11,8 +12,7 @@ namespace CarDealership.MainFunctions.TruckFunctions
             Console.Write("Введіть назву бренду(Honda) грузовика: ");
             string? brand = Console.ReadLine();
 
-            Console.Write("Введіть рік випуску(2022): ");
-            int year = int.Parse(Console.ReadLine());
+            int year = Validators.YearInputOfVehicle();
 
             Console.Write("Введіть модель грузовика: ");
             string? model = Console.ReadLine();

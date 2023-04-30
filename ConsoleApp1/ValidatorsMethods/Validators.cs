@@ -3,12 +3,94 @@ using CarDealership.MainFunctions.CarFunctions;
 using CarDealership.MainFunctions.ClientFunctions;
 using CarDealership.MainFunctions.MotorcycleFunctions;
 using CarDealership.MainFunctions.TruckFunctions;
+using System.Text.RegularExpressions;
 using static CarDealership.MainFunctions.ExitOrContinue;
 
 namespace CarDealership.ValidatorsMethods
 {
     internal class Validators
     {
+
+        public static string EmailInputValidator()
+        {
+            string email;
+            while (true)
+            {
+                Console.Write("Введіть електронну пошту: ");
+                 email = Console.ReadLine();
+
+                if (Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                {
+                    return email;
+                }
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Неправильний формат електронної пошти. Будь ласка, спробуйте ще раз.");
+                Console.ResetColor();
+            }
+            
+        }
+        public static string ValidatePhoneNumber()
+        {
+            string phoneNumber;
+            while (true)
+            {
+                Console.Write("Введіть номер телефону строго за форматом (+380 ХХ ХХХХХХХ): ");
+                phoneNumber = Console.ReadLine();
+
+                // Видаляємо всі пробіли
+                phoneNumber = phoneNumber.Replace(" ", string.Empty);
+
+                // Перевірка на довжину номеру
+                if (phoneNumber.Length != 13)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Неправильний номер телефону. Номер повинен мати 12 цифр.");
+                    Console.ResetColor();
+                    continue;
+                }
+
+                // Перевірка чи починається номер з +380
+                if (!phoneNumber.StartsWith("+380"))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Неправильний номер телефону. Номер повинен починатися з +380.");
+                    Console.ResetColor();
+                    continue;
+                }
+
+                // Перевірка, щоб всі решта символів були цифрами
+                if (!phoneNumber.Substring(1).All(char.IsDigit))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Неправильний номер телефону. Номер повинен містити тільки цифри.");
+                    Console.ResetColor();
+                    continue;
+                }
+
+                // Якщо номер пройшов всі перевірки, повертаємо його
+                return phoneNumber;
+            }
+        }
+
+        public static int YearInputOfVehicle()
+        {
+            int year;
+            while (true)
+            {
+                Console.Write("Введіть рік випуску(1920-нині): ");
+                if (int.TryParse(Console.ReadLine(), out year))
+                {
+                    if (year >= 1920 && year <= DateTime.Now.Year)
+                    {
+                        return year; // якщо рік в межах 1920 - поточний рік, то повертаємо його
+                    }
+                }
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Неправильний рік випуску. Будь ласка, спробуйте ще раз.");
+                Console.ResetColor();
+            }
+        }
         public static int FindMaxNumberInString(string input)
         {
             List<int> numbers = new List<int>();

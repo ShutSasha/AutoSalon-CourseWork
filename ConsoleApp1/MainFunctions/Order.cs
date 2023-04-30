@@ -1,10 +1,6 @@
-﻿using CarDealership.MainFunctions.CarFunctions;
-using CarDealership.MainFunctions.ClientFunctions;
-using CarDealership.MainFunctions.MotorcycleFunctions;
-using CarDealership.MainFunctions.TruckFunctions;
+﻿using CarDealership.MainFunctions.ClientFunctions;
 using CarDealership.Models;
 using System.Text;
-using static CarDealership.MainFunctions.ExitOrContinue;
 
 namespace CarDealership.MainFunctions
 {
