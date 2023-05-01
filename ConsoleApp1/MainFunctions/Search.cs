@@ -1,8 +1,12 @@
 ﻿using CarDealership.Models;
+using ConsoleTables;
+using CarDealership.MainFunctions.CarFunctions;
+using CarDealership.MainFunctions.MotorcycleFunctions;
+using CarDealership.MainFunctions.TruckFunctions;
 
 namespace CarDealership.MainFunctions
 {
-    internal class Search
+    public class Search
     {
 
         public static void SearchMethod()
@@ -49,15 +53,7 @@ namespace CarDealership.MainFunctions
                 Car car = new Car(int.Parse(fields[0]), fields[1], int.Parse(fields[2]), fields[3], fields[4], fields[5], int.Parse(fields[6]), int.Parse(fields[7]));
 
 
-                if ((brand == "" || car.Brand == brand)
-                    && (yearFrom == 0 || car.Year >= yearFrom)
-                    && (yearTo == 0 || car.Year <= yearTo)
-                    && (model == "" || car.Model == model)
-                    && (color == "" || car.Color == color)
-                    && (condition == "" || car.Condition == condition)
-                    && (priceFrom == 0 || car.Price >= priceFrom)
-                    && (priceTo == 0 || car.Price <= priceTo))
-                //&& (numberOfDoors == 0 || car.NumberOfDoors == numberOfDoors))
+                if (CheckOfMatchingVehicle(car))
                 {
                     matchingCars.Add(car);
                 }
@@ -67,16 +63,17 @@ namespace CarDealership.MainFunctions
             if (matchingCars.Count > 0)
             {
                 Console.WriteLine("\nMatching cars:");
+                var tableForCar = new ConsoleTable("ID", "Brand", "Year", "Model", "Color", "Condition", "Price", "numberOfDoors");
                 foreach (Car car in matchingCars)
                 {
-                    Console.WriteLine("Id: {0}, Brand: {1}, Year: {2}, Model: {3}, Color: {4}, Condition: {5}, Price: {6}, NumberOfDoors: {7}", car.Id, car.Brand, car.Year, car.Model, car.Color, car.Condition, car.Price, car.NumberOfDoors);
+                    PrintCars.AddCarRowToTable(car, tableForCar);
                 }
+
+                Console.Write(tableForCar.ToString());
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nNo matching cars found.");
-                Console.ResetColor();
+                OutputError("cars");
             }
 
             foreach (string line in linesOfBikes)
@@ -85,15 +82,7 @@ namespace CarDealership.MainFunctions
                 Motorcycle bike = new Motorcycle(int.Parse(fields[0]), fields[1], int.Parse(fields[2]), fields[3], fields[4], fields[5], int.Parse(fields[6]), fields[7]);
 
 
-                if ((brand == "" || bike.Brand == brand)
-                    && (yearFrom == 0 || bike.Year >= yearFrom)
-                    && (yearTo == 0 || bike.Year <= yearTo)
-                    && (model == "" || bike.Model == model)
-                    && (color == "" || bike.Color == color)
-                    && (condition == "" || bike.Condition == condition)
-                    && (priceFrom == 0 || bike.Price >= priceFrom)
-                    && (priceTo == 0 || bike.Price <= priceTo))
-                //&& (numberOfDoors == 0 || car.NumberOfDoors == numberOfDoors))
+                if (CheckOfMatchingVehicle(bike))
                 {
                     matchingBikes.Add(bike);
                 }
@@ -103,16 +92,16 @@ namespace CarDealership.MainFunctions
             if (matchingBikes.Count > 0)
             {
                 Console.WriteLine("\nMatching bikes:");
+                var tableForBike = new ConsoleTable("ID", "Бренд", "Рік випуску", "Модель", "Колір", "Стан", "Ціна", "Тип мотоцикла");
                 foreach (Motorcycle bike in matchingBikes)
                 {
-                    Console.WriteLine("Id: {0}, Brand: {1}, Year: {2}, Model: {3}, Color: {4}, Condition: {5}, Price: {6}, MotorcycleType: {7}", bike.Id, bike.Brand, bike.Year, bike.Model, bike.Color, bike.Condition, bike.Price, bike.MotorcycleType);
+                    PrintMotorcycle.AddBikeRowToTable(bike, tableForBike);
                 }
+                Console.Write(tableForBike.ToString());
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nNo matching motorcycle found.");
-                Console.ResetColor();
+                OutputError("bikes");
             }
 
 
@@ -122,34 +111,51 @@ namespace CarDealership.MainFunctions
                 Truck truck = new Truck(int.Parse(fields[0]), fields[1], int.Parse(fields[2]), fields[3], fields[4], fields[5], int.Parse(fields[6]), int.Parse(fields[7]), int.Parse(fields[8]));
 
 
-                if ((brand == "" || truck.Brand == brand)
-                    && (yearFrom == 0 || truck.Year >= yearFrom)
-                    && (yearTo == 0 || truck.Year <= yearTo)
-                    && (model == "" || truck.Model == model)
-                    && (color == "" || truck.Color == color)
-                    && (condition == "" || truck.Condition == condition)
-                    && (priceFrom == 0 || truck.Price >= priceFrom)
-                    && (priceTo == 0 || truck.Price <= priceTo))
+                if (CheckOfMatchingVehicle(truck))
                 {
                     matchingTrucks.Add(truck);
                 }
             }
 
             // Виводимо знайдені автомобілі
-            if (matchingCars.Count > 0)
+            if (matchingTrucks.Count > 0)
             {
                 Console.WriteLine("\nMatching trucks:");
+                var tableForTruck = new ConsoleTable("ID", "Бренд", "Рік випуску", "Модель", "Колір", "Стан", "Ціна", "Кількість коліс", "Грузопідйомність(У тоннах)");
                 foreach (Truck truck in matchingTrucks)
                 {
-                    Console.WriteLine("Id: {0}, Brand: {1}, Year: {2}, Model: {3}, Color: {4}, Condition: {5}, Price: {6}, NumberOfWheels: {7}, loadCapacity: {8}", truck.Id, truck.Brand, truck.Year, truck.Model, truck.Color, truck.Condition, truck.Price, truck.NumberOfWheels, truck.LoadCapacity);
+                    PrintTruck.AddTruckRowToTable(truck, tableForTruck);
                 }
+                Console.Write(tableForTruck.ToString());
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nNo matching trucks found.");
-                Console.ResetColor();
+                OutputError("trucks");
+            }
 
+            bool CheckOfMatchingVehicle(Vehicle vehicle)
+            {
+                bool check = false;
+                if ((brand == "" || vehicle.Brand == brand)
+                 && (yearFrom == 0 || vehicle.Year >= yearFrom)
+                 && (yearTo == 0 || vehicle.Year <= yearTo)
+                 && (model == "" || vehicle.Model == model)
+                 && (color == "" || vehicle.Color == color)
+                 && (condition == "" || vehicle.Condition == condition)
+                 && (priceFrom == 0 || vehicle.Price >= priceFrom)
+                 && (priceTo == 0 || vehicle.Price <= priceTo))
+                {
+                    check = true;
+                }
+
+                return check;
+            }
+
+            void OutputError(string vehicle)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"\nNo matching {vehicle} found.");
+                Console.ResetColor();
             }
         }
     }

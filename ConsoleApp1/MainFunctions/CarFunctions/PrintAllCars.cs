@@ -6,7 +6,7 @@ namespace CarDealership.MainFunctions.CarFunctions
 {
     internal class PrintCars
     {
-        static public void PrintCarsMethod()
+        public static void PrintCarsMethod()
         {
             Console.OutputEncoding = Encoding.UTF8;
 
@@ -19,20 +19,24 @@ namespace CarDealership.MainFunctions.CarFunctions
             foreach (Car product in allCars)
             {
 
-                table.AddRow(
-                    product.Id,
-                    product.Brand,
-                    product.Year,
-                    product.Model,
-                    product.Color,
-                    product.Condition,
-                    product.Price,
-                    product.NumberOfDoors
-                    );
+                AddCarRowToTable(product, table);
 
             }
             Console.Write(table.ToString());
         }
 
+        public static void AddCarRowToTable(Car car, ConsoleTable table)
+        {
+            table.AddRow(
+                car.Id,
+                car.Brand,
+                car.Year,
+                car.Model,
+                car.Color,
+                car.Condition,
+                car.Price,
+                car.NumberOfDoors
+            );
+        }
     }
 }

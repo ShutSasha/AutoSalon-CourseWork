@@ -38,19 +38,24 @@ namespace CarDealership.MainFunctions.MotorcycleFunctions
             foreach (Motorcycle motorcycle in allMotorcycles)
             {
 
-                table.AddRow(
-                 motorcycle.Id,
-                 motorcycle.Brand,
-                 motorcycle.Year,
-                 motorcycle.Model,
-                 motorcycle.Color,
-                 motorcycle.Condition,
-                 motorcycle.Price,
-                 motorcycle.MotorcycleType
-                   );
+                AddBikeRowToTable(motorcycle, table);
 
             }
             Console.Write(table.ToString());
+        }
+
+        public static void AddBikeRowToTable(Motorcycle bike, ConsoleTable table)
+        {
+            table.AddRow(
+                bike.Id,
+                bike.Brand,
+                bike.Year,
+                bike.Model,
+                bike.Color,
+                bike.Condition,
+                bike.Price,
+                bike.MotorcycleType
+            );
         }
     }
 }
