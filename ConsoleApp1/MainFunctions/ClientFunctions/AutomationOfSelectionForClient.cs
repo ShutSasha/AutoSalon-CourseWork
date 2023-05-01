@@ -1,4 +1,8 @@
 ﻿using CarDealership.Models;
+using CarDealership.Utils;
+using System.Diagnostics;
+using System.Drawing;
+using System.Reflection;
 using System.Text;
 
 namespace CarDealership.MainFunctions.ClientFunctions
@@ -48,8 +52,6 @@ namespace CarDealership.MainFunctions.ClientFunctions
 
             List<Car> matchingCars = new List<Car>();
 
-
-            string brand = allClients[id - 1].PreferredBrand;
             int priceFrom = allClients[id - 1].MinPrice;
             int priceTo = allClients[id - 1].MaxPrice;
             int yearFrom = allClients[id - 1].MinYear;
@@ -61,11 +63,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
                 Car car = new Car(int.Parse(fields[0]), fields[1], int.Parse(fields[2]), fields[3], fields[4], fields[5], int.Parse(fields[6]), int.Parse(fields[7]));
 
 
-                if ((brand == "" || car.Brand == brand)
-                    && (yearFrom == 0 || car.Year >= yearFrom)
-                    && (yearTo == 0 || car.Year <= yearTo)
-                    && (priceFrom == 0 || car.Price >= priceFrom)
-                    && (priceTo == 0 || car.Price <= priceTo))
+                if (CheckOfMatchingVehicle(car))
                 {
                     matchingCars.Add(car);
                 }
@@ -85,9 +83,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nNo matching cars found.");
-                Console.ResetColor();
+                MenuText.OutputErrorOfNoMatchingVehicle("cars");
             }
 
 
@@ -96,26 +92,19 @@ namespace CarDealership.MainFunctions.ClientFunctions
 
             List<Motorcycle> matchingBikes = new List<Motorcycle>();
 
-
-            string brandOfBikes = allClients[id - 1].PreferredBrand;
-
             foreach (string line in linesOfBike)
             {
                 string[] fields = line.Split(',');
                 Motorcycle bike = new Motorcycle(int.Parse(fields[0]), fields[1], int.Parse(fields[2]), fields[3], fields[4], fields[5], int.Parse(fields[6]), fields[7]);
 
 
-                if ((brandOfBikes == "" || bike.Brand == brandOfBikes)
-                    && (yearFrom == 0 || bike.Year >= yearFrom)
-                    && (yearTo == 0 || bike.Year <= yearTo)
-                    && (priceFrom == 0 || bike.Price >= priceFrom)
-                    && (priceTo == 0 || bike.Price <= priceTo))
+                if (CheckOfMatchingVehicle(bike))
                 {
                     matchingBikes.Add(bike);
                 }
             }
 
-  
+
             if (matchingBikes.Count > 0)
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
@@ -129,20 +118,14 @@ namespace CarDealership.MainFunctions.ClientFunctions
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nNo matching bikes found.");
-                Console.ResetColor();
+                MenuText.OutputErrorOfNoMatchingVehicle("bikes");
             }
 
-       
+
             AccessFile accessFileOfTruck = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
             string[] linesOfTruck = accessFileOfTruck.Lines;
 
             List<Truck> matchingTrucks = new List<Truck>();
-
-
-            string brandOfTrucks = allClients[id - 1].PreferredBrand;
-
 
             foreach (string line in linesOfTruck)
             {
@@ -150,11 +133,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
                 Truck truck = new Truck(int.Parse(fields[0]), fields[1], int.Parse(fields[2]), fields[3], fields[4], fields[5], int.Parse(fields[6]), int.Parse(fields[7]), int.Parse(fields[8]));
 
 
-                if ((brandOfTrucks == "" || truck.Brand == brandOfTrucks)
-                    && (yearFrom == 0 || truck.Year >= yearFrom)
-                    && (yearTo == 0 || truck.Year <= yearTo)
-                    && (priceFrom == 0 || truck.Price >= priceFrom)
-                    && (priceTo == 0 || truck.Price <= priceTo))
+                if (CheckOfMatchingVehicle(truck))
                 {
                     matchingTrucks.Add(truck);
                 }
@@ -173,9 +152,23 @@ namespace CarDealership.MainFunctions.ClientFunctions
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nNo matching trucks found.");
-                Console.ResetColor();
+                MenuText.OutputErrorOfNoMatchingVehicle("trucks");
+            }
+
+            bool CheckOfMatchingVehicle(Vehicle vehicle)
+            {
+                string brand = allClients[id - 1].PreferredBrand;
+                bool check = false;
+                if ((brand == "" || vehicle.Brand == brand)
+                 && (yearFrom == 0 || vehicle.Year >= yearFrom)
+                 && (yearTo == 0 || vehicle.Year <= yearTo)
+                 && (priceFrom == 0 || vehicle.Price >= priceFrom)
+                 && (priceTo == 0 || vehicle.Price <= priceTo))
+                {
+                    check = true;
+                }
+
+                return check;
             }
         }
     }

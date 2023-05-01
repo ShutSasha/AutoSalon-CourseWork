@@ -3,14 +3,17 @@ using ConsoleTables;
 using CarDealership.MainFunctions.CarFunctions;
 using CarDealership.MainFunctions.MotorcycleFunctions;
 using CarDealership.MainFunctions.TruckFunctions;
+using CarDealership.Utils;
+using System.Collections.Generic;
 
 namespace CarDealership.MainFunctions
 {
     public class Search
     {
-
+       
         public static void SearchMethod()
         {
+
             AccessFile accessFileOfCars = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
             string[] linesOfCars = accessFileOfCars.Lines;
 
@@ -60,22 +63,8 @@ namespace CarDealership.MainFunctions
             }
 
             // Виводимо знайдені автомобілі
-            if (matchingCars.Count > 0)
-            {
-                Console.WriteLine("\nMatching cars:");
-                var tableForCar = new ConsoleTable("ID", "Brand", "Year", "Model", "Color", "Condition", "Price", "numberOfDoors");
-                foreach (Car car in matchingCars)
-                {
-                    PrintCars.AddCarRowToTable(car, tableForCar);
-                }
-
-                Console.Write(tableForCar.ToString());
-            }
-            else
-            {
-                OutputError("cars");
-            }
-
+            Print.PrintMatchingVehicle(matchingCars.ConvertAll(list => (Vehicle)list), "cars", MenuText.carHeader);
+            
             foreach (string line in linesOfBikes)
             {
                 string[] fields = line.Split(',');
@@ -89,21 +78,7 @@ namespace CarDealership.MainFunctions
             }
 
             // Виводимо знайдені автомобілі
-            if (matchingBikes.Count > 0)
-            {
-                Console.WriteLine("\nMatching bikes:");
-                var tableForBike = new ConsoleTable("ID", "Бренд", "Рік випуску", "Модель", "Колір", "Стан", "Ціна", "Тип мотоцикла");
-                foreach (Motorcycle bike in matchingBikes)
-                {
-                    PrintMotorcycle.AddBikeRowToTable(bike, tableForBike);
-                }
-                Console.Write(tableForBike.ToString());
-            }
-            else
-            {
-                OutputError("bikes");
-            }
-
+            Print.PrintMatchingVehicle(matchingBikes.ConvertAll(list => (Vehicle)list), "bikes", MenuText.bikeHeader);
 
             foreach (string line in linesOfTrucks)
             {
@@ -117,21 +92,7 @@ namespace CarDealership.MainFunctions
                 }
             }
 
-            // Виводимо знайдені автомобілі
-            if (matchingTrucks.Count > 0)
-            {
-                Console.WriteLine("\nMatching trucks:");
-                var tableForTruck = new ConsoleTable("ID", "Бренд", "Рік випуску", "Модель", "Колір", "Стан", "Ціна", "Кількість коліс", "Грузопідйомність(У тоннах)");
-                foreach (Truck truck in matchingTrucks)
-                {
-                    PrintTruck.AddTruckRowToTable(truck, tableForTruck);
-                }
-                Console.Write(tableForTruck.ToString());
-            }
-            else
-            {
-                OutputError("trucks");
-            }
+            Print.PrintMatchingVehicle(matchingTrucks.ConvertAll(list => (Vehicle)list), "trucks", MenuText.truckHeader);
 
             bool CheckOfMatchingVehicle(Vehicle vehicle)
             {
@@ -149,13 +110,6 @@ namespace CarDealership.MainFunctions
                 }
 
                 return check;
-            }
-
-            void OutputError(string vehicle)
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"\nNo matching {vehicle} found.");
-                Console.ResetColor();
             }
         }
     }

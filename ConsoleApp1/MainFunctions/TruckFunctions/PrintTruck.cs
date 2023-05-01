@@ -38,24 +38,21 @@ namespace CarDealership.MainFunctions.TruckFunctions
 
             foreach (Truck truck in allTrucks)
             {
-                AddTruckRowToTable(truck, table);
+                Print.AddVehicleToTable(truck, table);
             }
             Console.Write(table.ToString());
         }
 
-        public static void AddTruckRowToTable(Truck truck, ConsoleTable table)
+        public static void PrintMatchingTrucks(List<Truck> matchingTruck)
         {
-            table.AddRow(
-                truck.Id,
-                truck.Brand,
-                truck.Year,
-                truck.Model,
-                truck.Color,
-                truck.Condition,
-                truck.Price,
-                truck.NumberOfWheels,
-                truck.LoadCapacity
-            );
+            Console.WriteLine("\nMatching trucks:");
+            var tableForTruck = new ConsoleTable("ID", "Бренд", "Рік випуску", "Модель", "Колір", "Стан", "Ціна", "Кількість коліс", "Грузопідйомність(У тоннах)");
+            foreach (Truck truck in matchingTruck)
+            {
+                Print.AddVehicleToTable(truck, tableForTruck);
+            }
+            Console.Write(tableForTruck.ToString());
         }
+
     }
 }
