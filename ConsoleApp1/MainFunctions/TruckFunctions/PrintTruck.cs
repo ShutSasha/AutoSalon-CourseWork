@@ -34,7 +34,7 @@ namespace CarDealership.MainFunctions.TruckFunctions
                 allTrucks.Add(newTruck);
             }
 
-            var table = new ConsoleTable("ID", "Бренд", "Рік випуску", "Модель", "Колір", "Стан", "Ціна", "Кількість коліс", "Грузопідйомність(У тоннах)");
+            var table = new ConsoleTable("ID", "Бренд", "Рік випуску", "Модель", "Колір", "Стан", "Ціна ($)", "Кількість коліс", "Грузопідйомність(У тоннах)");
 
             foreach (Truck truck in allTrucks)
             {
@@ -46,7 +46,7 @@ namespace CarDealership.MainFunctions.TruckFunctions
         public static void PrintMatchingTrucks(List<Truck> matchingTruck)
         {
             Console.WriteLine("\nMatching trucks:");
-            var tableForTruck = new ConsoleTable("ID", "Бренд", "Рік випуску", "Модель", "Колір", "Стан", "Ціна", "Кількість коліс", "Грузопідйомність(У тоннах)");
+            var tableForTruck = new ConsoleTable("ID", "Бренд", "Рік випуску", "Модель", "Колір", "Стан", "Ціна ($)", "Кількість коліс", "Грузопідйомність(У тоннах)");
             foreach (Truck truck in matchingTruck)
             {
                 Print.AddVehicleToTable(truck, tableForTruck);

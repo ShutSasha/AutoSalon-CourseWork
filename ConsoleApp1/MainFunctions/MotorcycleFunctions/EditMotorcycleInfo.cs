@@ -17,9 +17,35 @@ namespace CarDealership.MainFunctions.MotorcycleFunctions
 
             if (selectedNumber >= 1 && selectedNumber <= Validators.FindMaxNumberInString(outputText))
             {
-                string[] fieldNames = { "Бренд", "Рік", "Модель", "Колір", "Технічний стан", "Максимальна ціна", "Ціна", "Тип мотоцикла" };
+                string[] fieldNames = { "Бренд", "Рік", "Модель", "Колір", "Технічний стан", "Ціна", "Тип мотоцикла" };
                 Console.Write($"Введіть нове значення для поля '{fieldNames[selectedNumber - 1]}': ");
-                string newValue = Console.ReadLine();
+                string newValue = "";
+                switch (selectedNumber)
+                {
+                    case 1:
+                        newValue = InputValidators.BrandInputValidator();
+                        break;
+                    case 2:
+                        newValue = Convert.ToString(InputValidators.YearInputOfVehicle());
+                        break;
+                    case 3:
+                        newValue = InputValidators.ModelInputValidator();
+                        break;
+                    case 4:
+                        newValue = InputValidators.ColorInputValidator();
+                        break;
+                    case 5:
+                        newValue = InputValidators.ConditionInputValidator();
+                        break;
+                    case 6:
+                        newValue = Convert.ToString(InputValidators.PriceInputValidator());
+                        break;
+                    case 7:
+                        newValue = newValue = InputValidators.BikeType();
+                        break;
+                    default:
+                        break;
+                }
                 string[] motorcycleData = lines[id - 1].Split(',');
                 motorcycleData[selectedNumber] = newValue;
                 lines[id - 1] = string.Join(",", motorcycleData);
@@ -55,7 +81,7 @@ namespace CarDealership.MainFunctions.MotorcycleFunctions
                 int idParse = int.Parse(values[0]);
                 string brand = values[1];
                 int year = int.Parse(values[2]);
-                string model= values[3];
+                string model = values[3];
                 string color = values[4];
                 string condition = values[5];
                 int price = int.Parse(values[6]);

@@ -1,10 +1,7 @@
 1,BMW,2019,M5,Black,good,12000,4
-2,Audi,2020,Q7,White,Good,53800,4
-3,Audi,2018,Q8,White,Good,72000,4
-4,Audi,2018,Q8,White,Good,72000,4
-5,Audi,2018,Q8,White,Good,72000,4
-6,Audi,2018,Q8,White,Good,72000,4
-7,audi,2020,a3,red,good,13900,4
-8,Kia,2010,QS3,White,good,12000,4
-9,audi,1998,a3,red,good,14500,4
-10,audi,2020,a7865,yellow,normal,90102,4
+2,audi,2020,a3,red,good,13900,4
+3,Kia,2010,QS3,White,good,12000,4
+4,Audi,1998,a3,red,good,14500,4
+5,Audi,2014,A7,waka,Normal,14005,4
+6,Audi,2019,a3,Color,good,214,4
+7,Audi,2001,A1Q,White,Good,6400,2

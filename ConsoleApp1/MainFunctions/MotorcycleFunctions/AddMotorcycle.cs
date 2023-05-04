@@ -1,7 +1,5 @@
-﻿using CarDealership.ValidatorsMethods;
-using System;
-using System.IO;
-using System.Text;
+﻿using CarDealership.Utils;
+using CarDealership.ValidatorsMethods;
 
 namespace CarDealership.MainFunctions
 {
@@ -9,27 +7,11 @@ namespace CarDealership.MainFunctions
     {
         public static void AddMotorcycleToFileMethod()
         {
-            Console.OutputEncoding = Encoding.UTF8;
 
-            Console.Write("Введіть назву бренду(Honda) мотоцикла: ");
-            string? brand = Console.ReadLine();
-
-            int year = Validators.YearInputOfVehicle();
-
-            Console.Write("Введіть модель мотоцикла(CBR500R): ");
-            string? model = Console.ReadLine();
-
-            Console.Write("Введіть колір мотоцикла(black): ");
-            string? color = Console.ReadLine();
-
-            Console.Write("Введіть стан мотоцикла(good, normal): ");
-            string? condition = Console.ReadLine();
-
-            Console.Write("Введіть ціну мотоцикла(8000): ");
-            int price = int.Parse(Console.ReadLine());
+            InputValidators.EnterTheCharacteristicsOfTheVehicle(out string brand, out int year, out string model, out string color, out string condition, out int price);
 
             Console.Write("Введіть тип мотоцикла(sport, cruiser): ");
-            string? motorcycleType = Console.ReadLine();
+            string motorcycleType = InputValidators.BikeType();
 
             AccessFile accessFile = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
             string[] lines = accessFile.Lines;
@@ -40,9 +22,7 @@ namespace CarDealership.MainFunctions
                 writer.WriteLine($"{id},{brand},{year},{model},{color},{condition},{price},{motorcycleType}");
             }
 
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\nMotorcycle added to file successfully!");
-            Console.ResetColor();
+           MenuText.SuccessOutput("\nMotorcycle added to file successfully!");
         }
     }
 }

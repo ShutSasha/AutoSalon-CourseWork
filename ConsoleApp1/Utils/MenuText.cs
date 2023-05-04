@@ -13,15 +13,35 @@
             "\n1. Вийти до головного меню" +
             "\n2. Вихід з програми";
 
+        public static void ErrorOutputText(string error)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(error);
+            Console.ResetColor();
+        }
+
+        public static void SuccessOutput(string input)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(input);
+            Console.ResetColor();
+        }
         public static void OutputErrorOfNoMatchingVehicle(string vehicle)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"\nNo matching {vehicle} found.");
             Console.ResetColor();
         }
+        public static void OutputEnterNumOfFunc()
+        {
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("\nВведіть тут цифру функції: ");
+            Console.ResetColor();
+        }
 
-       public static string[] carHeader = new string[]
-     {
+
+        public static string[] carHeader = new string[]
+      {
             "ID",
             "Brand",
             "Year",
@@ -30,7 +50,7 @@
             "Condition",
             "Price",
             "numberOfDoors"
-     };
+      };
 
         public static string[] bikeHeader = new string[]
         {

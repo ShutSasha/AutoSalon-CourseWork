@@ -18,7 +18,36 @@ namespace CarDealership.MainFunctions.TruckFunctions
             {
                 string[] fieldNames = { "Бренд", "Рік випуску", "Модель", "Колір", "Технічний стан", "Ціна", "Кількість колес", "Вантажопідйомність" };
                 Console.Write($"Введіть нове значення для поля '{fieldNames[selectedNumber - 1]}': ");
-                string newValue = Console.ReadLine();
+                string newValue = "";
+                switch (selectedNumber)
+                {
+                    case 1:
+                        newValue = InputValidators.BrandInputValidator();
+                        break;
+                    case 2:
+                        newValue = Convert.ToString(InputValidators.YearInputOfVehicle());
+                        break;
+                    case 3:
+                        newValue = InputValidators.ModelInputValidator();
+                        break;
+                    case 4:
+                        newValue = InputValidators.ColorInputValidator();
+                        break;
+                    case 5:
+                        newValue = InputValidators.ConditionInputValidator();
+                        break;
+                    case 6:
+                        newValue = Convert.ToString(InputValidators.PriceInputValidator());
+                        break;
+                    case 7:
+                        newValue = Convert.ToString(InputValidators.NumberOfWheelsInputValidator());
+                        break;
+                    case 8:
+                        newValue = Convert.ToString(InputValidators.LoadCapacityInputValidator());
+                        break;
+                    default:
+                        break;
+                }
                 string[] truckData = lines[id - 1].Split(',');
                 truckData[selectedNumber] = newValue;
                 lines[id - 1] = string.Join(",", truckData);

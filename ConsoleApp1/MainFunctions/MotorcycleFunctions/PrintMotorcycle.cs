@@ -33,7 +33,7 @@ namespace CarDealership.MainFunctions.MotorcycleFunctions
                 allMotorcycles.Add(newMotorcycle);
             }
 
-            var table = new ConsoleTable("ID", "Бренд", "Рік випуску", "Модель", "Колір", "Стан", "Ціна", "Тип мотоцикла");
+            var table = new ConsoleTable("ID", "Бренд", "Рік випуску", "Модель", "Колір", "Стан", "Ціна ($)", "Тип мотоцикла");
 
             foreach (Motorcycle motorcycle in allMotorcycles)
             {

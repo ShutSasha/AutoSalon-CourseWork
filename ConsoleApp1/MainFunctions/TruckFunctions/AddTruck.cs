@@ -1,5 +1,5 @@
-﻿using CarDealership.ValidatorsMethods;
-using System.Text;
+﻿using CarDealership.Utils;
+using CarDealership.ValidatorsMethods;
 
 namespace CarDealership.MainFunctions.TruckFunctions
 {
@@ -7,30 +7,12 @@ namespace CarDealership.MainFunctions.TruckFunctions
     {
         public static void AddTruckToFileMethod()
         {
-            Console.OutputEncoding = Encoding.UTF8;
 
-            Console.Write("Введіть назву бренду(Honda) грузовика: ");
-            string? brand = Console.ReadLine();
+            InputValidators.EnterTheCharacteristicsOfTheVehicle(out string brand, out int year, out string model, out string color, out string condition, out int price);
 
-            int year = Validators.YearInputOfVehicle();
+            int numberOfWheels = InputValidators.NumberOfWheelsInputValidator();
 
-            Console.Write("Введіть модель грузовика: ");
-            string? model = Console.ReadLine();
-
-            Console.Write("Введіть колір грузовика: ");
-            string? color = Console.ReadLine();
-
-            Console.Write("Введіть стан грузовика(good, normal): ");
-            string? condition = Console.ReadLine();
-
-            Console.Write("Введіть ціну грузовика: ");
-            int price = int.Parse(Console.ReadLine());
-
-            Console.Write("Введіть кількість колес грузовика: ");
-            int numberOfWheels = int.Parse(Console.ReadLine());
-
-            Console.Write("Введіть вантажопідйомність грузовика(У тоннах): ");
-            int loadCapacity = int.Parse(Console.ReadLine());
+            int loadCapacity = InputValidators.LoadCapacityInputValidator();
 
             AccessFile accessFile = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
             string[] lines = accessFile.Lines;
@@ -40,10 +22,7 @@ namespace CarDealership.MainFunctions.TruckFunctions
             {
                 writer.WriteLine($"{id},{brand},{year},{model},{color},{condition},{price},{numberOfWheels},{loadCapacity}");
             }
-
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\nTruck added to file successfully!");
-            Console.ResetColor();
+            MenuText.SuccessOutput("\nTruck added to file successfully!");
         }
     }
 }

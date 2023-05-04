@@ -3,6 +3,7 @@ using CarDealership.MainFunctions.CarFunctions;
 using CarDealership.MainFunctions.ClientFunctions;
 using CarDealership.MainFunctions.MotorcycleFunctions;
 using CarDealership.MainFunctions.TruckFunctions;
+using CarDealership.Utils;
 using System.Text.RegularExpressions;
 using static CarDealership.MainFunctions.ExitOrContinue;
 
@@ -73,24 +74,6 @@ namespace CarDealership.ValidatorsMethods
             }
         }
 
-        public static int YearInputOfVehicle()
-        {
-            int year;
-            while (true)
-            {
-                Console.Write("Введіть рік випуску(1920-нині): ");
-                if (int.TryParse(Console.ReadLine(), out year))
-                {
-                    if (year >= 1920 && year <= DateTime.Now.Year)
-                    {
-                        return year; // якщо рік в межах 1920 - поточний рік, то повертаємо його
-                    }
-                }
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Неправильний рік випуску. Будь ласка, спробуйте ще раз.");
-                Console.ResetColor();
-            }
-        }
         public static int FindMaxNumberInString(string input)
         {
             List<int> numbers = new List<int>();
@@ -182,6 +165,7 @@ namespace CarDealership.ValidatorsMethods
                     "3. Мотоцикл\n" +
                     "4. Грузовик");
 
+                    MenuText.OutputEnterNumOfFunc();
                     if (!int.TryParse(Console.ReadLine(), out int selectedAction))
                     {
                         Console.WriteLine("Не вірно введене значення, спробуйте ще раз");
@@ -254,40 +238,43 @@ namespace CarDealership.ValidatorsMethods
             else if (selectedNumber == 3)
             {
                 AutomationOfSelectionForClient.AutomationSearch();
-                ExitOrContinueShorter();
             }
 
             else if (selectedNumber == 4)
             {
-                var printMethods = new List<MethodDelegate>();
-                printMethods.Add(PrintCars.PrintCarsMethod);
-                printMethods.Add(PrintClients.PrintAllClients);
-                printMethods.Add(PrintMotorcycle.PrintAllMotorcycles);
-                printMethods.Add(PrintTruck.PrintAllTrucks);
+                
 
-                ChoosePrint(printMethods);
+                ChoosePrint();
 
-                void ChoosePrint(List<MethodDelegate> methods)
+                void ChoosePrint()
                 {
+                    var printMethods = new List<MethodDelegate>();
+                    printMethods.Add(PrintCars.PrintCarsMethod);
+                    printMethods.Add(PrintClients.PrintAllClients);
+                    printMethods.Add(PrintMotorcycle.PrintAllMotorcycles);
+                    printMethods.Add(PrintTruck.PrintAllTrucks);
+
                     Console.WriteLine("Оберіть, що хочете надрукувати\n" +
                         "1. Автомобілі\n" +
                         "2. Клієнтів\n" +
                         "3. Мотоцикли\n" +
                         "4. Грузовики");
 
+                    MenuText.OutputEnterNumOfFunc();
+                    
                     int selectedNumberOfPrints = int.Parse(Console.ReadLine());
 
-                    if (selectedNumberOfPrints == 1 || selectedNumberOfPrints == 2 || selectedNumberOfPrints == 3 || selectedNumber == 4)
+                    if (selectedNumberOfPrints == 1 || selectedNumberOfPrints == 2 || selectedNumberOfPrints == 3 || selectedNumberOfPrints == 4)
                     {
-                        methods[selectedNumberOfPrints - 1]();
-                        ExitOrContinueShorter();
+                        printMethods[selectedNumberOfPrints - 1]();
+                        var continuePrint = new List<MethodDelegate>();
+                        continuePrint.Add(ChoosePrint);
+                        ExitOrContinueShorter("\n3. Повторити пошук", continuePrint);
                     }
                     else
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("\nНе вірно введене значення, спробуйте ще раз");
-                        Console.ResetColor();
-                        ChoosePrint(methods);
+                      MenuText.ErrorOutputText("\nНе вірно введене значення, спробуйте ще раз\n");
+                        ChoosePrint();
                     }
                 }
             }
@@ -335,6 +322,7 @@ namespace CarDealership.ValidatorsMethods
                 "2. Клієнта.\n" +
                 "3. Мотоцикл.\n" +
                 "4. Грузовик.");
+            MenuText.OutputEnterNumOfFunc();
             int selectOfDelete = int.Parse(Console.ReadLine());
             if(selectOfDelete == 1)
             {

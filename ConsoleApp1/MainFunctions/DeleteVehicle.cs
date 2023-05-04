@@ -1,6 +1,7 @@
 ﻿using CarDealership.MainFunctions.CarFunctions;
 using CarDealership.MainFunctions.MotorcycleFunctions;
 using CarDealership.MainFunctions.TruckFunctions;
+using System.Security.AccessControl;
 
 namespace CarDealership.MainFunctions
 {
@@ -31,7 +32,10 @@ namespace CarDealership.MainFunctions
             int indexToDelete = -1;
             for (int i = 0; i < lines.Length; i++)
             {
-                if (lines[i].StartsWith(idToDelete.ToString()))
+                string[] values = lines[i].Split(',');
+                int id = int.Parse(values[0]);
+
+                if (id == idToDelete)
                 {
                     indexToDelete = i;
                     break;
@@ -41,16 +45,34 @@ namespace CarDealership.MainFunctions
             // Якщо рядок знайдено, видаляємо його та записуємо зміни в файл
             if (indexToDelete >= 0)
             {
-                string[] updatedLines = new string[lines.Length - 1];
-                for (int i = 0, j = 0; i < lines.Length; i++)
+                // Видаляємо рядок з файлу
+                List<string> newLines = lines.ToList();
+                newLines.RemoveAt(indexToDelete);
+                lines = newLines.ToArray();
+
+                // Перезаписуємо файл
+                using (StreamWriter writer = new StreamWriter(filePath))
                 {
-                    if (i != indexToDelete)
+                    for (int i = lines.Length - 1; i >= 0; i--)
                     {
-                        updatedLines[j] = lines[i];
-                        j++;
+                        writer.WriteLine(lines[i]);
                     }
                 }
-                File.WriteAllLines(filePath, updatedLines);
+
+                using (StreamWriter writer = new StreamWriter(filePath))
+                {
+                    int newId = 1;
+
+                    foreach (string line in lines)
+                    {
+                        string[] parts = line.Split(',');
+                        parts[0] = newId.ToString();
+                        writer.WriteLine(string.Join(',', parts));
+                        newId++;
+                    }
+                }
+
+
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine($"\nЕлемент з айді {idToDelete} успішно видалений з файлу.");
                 Console.ResetColor();
@@ -83,12 +105,6 @@ namespace CarDealership.MainFunctions
             AccessFile accessFile = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
             DeleteVehicleMethod(accessFile.FilePath, "truck");
         }
-
-
-        //
-        //
-
-
 
         public static void DeleteForPurchasedVehicle(string filePath, string vehicleType)
         {
@@ -175,5 +191,4 @@ namespace CarDealership.MainFunctions
             DeleteForPurchasedVehicle(accessFile.FilePath, "truck");
         }
     }
-    
 }

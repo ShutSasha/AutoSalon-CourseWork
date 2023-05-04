@@ -1,9 +1,6 @@
 ﻿using CarDealership.Models;
 using CarDealership.Utils;
-using System.Diagnostics;
-using System.Drawing;
-using System.Reflection;
-using System.Text;
+using static CarDealership.MainFunctions.ExitOrContinue;
 
 namespace CarDealership.MainFunctions.ClientFunctions
 {
@@ -11,9 +8,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
     {
         public static void AutomationSearch()
         {
-
             List<Client> allClients = new List<Client>();
-            Console.OutputEncoding = Encoding.UTF8;
 
             AccessFile accessFileOfClients = AccessFile.GetAccessToFile("ClientDB.txt", "..\\..\\..\\MainFunctions\\ClientFunctions");
             string[] linesClients = accessFileOfClients.Lines;
@@ -170,6 +165,9 @@ namespace CarDealership.MainFunctions.ClientFunctions
 
                 return check;
             }
+            var methodsForExit = new List<MethodDelegate>();
+            methodsForExit.Add(AutomationSearch);
+            ExitOrContinueShorter("\n3. Продовжити автоматичний пошук.",methodsForExit);
         }
     }
 }

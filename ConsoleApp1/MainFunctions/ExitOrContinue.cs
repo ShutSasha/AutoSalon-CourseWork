@@ -9,7 +9,9 @@ namespace CarDealership.MainFunctions
         public static void ExitOrContinueShorter(string textOfNewAction = "", List<MethodDelegate> methods = null)
         {
             Console.WriteLine(MenuText.exitOrContinueForChanges + textOfNewAction);
-           
+
+            MenuText.OutputEnterNumOfFunc();
+
             int selectedNumber = Convert.ToInt32(Console.ReadLine());
 
             if (selectedNumber == 1)

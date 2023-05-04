@@ -1,5 +1,4 @@
-﻿using System.Text;
-using CarDealership.Models;
+﻿using CarDealership.Models;
 using ConsoleTables;
 
 namespace CarDealership.MainFunctions.CarFunctions
@@ -8,13 +7,11 @@ namespace CarDealership.MainFunctions.CarFunctions
     {
         public static void PrintCarsMethod()
         {
-            Console.OutputEncoding = Encoding.UTF8;
-
             AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
             string[] lines = accessFile.Lines;
             var Cars = CarImporter.ImportCarsFromFile(lines);
 
-            var table = new ConsoleTable("ID", "Brand", "Year", "Model", "Color", "Condition", "Price", "numberOfDoors");
+            var table = new ConsoleTable("ID", "Brand", "Year", "Model", "Color", "Condition", "Price ($)", "numberOfDoors");
 
             foreach (Car car in Cars)
             {

@@ -1,16 +1,15 @@
-﻿using System.Text;
+﻿using CarDealership.Utils;
 using CarDealership.ValidatorsMethods;
 
 namespace CarDealership.MainFunctions.CarFunctions
 {
     internal class EditInfoAboutCar
     {
-
         public void SelectChanges(string[] lines, int id, string filePath)
         {
-            Console.OutputEncoding = Encoding.UTF8;
-
             Console.WriteLine("Оберіть, що ви хочете в ньому змінити\n" + "1. Бренд\n" + "2. Рік\n" + "3. Модель\n" + "4. Колір\n" + "5. Стан автомобіля\n" + "6. Ціна\n" + "7. Кількість дверей автомобіля");
+
+            MenuText.OutputEnterNumOfFunc();
 
             int selectedNumber = Convert.ToInt32(Console.ReadLine());
 
@@ -18,7 +17,34 @@ namespace CarDealership.MainFunctions.CarFunctions
             {
                 string[] fieldNames = { "бренд", "рік", "модель", "колір", "стан автомобіля", "ціна", "кількість дверей" };
                 Console.Write($"Введіть нове значення для поля '{fieldNames[selectedNumber - 1]}': ");
-                string newValue = Console.ReadLine();
+                string newValue = "";
+                switch (selectedNumber)
+                {
+                    case 1:
+                        newValue = InputValidators.BrandInputValidator();
+                        break;
+                    case 2:
+                        newValue =Convert.ToString(InputValidators.YearInputOfVehicle());
+                        break;
+                    case 3:
+                        newValue = InputValidators.ModelInputValidator();
+                        break;
+                    case 4:
+                        newValue = InputValidators.ColorInputValidator();
+                        break;
+                    case 5:
+                        newValue = InputValidators.ConditionInputValidator();
+                        break;
+                    case 6:
+                        newValue = Convert.ToString(InputValidators.PriceInputValidator());
+                        break;
+                    case 7:
+                        newValue = Convert.ToString(InputValidators.NumberOfDoorsInputValidator());
+                        break;
+                    default:
+                      
+                        break;
+                }
                 string[] carData = lines[id - 1].Split(',');
                 carData[selectedNumber] = newValue;
                 lines[id - 1] = string.Join(",", carData);
@@ -27,7 +53,7 @@ namespace CarDealership.MainFunctions.CarFunctions
             }
             else
             {
-                Console.WriteLine("Ви ввели неіснуючу функцію, спробуйте ще раз");
+                MenuText.SuccessOutput("Ви ввели неіснуючу функцію, спробуйте ще раз");
                 SelectChanges(lines, id, filePath);
             }
         }
@@ -53,15 +79,10 @@ namespace CarDealership.MainFunctions.CarFunctions
 
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nВи ввели неіснуючий id автомобіля, спробуйте ще раз");
-                Console.ResetColor();
+                MenuText.ErrorOutputText("\nВи ввели неіснуючий id автомобіля, спробуйте ще раз");
                 EditInfoAboutCarMethod();
 
             }
-
         }
-
     }
-
 }

@@ -1,10 +1,5 @@
 ﻿using CarDealership.Models;
-using ConsoleTables;
-using CarDealership.MainFunctions.CarFunctions;
-using CarDealership.MainFunctions.MotorcycleFunctions;
-using CarDealership.MainFunctions.TruckFunctions;
 using CarDealership.Utils;
-using System.Collections.Generic;
 
 namespace CarDealership.MainFunctions
 {
