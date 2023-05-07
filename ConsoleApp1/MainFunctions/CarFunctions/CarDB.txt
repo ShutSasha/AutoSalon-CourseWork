@@ -4,5 +4,3 @@
 4,BMW,2019,M5,Black,good,12000,4
 5,BMW,2019,M5,Black,good,12000,4
 6,BMW,2019,M5,Black,good,12000,4
-7,BMW,2019,M5,Black,good,12000,4
-8,BMW,2019,M5,Black,good,12000,4

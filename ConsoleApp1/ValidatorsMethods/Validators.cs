@@ -254,18 +254,20 @@ namespace CarDealership.ValidatorsMethods
                     printMethods.Add(PrintClients.PrintAllClients);
                     printMethods.Add(PrintMotorcycle.PrintAllMotorcycles);
                     printMethods.Add(PrintTruck.PrintAllTrucks);
+                    printMethods.Add(PrintOrder.PrintOrdersMethod);
 
                     Console.WriteLine("Оберіть, що хочете надрукувати\n" +
                         "1. Автомобілі\n" +
                         "2. Клієнтів\n" +
                         "3. Мотоцикли\n" +
-                        "4. Грузовики");
+                        "4. Грузовики\n" +
+                        "5. Зроблені замовлення");
 
                     MenuText.OutputEnterNumOfFunc();
                     
                     int selectedNumberOfPrints = int.Parse(Console.ReadLine());
 
-                    if (selectedNumberOfPrints == 1 || selectedNumberOfPrints == 2 || selectedNumberOfPrints == 3 || selectedNumberOfPrints == 4)
+                    if (selectedNumberOfPrints > 0 && selectedNumberOfPrints <=5)
                     {
                         printMethods[selectedNumberOfPrints - 1]();
                         var continuePrint = new List<MethodDelegate>();

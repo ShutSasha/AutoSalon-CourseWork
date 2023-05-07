@@ -92,12 +92,12 @@ namespace CarDealership.MainFunctions.OrderF
             }
 
             AccessFile accessFileOfSelectedVehicle = AccessFile.GetAccessToFile("SelectedVehicleDB.txt", "..\\..\\..\\MainFunctions\\OrderF");
-            string[] linesSelectedVehicle = accessFileOfClients.Lines;
+            string[] linesSelectedVehicle = accessFileOfSelectedVehicle.Lines;
             string lastLineSelectedVehicle = linesSelectedVehicle[linesSelectedVehicle.Length - 1];
 
             // Розділяємо рядок на окремі значення
             string[] valuesSelectedVehicle = lastLineSelectedVehicle.Split(',');
-            int TotalPrice = lastLineSelectedVehicle[lastLineSelectedVehicle.Length - 1];
+            int TotalPrice = Convert.ToInt32(valuesSelectedVehicle[6]);
 
             int provider;
             bool providerBool = false;
@@ -239,11 +239,11 @@ namespace CarDealership.MainFunctions.OrderF
                 AccessFile accessFileToCarrier = AccessFile.GetAccessToFile("CarrierDB.txt", "..\\..\\..\\MainFunctions\\OrderF");
                 string[] linesCarrier = accessFileToCarrier.Lines;
                 string[] lineCarrier = linesCarrier[idSoldOut - 1].Split(',');
-                string carrierStr = $"{lineProvider[1]}";
+                string carrierStr = $"{lineCarrier[1]}";
 
                 using (StreamWriter writer = new StreamWriter(accessFileToSoldOut.FilePath, true))
                 {
-                    writer.WriteLine($"{idSoldOut},{orderStr}, {vehicleStr}, {providerStr}, {carrierStr}");
+                    writer.WriteLine($"{idSoldOut},{orderStr}, {vehicleStr}, {providerStr}, {carrierStr}, {TotalPrice}");
                 }
 
                 // Видаляємо рядок з файлу
@@ -306,7 +306,6 @@ namespace CarDealership.MainFunctions.OrderF
                     }
                 }
             }
-
         }
     }
 }
