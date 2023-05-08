@@ -1,5 +1,4 @@
-﻿using CarDealership.Models;
-using CarDealership.ValidatorsMethods;
+﻿using CarDealership.ValidatorsMethods;
 using System.Text;
 
 namespace CarDealership.MainFunctions.ClientFunctions

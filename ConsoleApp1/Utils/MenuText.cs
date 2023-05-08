@@ -39,6 +39,14 @@
             Console.ResetColor();
         }
 
+        // OutputEnterNumOfFunc - blue 
+
+        public static void BlueOutput(string text)
+        {
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write(text);
+            Console.ResetColor();
+        }
 
         public static string[] carHeader = new string[]
       {

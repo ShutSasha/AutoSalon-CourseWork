@@ -12,9 +12,6 @@
         public int MinYear { get; set; }
         public int MaxYear { get; set; }
 
-
-
-
         public Client(int id, string name, string phone, string email, string preferredBrand, int minPrice, int maxPrice, int minYear, int maxYear)
         {
             Id = id;
