@@ -11,9 +11,7 @@ namespace CarDealership.MainFunctions.OrderF
 
             PrintClients.PrintAllClients();
 
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("\nОбиріть клієнта з списку вище, який буде робити замовлення:\n");
-            Console.ResetColor();
+            MenuText.BlueOutput("\nОбиріть клієнта з списку вище, який буде робити замовлення:\n");
 
             Console.Write("\nВведіть id клієнта: ");
             int idClient = Convert.ToInt32(Console.ReadLine());
@@ -55,9 +53,7 @@ namespace CarDealership.MainFunctions.OrderF
                 writer.WriteLine($"{idOrder},{lineOfClient}");
             }
 
-            Console.WriteLine($"Клієнт успішно обрайний.");
-
-
+            MenuText.SuccessOutput($"Клієнт успішно обрайний.");
 
             // Клієнт обирає транспорт
             PerformDelete();
@@ -76,12 +72,10 @@ namespace CarDealership.MainFunctions.OrderF
                 else if (selectOfDelete == 2)
                 {
                     DeleteVehicle.DeleteMotorcycleForPurchased();
-
                 }
                 else if (selectOfDelete == 3)
                 {
                     DeleteVehicle.DeleteTruckForPurchased();
-
                 }
 
                 else
@@ -163,7 +157,6 @@ namespace CarDealership.MainFunctions.OrderF
 
                 if (carrier < 1 || carrier > 3)
                 {
-
                     MenuText.ErrorOutputText("Значення введено не правильно!");
                     chooseCarrier();
                 }

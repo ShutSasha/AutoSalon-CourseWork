@@ -9,7 +9,6 @@ namespace CarDealership.MainFunctions.OrderF
             AccessFile accessFile = AccessFile.GetAccessToFile("SoldOut.txt", "..\\..\\..\\MainFunctions\\OrderF");
             string[] lines = accessFile.Lines;
           
-
             var table = new ConsoleTable("ID", "ПІБ", "Телефон", "Пошта", "Бренд траспорту", "Рік випуску", "Модель", "Price ($)", "Постачальник", "Перевізник", "Загальна ціна");
 
             foreach (var line in lines)
