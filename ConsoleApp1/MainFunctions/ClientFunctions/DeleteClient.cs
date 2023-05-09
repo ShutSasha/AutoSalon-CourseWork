@@ -1,4 +1,6 @@
 ﻿using CarDealership.Models;
+using CarDealership.Utils;
+
 namespace CarDealership.MainFunctions.ClientFunctions
 {
     internal class DeleteClient
@@ -91,9 +93,9 @@ namespace CarDealership.MainFunctions.ClientFunctions
                     newId++;
                 }
             }
-            Console.ForegroundColor= ConsoleColor.Yellow;
-            Console.WriteLine($"\nКлієнт з айді {idToDelete} успішно видалений з файлу.\n");
-            Console.ResetColor();
+
+            MenuText.SuccessOutput($"\nКлієнт з айді {idToDelete} успішно видалений з файлу.\n");
+
         }
     }
 }

@@ -44,7 +44,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
                 string preferredBrand = values[4] != "0" ? values[4] : "Даних немає";
                 int minPrice = values[5] != "0" ? int.Parse(values[5]) : 0;
                 int maxPrice = values[6] != "0" ? int.Parse(values[6]) : 9999999;
-                int minYear = values[7] != "0" ? int.Parse(values[7]) : 1900;
+                int minYear = values[7] != "0" ? int.Parse(values[7]) : 1920;
                 int maxYear = values[8] != "0" ? int.Parse(values[8]) : 2023;
 
                 Client newClient = new Client(id, name, phone, email, preferredBrand, minPrice, maxPrice, minYear, maxYear);

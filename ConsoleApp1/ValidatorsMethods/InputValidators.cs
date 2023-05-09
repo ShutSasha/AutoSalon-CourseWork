@@ -155,5 +155,19 @@ namespace CarDealership.ValidatorsMethods
                 MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. Вантажопідйомність повинна бути від 1 до 50 тонн");
             }
         }
+
+        public static string FullNameInputValidator()
+        {
+            while (true)
+            {
+                Console.Write("Введіть ПІБ клієнта: ");
+                string fullName = Console.ReadLine()?.Trim();
+                if (!string.IsNullOrEmpty(fullName) && fullName.Length <= 40 && fullName.All(c => char.IsLetter(c)))
+                {
+                    return fullName;
+                }
+                MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. До 40 символів та тільки букви");
+            }
+        }
     }
 }

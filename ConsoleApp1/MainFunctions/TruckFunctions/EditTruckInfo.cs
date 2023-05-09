@@ -68,8 +68,6 @@ namespace CarDealership.MainFunctions.TruckFunctions
             AccessFile accessFileOfTrucks = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
             string[] linesTrucks = accessFileOfTrucks.Lines;
 
-            Console.OutputEncoding = Encoding.UTF8;
-
             List<Truck> allTrucks = new List<Truck>();
             PrintTruck.PrintAllTrucks();
 
@@ -79,7 +77,6 @@ namespace CarDealership.MainFunctions.TruckFunctions
             foreach (string line in linesTrucks)
             {
                 string[] values = line.Split(',');
-
                 int idParse = int.Parse(values[0]);
                 string brand = values[1];
                 int year = int.Parse(values[2]);
@@ -89,7 +86,6 @@ namespace CarDealership.MainFunctions.TruckFunctions
                 int price = int.Parse(values[6]);
                 int numberOfWheels = int.Parse(values[7]);
                 int loadCapacity = int.Parse(values[8]);
-
 
                 Truck newTruck = new Truck(idParse, brand, year, model, color, condition, price, numberOfWheels, loadCapacity);
 
@@ -107,8 +103,6 @@ namespace CarDealership.MainFunctions.TruckFunctions
                 Console.WriteLine("\nВи ввели неіснуючий id вантажівки, спробуйте ще раз");
                 EditInfoAboutTruckMethod();
             }
-
-
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Text;
-using CarDealership.Models;
+﻿using CarDealership.Models;
 using ConsoleTables;
 
 namespace CarDealership.MainFunctions.ClientFunctions
@@ -10,8 +9,6 @@ namespace CarDealership.MainFunctions.ClientFunctions
     {
         static public void PrintAllClients()
         {
-            Console.OutputEncoding = Encoding.UTF8;
-
             AccessFile accessFileOfClients = AccessFile.GetAccessToFile("ClientDB.txt", "..\\..\\..\\MainFunctions\\ClientFunctions");
             string[] linesClients = accessFileOfClients.Lines;
 

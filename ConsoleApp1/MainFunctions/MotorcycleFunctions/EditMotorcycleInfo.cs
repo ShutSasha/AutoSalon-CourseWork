@@ -1,7 +1,5 @@
-﻿using CarDealership.MainFunctions.ClientFunctions;
-using CarDealership.Models;
+﻿using CarDealership.Models;
 using CarDealership.ValidatorsMethods;
-using System.Text;
 
 namespace CarDealership.MainFunctions.MotorcycleFunctions
 {
@@ -66,7 +64,6 @@ namespace CarDealership.MainFunctions.MotorcycleFunctions
             AccessFile accessFileOfMotorcycles = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
             string[] linesMotorcycles = accessFileOfMotorcycles.Lines;
 
-            Console.OutputEncoding = Encoding.UTF8;
 
             List<Motorcycle> allMotorcycle = new List<Motorcycle>();
             PrintMotorcycle.PrintAllMotorcycles();
@@ -105,9 +102,7 @@ namespace CarDealership.MainFunctions.MotorcycleFunctions
             {
                 Console.WriteLine("\nВи ввели неіснуючий id мотоцикла, спробуйте ще раз");
                 EditInfoAboutMotorcycleMethod();
-
             }
-
         }
     }
 }

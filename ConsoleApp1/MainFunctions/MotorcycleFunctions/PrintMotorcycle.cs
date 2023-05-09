@@ -1,5 +1,4 @@
 ﻿using CarDealership.Models;
-using System.Text;
 using ConsoleTables;
 
 namespace CarDealership.MainFunctions.MotorcycleFunctions
@@ -8,7 +7,6 @@ namespace CarDealership.MainFunctions.MotorcycleFunctions
     {
         static public void PrintAllMotorcycles()
         {
-            Console.OutputEncoding = Encoding.UTF8;
 
             List<Motorcycle> allMotorcycles = new List<Motorcycle>();
 
@@ -37,12 +35,9 @@ namespace CarDealership.MainFunctions.MotorcycleFunctions
 
             foreach (Motorcycle motorcycle in allMotorcycles)
             {
-
                 Print.AddVehicleToTable(motorcycle, table);
-
             }
             Console.Write(table.ToString());
         }
-
     }
 }

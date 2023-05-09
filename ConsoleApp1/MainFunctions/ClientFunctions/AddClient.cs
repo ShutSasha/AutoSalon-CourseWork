@@ -1,4 +1,5 @@
-﻿using CarDealership.ValidatorsMethods;
+﻿using CarDealership.Utils;
+using CarDealership.ValidatorsMethods;
 using System.Text;
 
 namespace CarDealership.MainFunctions.ClientFunctions
@@ -8,18 +9,13 @@ namespace CarDealership.MainFunctions.ClientFunctions
         static public void AddClientToFileMethod()
         {
             
-            Console.OutputEncoding = Encoding.UTF8;
-
-            Console.Write("Введіть Ваш ПІБ: ");
-            string? username = Console.ReadLine();
+            string? username = InputValidators.FullNameInputValidator();
 
             string? phone = Validators.ValidatePhoneNumber();
 
-            Console.Write("Введіть електронну пошту: ");
             string? email = Validators.EmailInputValidator();
 
-            Console.Write("Введіть бренд який би Ви хотіли: ");
-            string? PreferredBrand = Console.ReadLine();
+            string? PreferredBrand = InputValidators.BrandInputValidator();
 
             Console.Write("Enter the price from: ");
             int priceFrom;
@@ -47,9 +43,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
                 writer.WriteLine($"{id},{username},{phone},{email},{PreferredBrand},{priceFrom},{priceTo},{yearFrom},{yearTo}");
             }
 
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\nClient added to file successfully!");
-            Console.ResetColor();
+            MenuText.SuccessOutput("\nClient added to file successfully!");
         }
     }
 }

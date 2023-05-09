@@ -1,8 +1,7 @@
 ﻿using CarDealership.MainFunctions.CarFunctions;
 using CarDealership.MainFunctions.MotorcycleFunctions;
-using CarDealership.MainFunctions.OrderF;
 using CarDealership.MainFunctions.TruckFunctions;
-using System.Security.AccessControl;
+using CarDealership.Utils;
 
 namespace CarDealership.MainFunctions
 {
@@ -10,7 +9,6 @@ namespace CarDealership.MainFunctions
     {
         public static void DeleteVehicleMethod(string filePath, string vehicleType)
         {
-
             switch (vehicleType)
             {
                 case "car":
@@ -73,34 +71,26 @@ namespace CarDealership.MainFunctions
                     }
                 }
 
-
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"\nЕлемент з айді {idToDelete} успішно видалений з файлу.");
-                Console.ResetColor();
+                MenuText.SuccessOutput($"\nЕлемент з айді {idToDelete} успішно видалений з файлу.");
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"\nТранспорт з айді {idToDelete} не знайдено!.");
-                Console.ResetColor();
+                MenuText.ErrorOutputText($"\nТранспорт з айді {idToDelete} не знайдено!.");
             }
         }
 
-        // Метод видалення автомобіля
         public static void DeleteCar()
         {
             AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
             DeleteVehicleMethod(accessFile.FilePath, "car");
         }
 
-        // Метод видалення мотоцикла
         public static void DeleteMotorcycle()
         {
             AccessFile accessFile = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
             DeleteVehicleMethod(accessFile.FilePath, "motorcycle");
         }
 
-        // Метод видалення грузовика
         public static void DeleteTruck()
         {
             AccessFile accessFile = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
@@ -128,7 +118,7 @@ namespace CarDealership.MainFunctions
 
             Console.Write("\nВведіть id транспорту, який хочете обрати: ");
             int idToDelete = Convert.ToInt32(Console.ReadLine());
-            // Зчитуємо усі рядки з файлу
+
             string[] lines = File.ReadAllLines(filePath);
 
             // Шукаємо індекс рядка, який потрібно видалити
@@ -166,7 +156,6 @@ namespace CarDealership.MainFunctions
                 writer.WriteLine($"{idSelectedVehicle},{lineofVehicle}");
             }
 
-
             // Якщо рядок знайдено, видаляємо його та записуємо зміни в файл
             if (indexToDelete >= 0)
             {
@@ -197,70 +186,30 @@ namespace CarDealership.MainFunctions
                     }
                 }
 
-
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"\nТранспорт з айді {idToDelete} успішно обраний з файлу.");
-                Console.ResetColor();
+                MenuText.SuccessOutput($"\nТранспорт з айді {idToDelete} успішно обраний з файлу.");
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"\nТранспорт з айді {idToDelete} не знайдено!.");
-                Console.ResetColor();
+                MenuText.ErrorOutputText($"\nТранспорт з айді {idToDelete} не знайдено!.");
             }
         }
-    
-            // Метод видалення автомобіля
-            public static void DeleteCarForPurchased()
-            {
-                AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
-                DeleteForPurchasedVehicle(accessFile.FilePath, "car");
-            }
 
-            // Метод видалення мотоцикла
-            public static void DeleteMotorcycleForPurchased()
-            {
-                AccessFile accessFile = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
-                DeleteForPurchasedVehicle(accessFile.FilePath, "motorcycle");
-            }
-
-            // Метод видалення грузовика
-            public static void DeleteTruckForPurchased()
-            {
-                AccessFile accessFile = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
-                DeleteForPurchasedVehicle(accessFile.FilePath, "truck");
-            }
+        public static void DeleteCarForPurchased()
+        {
+            AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
+            DeleteForPurchasedVehicle(accessFile.FilePath, "car");
         }
-    
+
+        public static void DeleteMotorcycleForPurchased()
+        {
+            AccessFile accessFile = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
+            DeleteForPurchasedVehicle(accessFile.FilePath, "motorcycle");
+        }
+
+        public static void DeleteTruckForPurchased()
+        {
+            AccessFile accessFile = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
+            DeleteForPurchasedVehicle(accessFile.FilePath, "truck");
+        }
+    }
 }
-
-//for (int i = 0; i < lines.Length; i++)
-//{
-//    string[] values = lines[i].Split(',');
-//    int numElements = values.Length;
-
-//    if (lines[i].StartsWith(idToDelete.ToString()))
-//    {
-//        indexToDelete = i;
-//        lineofVehicle = "";
-
-//        for (int j = 1; j < numElements; j++)
-//        {
-//            lineofVehicle += values[j];
-
-//            if (j < numElements)
-//            {
-//                lineofVehicle += ",";
-//            }
-//        }
-
-//        break;
-//    }
-//}
-
-//AccessFile accessFile = AccessFile.GetAccessToFile("OrderDB.txt", "..\\..\\..\\MainFunctions\\OrderF");
-
-//using (StreamWriter writer = new StreamWriter(accessFile.FilePath, true))
-//{
-//    writer.Write($"{lineofVehicle}");
-//}

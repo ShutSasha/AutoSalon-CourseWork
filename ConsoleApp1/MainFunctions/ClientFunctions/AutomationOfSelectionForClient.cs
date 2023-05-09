@@ -35,9 +35,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
 
             PrintClients.PrintAllClients();
 
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("\nВиберіть id клієнта для якого хочете зробити автоматичний підбір транспорту: ");
-            Console.ResetColor();
+            MenuText.BlueOutput("\nВиберіть id клієнта для якого хочете зробити автоматичний підбір транспорту: ");
 
             int id = Convert.ToInt32(Console.ReadLine());
 
@@ -67,9 +65,8 @@ namespace CarDealership.MainFunctions.ClientFunctions
             // Виводимо знайдені автомобілі
             if (matchingCars.Count > 0)
             {
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("\nMatching cars:\n");
-                Console.ResetColor();
+
+                MenuText.BlueOutput("\nMatching cars:\n");
 
                 foreach (Car car in matchingCars)
                 {
@@ -102,9 +99,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
 
             if (matchingBikes.Count > 0)
             {
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("\nMatching bikes:\n");
-                Console.ResetColor();
+                MenuText.BlueOutput("\nMatching bikes:\n");
 
                 foreach (Motorcycle bike in matchingBikes)
                 {
@@ -136,9 +131,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
 
             if (matchingTrucks.Count > 0)
             {
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("\nMatching trucks:\n");
-                Console.ResetColor();
+                MenuText.BlueOutput("\nMatching trucks:\n");
 
                 foreach (Truck truck in matchingTrucks)
                 {

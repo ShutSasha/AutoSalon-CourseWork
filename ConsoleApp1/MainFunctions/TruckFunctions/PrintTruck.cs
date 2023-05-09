@@ -1,5 +1,4 @@
 ﻿using CarDealership.Models;
-using System.Text;
 using ConsoleTables;
 
 namespace CarDealership.MainFunctions.TruckFunctions
@@ -8,8 +7,6 @@ namespace CarDealership.MainFunctions.TruckFunctions
     {
         static public void PrintAllTrucks()
         {
-            Console.OutputEncoding = Encoding.UTF8;
-
             List<Truck> allTrucks = new List<Truck>();
 
             AccessFile accessFileOfTruck = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
@@ -53,6 +50,5 @@ namespace CarDealership.MainFunctions.TruckFunctions
             }
             Console.Write(tableForTruck.ToString());
         }
-
     }
 }

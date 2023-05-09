@@ -55,12 +55,9 @@ namespace CarDealership.MainFunctions.ClientFunctions
 
             else
             {
-
                 Console.WriteLine("\nВи ввели неіснуючий id клієнта, спробуйте ще раз");
                 EditInfoAboutClientMethod();
-
             }
-
         }
     }
 }
