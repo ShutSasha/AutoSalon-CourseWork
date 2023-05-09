@@ -39,7 +39,6 @@ namespace CarDealership.MainFunctions.ClientFunctions
 
             int id = Convert.ToInt32(Console.ReadLine());
 
-
             AccessFile accessFileOfCar = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
             string[] lines = accessFileOfCar.Lines;
 
