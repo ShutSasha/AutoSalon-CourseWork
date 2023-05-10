@@ -16,7 +16,6 @@ namespace CarDealership.MainFunctions.ClientFunctions
             AccessFile accessFile = AccessFile.GetAccessToFile("ClientDB.txt", "..\\..\\..\\MainFunctions\\ClientFunctions");
             string[] lines = accessFile.Lines;
 
-            // Пошук індексу рядка з айді, який потрібно видалити
             int indexToDelete = -1;
             for (int i = 0; i < lines.Length; i++)
             {
@@ -36,12 +35,10 @@ namespace CarDealership.MainFunctions.ClientFunctions
                 return;
             }
 
-            // Видаляємо рядок з файлу
             List<string> newLines = lines.ToList();
             newLines.RemoveAt(indexToDelete);
             lines = newLines.ToArray();
 
-            // Перезаписуємо файл
             using (StreamWriter writer = new StreamWriter(accessFile.FilePath))
             {
                 for (int i = lines.Length - 1; i >= 0; i--)
@@ -49,7 +46,6 @@ namespace CarDealership.MainFunctions.ClientFunctions
                     writer.WriteLine(lines[i]);
                 }
             }
-
 
             List<Client> clients = new List<Client>();
             foreach (string line in lines)
@@ -80,7 +76,6 @@ namespace CarDealership.MainFunctions.ClientFunctions
             }
             Array.Sort(lines, (a, b) => int.Parse(a.Split(',')[0]).CompareTo(int.Parse(b.Split(',')[0])));
 
-            // Перезаписуємо файл з відсортованими рядками та новими айді
             using (StreamWriter writer = new StreamWriter(accessFile.FilePath))
             {
                 int newId = 1;
@@ -93,9 +88,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
                     newId++;
                 }
             }
-
             MenuText.SuccessOutput($"\nКлієнт з айді {idToDelete} успішно видалений з файлу.\n");
-
         }
     }
 }

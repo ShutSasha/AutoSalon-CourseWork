@@ -1,4 +1,3 @@
 1,Артем,+380951231231,artemiy123@gmail.com,BMW,0,0,0,0
 2,Артем,+380951231231,artemiy123@gmail.com,BMW,0,0,0,0
 3,Артем,+380951231231,artemiy123@gmail.com,BMW,0,0,0,0
-4,Артем,+380951231231,artemiy123@gmail.com,BMW,0,0,0,0

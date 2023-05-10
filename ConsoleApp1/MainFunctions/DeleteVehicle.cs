@@ -5,9 +5,36 @@ using CarDealership.Utils;
 
 namespace CarDealership.MainFunctions
 {
-    internal class DeleteVehicle
+    public class DeleteVehicle
     {
-        public static void DeleteVehicleMethod(string filePath, string vehicleType)
+        private static void deleteAndWriteChangesToFile(string[] lines, int indexToDelete, string filePath)
+        {
+            List<string> newLines = lines.ToList();
+            newLines.RemoveAt(indexToDelete);
+            lines = newLines.ToArray();
+
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                for (int i = lines.Length - 1; i >= 0; i--)
+                {
+                    writer.WriteLine(lines[i]);
+                }
+            }
+
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                int newId = 1;
+
+                foreach (string line in lines)
+                {
+                    string[] parts = line.Split(',');
+                    parts[0] = newId.ToString();
+                    writer.WriteLine(string.Join(',', parts));
+                    newId++;
+                }
+            }
+        }
+        private static void DeleteVehicleMethod(string filePath, string vehicleType)
         {
             switch (vehicleType)
             {
@@ -24,10 +51,9 @@ namespace CarDealership.MainFunctions
 
             Console.Write("\nВведіть id транспорту, який хочете видалити: ");
             int idToDelete = Convert.ToInt32(Console.ReadLine());
-            // Зчитуємо усі рядки з файлу
+
             string[] lines = File.ReadAllLines(filePath);
 
-            // Шукаємо індекс рядка, який потрібно видалити
             int indexToDelete = -1;
             for (int i = 0; i < lines.Length; i++)
             {
@@ -41,35 +67,9 @@ namespace CarDealership.MainFunctions
                 }
             }
 
-            // Якщо рядок знайдено, видаляємо його та записуємо зміни в файл
             if (indexToDelete >= 0)
             {
-                // Видаляємо рядок з файлу
-                List<string> newLines = lines.ToList();
-                newLines.RemoveAt(indexToDelete);
-                lines = newLines.ToArray();
-
-                // Перезаписуємо файл
-                using (StreamWriter writer = new StreamWriter(filePath))
-                {
-                    for (int i = lines.Length - 1; i >= 0; i--)
-                    {
-                        writer.WriteLine(lines[i]);
-                    }
-                }
-
-                using (StreamWriter writer = new StreamWriter(filePath))
-                {
-                    int newId = 1;
-
-                    foreach (string line in lines)
-                    {
-                        string[] parts = line.Split(',');
-                        parts[0] = newId.ToString();
-                        writer.WriteLine(string.Join(',', parts));
-                        newId++;
-                    }
-                }
+                deleteAndWriteChangesToFile(lines, indexToDelete, filePath);
 
                 MenuText.SuccessOutput($"\nЕлемент з айді {idToDelete} успішно видалений з файлу.");
             }
@@ -97,7 +97,7 @@ namespace CarDealership.MainFunctions
             DeleteVehicleMethod(accessFile.FilePath, "truck");
         }
 
-        public static void DeleteForPurchasedVehicle(string filePath, string vehicleType)
+        private static void DeleteForPurchasedVehicle(string filePath, string vehicleType)
         {
             var numElements = 0;
             switch (vehicleType)
@@ -121,7 +121,6 @@ namespace CarDealership.MainFunctions
 
             string[] lines = File.ReadAllLines(filePath);
 
-            // Шукаємо індекс рядка, який потрібно видалити
             int indexToDelete = -1;
             string lineofVehicle = "";
             for (int i = 0; i < lines.Length; i++)
@@ -156,35 +155,9 @@ namespace CarDealership.MainFunctions
                 writer.WriteLine($"{idSelectedVehicle},{lineofVehicle}");
             }
 
-            // Якщо рядок знайдено, видаляємо його та записуємо зміни в файл
             if (indexToDelete >= 0)
             {
-                // Видаляємо рядок з файлу
-                List<string> newLines = lines.ToList();
-                newLines.RemoveAt(indexToDelete);
-                lines = newLines.ToArray();
-
-                // Перезаписуємо файл
-                using (StreamWriter writer = new StreamWriter(filePath))
-                {
-                    for (int i = lines.Length - 1; i >= 0; i--)
-                    {
-                        writer.WriteLine(lines[i]);
-                    }
-                }
-
-                using (StreamWriter writer = new StreamWriter(filePath))
-                {
-                    int newId = 1;
-
-                    foreach (string line in lines)
-                    {
-                        string[] parts = line.Split(',');
-                        parts[0] = newId.ToString();
-                        writer.WriteLine(string.Join(',', parts));
-                        newId++;
-                    }
-                }
+                deleteAndWriteChangesToFile(lines, indexToDelete, filePath);
 
                 MenuText.SuccessOutput($"\nТранспорт з айді {idToDelete} успішно обраний з файлу.");
             }

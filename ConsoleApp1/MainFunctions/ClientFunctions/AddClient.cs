@@ -11,9 +11,9 @@ namespace CarDealership.MainFunctions.ClientFunctions
             
             string? username = InputValidators.FullNameInputValidator();
 
-            string? phone = Validators.ValidatePhoneNumber();
+            string? phone = InputValidators.GetValidPhoneNumber();
 
-            string? email = Validators.EmailInputValidator();
+            string? email = InputValidators.EmailInputValidator();
 
             string? PreferredBrand = InputValidators.BrandInputValidator();
 

@@ -5,7 +5,7 @@ namespace CarDealership.MainFunctions.CarFunctions
 {
     internal class EditInfoAboutCar
     {
-        public void SelectChanges(string[] lines, int id, string filePath)
+        private void SelectChanges(string[] lines, int id, string filePath)
         {
             Console.WriteLine("Оберіть, що ви хочете в ньому змінити\n" + "1. Бренд\n" + "2. Рік\n" + "3. Модель\n" + "4. Колір\n" + "5. Стан автомобіля\n" + "6. Ціна\n" + "7. Кількість дверей автомобіля");
 
@@ -41,8 +41,7 @@ namespace CarDealership.MainFunctions.CarFunctions
                     case 7:
                         newValue = Convert.ToString(InputValidators.NumberOfDoorsInputValidator());
                         break;
-                    default:
-                      
+                    default:      
                         break;
                 }
                 string[] carData = lines[id - 1].Split(',');
@@ -81,7 +80,6 @@ namespace CarDealership.MainFunctions.CarFunctions
             {
                 MenuText.ErrorOutputText("\nВи ввели неіснуючий id автомобіля, спробуйте ще раз");
                 EditInfoAboutCarMethod();
-
             }
         }
     }

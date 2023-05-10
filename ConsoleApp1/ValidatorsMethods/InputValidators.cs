@@ -1,4 +1,5 @@
 ﻿using CarDealership.Utils;
+using System.Text.RegularExpressions;
 
 namespace CarDealership.ValidatorsMethods
 {
@@ -167,6 +168,52 @@ namespace CarDealership.ValidatorsMethods
                     return fullName;
                 }
                 MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. До 40 символів та тільки букви");
+            }
+        }
+        public static string EmailInputValidator()
+        {
+            string email;
+            while (true)
+            {
+                Console.Write("Введіть електронну пошту: ");
+                email = Console.ReadLine();
+
+                if (Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                {
+                    return email;
+                }
+                MenuText.ErrorOutputText("Неправильний формат електронної пошти. Будь ласка, спробуйте ще раз.");
+            }
+        }
+        public static string GetValidPhoneNumber()
+        {
+            string phoneNumber;
+            while (true)
+            {
+                Console.Write("Введіть номер телефону строго за форматом (+380 ХХ ХХХХХХХ): ");
+                phoneNumber = Console.ReadLine();
+
+                phoneNumber = phoneNumber.Replace(" ", string.Empty);
+
+                if (phoneNumber.Length != 13)
+                {
+                    MenuText.ErrorOutputText("Неправильний номер телефону. Номер повинен мати 12 цифр.");
+                    continue;
+                }
+
+                if (!phoneNumber.StartsWith("+380"))
+                {
+                    MenuText.ErrorOutputText("Неправильний номер телефону. Номер повинен починатися з +380.");
+                    continue;
+                }
+
+                if (!phoneNumber.Substring(1).All(char.IsDigit))
+                {
+                    MenuText.ErrorOutputText("Неправильний номер телефону. Номер повинен містити тільки цифри.");
+                    continue;
+                }
+
+                return phoneNumber;
             }
         }
     }
