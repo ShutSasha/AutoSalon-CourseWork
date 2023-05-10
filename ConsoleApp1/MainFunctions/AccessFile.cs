@@ -5,11 +5,17 @@
         public string[]? Lines { get; set; }
         public string? FilePath { get; set; }
 
-        public static AccessFile GetAccessToFile(string fileName, string directoryPath)
+        public AccessFile(string fileName, string directoryPath)
         {
             string projectPath = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, directoryPath));
             string filePath = Path.Combine(projectPath, fileName);
-            return new AccessFile { Lines = File.ReadAllLines(filePath), FilePath = filePath };
+            Lines = File.ReadAllLines(filePath);
+            FilePath = filePath;
+        }
+
+        public static AccessFile GetAccessToFile(string fileName, string directoryPath)
+        {
+            return new AccessFile(fileName, directoryPath);
         }
     }
 }

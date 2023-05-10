@@ -37,7 +37,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
             {
                 string[] values = line.Split(',');
 
-                int id = int.Parse(values[0]);
+                int id = Convert.ToInt32(values[0]);
                 string name = values[1] != "0" ? values[1] : "Даних немає";
                 string phone = values[2] != "0" ? values[2] : "Даних немає";
                 string email = values[3] != "0" ? values[3] : "Даних немає";

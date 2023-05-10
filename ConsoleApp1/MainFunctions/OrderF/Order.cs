@@ -4,47 +4,52 @@ using CarDealership.Utils;
 
 namespace CarDealership.MainFunctions.OrderF
 {
-    internal class Order
+    public class Order
     {
+
+        private static int carrier;
+        private static string selectedCarrierStr = "";
+        private static string lineOfClient = "";
+        private static int indexToDelete = -1;
+        private static AccessFile accessFileOfClients = new("ClientDB.txt", "..\\..\\..\\MainFunctions\\ClientFunctions");
+        private static string[] linesOfClients = (string[])accessFileOfClients.Lines.Clone();
+        static int TotalPrice = 0;
+
         public static void CreateOrder()
         {
-
             PrintClients.PrintAllClients();
-
+            ChooseClientForOrder();
+            ChooseTransportForClient();
+            ChooseProviderForClient();
+            ChooseCarrierForClient();
+            WriteToFile();
+        }
+        private static void ChooseClientForOrder()
+        {
             MenuText.BlueOutput("\nОбиріть клієнта з списку вище, який буде робити замовлення:\n");
 
             Console.Write("\nВведіть id клієнта: ");
             int idClient = Convert.ToInt32(Console.ReadLine());
 
-            AccessFile accessFileOfClients = AccessFile.GetAccessToFile("ClientDB.txt", "..\\..\\..\\MainFunctions\\ClientFunctions");
-            string[] linesOfClients = accessFileOfClients.Lines;
-            int indexToDelete = -1;
-            // Пошук індексу рядка з айді, який потрібно видалити
-            var lineOfClient = "";
-            chooseClient();
-            void chooseClient()
+            for (int i = 0; i < linesOfClients.Length; i++)
             {
-                for (int i = 0; i < linesOfClients.Length; i++)
-                {
-                    string[] values = linesOfClients[i].Split(',');
-                    int id = int.Parse(values[0]);
+                string[] values = linesOfClients[i].Split(',');
+                int id = int.Parse(values[0]);
 
-                    if (id == idClient)
-                    {
-                        indexToDelete = i;
-                        lineOfClient = $"{values[1]},{values[2]},{values[3]},{values[4]},{values[5]},{values[6]},{values[7]},{values[8]}";
-                        break;
-                    }
-                }
-
-                if (indexToDelete == -1)
+                if (id == idClient)
                 {
-                    Console.WriteLine($"Клієнта з айді {idClient} не знайдено. Спробуйте ще раз");
-                    chooseClient();
+                    indexToDelete = i;
+                    lineOfClient = $"{values[1]},{values[2]},{values[3]},{values[4]},{values[5]},{values[6]},{values[7]},{values[8]}";
+                    break;
                 }
             }
 
-            AccessFile accessFile = AccessFile.GetAccessToFile("OrderDB.txt", "..\\..\\..\\MainFunctions\\OrderF");
+            if (indexToDelete == -1)
+            {
+                Console.WriteLine($"Клієнта з айді {idClient} не знайдено. Спробуйте ще раз");
+                ChooseClientForOrder();
+            }
+            AccessFile accessFile = new("OrderDB.txt", "..\\..\\..\\MainFunctions\\OrderF");
             string[] lines = accessFile.Lines;
             int idOrder = lines.Length > 0 ? int.Parse(lines[lines.Length - 1].Split(',')[0]) + 1 : 1;
 
@@ -54,234 +59,186 @@ namespace CarDealership.MainFunctions.OrderF
             }
 
             MenuText.SuccessOutput($"Клієнт успішно обрайний.");
+        }
+        private static void ChooseTransportForClient()
+        {
+            Console.Write(MenuText.ChoosePrintForVehicle);
+            MenuText.OutputEnterNumOfFunc();
 
-            // Клієнт обирає транспорт
-            PerformDelete();
-            void PerformDelete()
+            int selectOfDelete = int.Parse(Console.ReadLine());
+            if (selectOfDelete == 1)
             {
-                Console.Write("Виберіть, що хочете надрукувати, щоб потім обрати транспорт для покупки:\n" +
-                    "1. Автомобілі.\n" +
-                    "2. Мотоцикли.\n" +
-                    "3. Грузовики.");
-                MenuText.OutputEnterNumOfFunc();
-                int selectOfDelete = int.Parse(Console.ReadLine());
-                if (selectOfDelete == 1)
-                {
-                    DeleteVehicle.DeleteCarForPurchased();
-                }
-                else if (selectOfDelete == 2)
-                {
-                    DeleteVehicle.DeleteMotorcycleForPurchased();
-                }
-                else if (selectOfDelete == 3)
-                {
-                    DeleteVehicle.DeleteTruckForPurchased();
-                }
-
-                else
-                {
-                    Console.WriteLine("Значення введено невірно, спробуйте ще раз.");
-                    PerformDelete();
-                }
+                DeleteVehicle.DeleteCarForPurchased();
+            }
+            else if (selectOfDelete == 2)
+            {
+                DeleteVehicle.DeleteMotorcycleForPurchased();
+            }
+            else if (selectOfDelete == 3)
+            {
+                DeleteVehicle.DeleteTruckForPurchased();
             }
 
-            AccessFile accessFileOfSelectedVehicle = AccessFile.GetAccessToFile("SelectedVehicleDB.txt", "..\\..\\..\\MainFunctions\\OrderF");
-            string[] linesSelectedVehicle = accessFileOfSelectedVehicle.Lines;
+            else
+            {
+                Console.WriteLine("Значення введено невірно, спробуйте ще раз.");
+                ChooseTransportForClient();
+            }
+        }
+
+        private static void ChooseProviderForClient()
+        {
+            AccessFile accessFileOfSelectedVehicle = new("SelectedVehicleDB.txt", "..\\..\\..\\MainFunctions\\OrderF");
+            string[] linesSelectedVehicle = (string[])accessFileOfSelectedVehicle.Lines.Clone();
             string lastLineSelectedVehicle = linesSelectedVehicle[linesSelectedVehicle.Length - 1];
 
-            // Розділяємо рядок на окремі значення
             string[] valuesSelectedVehicle = lastLineSelectedVehicle.Split(',');
-            int TotalPrice = Convert.ToInt32(valuesSelectedVehicle[6]);
+            TotalPrice = Convert.ToInt32(valuesSelectedVehicle[6]);
 
-            int provider;
-            bool providerBool = false;
-            chooseProvider();
-            void chooseProvider()
+            var selectedproviderStr = "";
+            Console.Write(MenuText.ChooseProvider);
+            MenuText.OutputEnterNumOfFunc();
+            int provider = Convert.ToInt32(Console.ReadLine());
+
+            if (provider < 1 || provider > 3)
             {
-                var selectedproviderStr = "";
-                Console.Write("Обиріть постачальника нижче:\n" +
-                                "1. Амереканський - найдорожчий та найбільш якісний транспорт (+1000$ до вартості транспорту)\n" +
-                                "2. Європейський - якісний транспорт та найдійний постачальник (+700$ до вартості транспорту)\n" +
-                                "3. Постачальник з Японії - якісний транспорт (+500$ до вартості транспорту)");
-                MenuText.OutputEnterNumOfFunc();
-                provider = Convert.ToInt32(Console.ReadLine());
-
-                if (provider < 1 || provider > 3)
+                MenuText.ErrorOutputText("Значення введено не правильно!");
+                ChooseProviderForClient();
+            }
+            else
+            {
+                switch (provider)
                 {
-                    MenuText.ErrorOutputText("Значення введено не правильно!");
-                    chooseProvider();
+                    case 1:
+                        TotalPrice += 1000;
+                        selectedproviderStr = "Амереканський";
+                        break;
+                    case 2:
+                        TotalPrice += 700;
+                        selectedproviderStr = "Європейський";
+                        break;
+                    case 3:
+                        TotalPrice += 500;
+                        selectedproviderStr = "Японський";
+                        break;
+                    default:
+                        break;
                 }
-                else
+
+                AccessFile accessFileToProvider = new("ProviderDB.txt", "..\\..\\..\\MainFunctions\\OrderF");
+                string[] linesProvider = accessFileToProvider.Lines;
+                int idProvider = linesProvider.Length > 0 ? int.Parse(linesProvider[linesProvider.Length - 1].Split(',')[0]) + 1 : 1;
+
+                using (StreamWriter writer = new StreamWriter(accessFileToProvider.FilePath, true))
                 {
-                    switch (provider)
-                    {
-                        case 1:
-                            TotalPrice += 1000;
-                            selectedproviderStr = "Амереканський";
-                            break;
-                        case 2:
-                            TotalPrice += 700;
-                            selectedproviderStr = "Європейський";
-                            break;
-                        case 3:
-                            TotalPrice += 500;
-                            selectedproviderStr = "Японський";
-                            break;
-                        default:
-                            break;
-                    }
+                    writer.WriteLine($"{idProvider},{selectedproviderStr}");
+                }
 
-                    AccessFile accessFileToProvider = AccessFile.GetAccessToFile("ProviderDB.txt", "..\\..\\..\\MainFunctions\\OrderF");
-                    string[] linesProvider = accessFileToProvider.Lines;
-                    int idProvider = linesProvider.Length > 0 ? int.Parse(linesProvider[linesProvider.Length - 1].Split(',')[0]) + 1 : 1;
+                MenuText.SuccessOutput("Постачальник успішно обраний");
+            }
+        }
+        private static void ChooseCarrierForClient()
+        {
+            Console.Write(MenuText.ChooseCarrier);
+            MenuText.OutputEnterNumOfFunc();
+            carrier = Convert.ToInt32(Console.ReadLine());
 
-                    using (StreamWriter writer = new StreamWriter(accessFileToProvider.FilePath, true))
-                    {
-                        writer.WriteLine($"{idProvider},{selectedproviderStr}");
-                    }
+            if (carrier < 1 || carrier > 3)
+            {
+                MenuText.ErrorOutputText("Значення введено не правильно!");
+                ChooseCarrierForClient();
+            }
+            else
+            {
+                switch (carrier)
+                {
+                    case 1:
+                        TotalPrice += 1000;
+                        selectedCarrierStr = "Швидкий";
+                        break;
+                    case 2:
+                        TotalPrice += 700;
+                        selectedCarrierStr = "Із середньою швидкістю";
+                        break;
+                    case 3:
+                        TotalPrice += 500;
+                        selectedCarrierStr = "Повільний";
+                        break;
+                    default:
+                        break;
+                }
 
-                    MenuText.SuccessOutput("Постачальник успішно обраний");
-                    providerBool = true;
+                AccessFile accessFileToCarrier = new("CarrierDB.txt", "..\\..\\..\\MainFunctions\\OrderF");
+                string[] linesCarrier = accessFileToCarrier.Lines;
+                int idCarrier = linesCarrier.Length > 0 ? int.Parse(linesCarrier[linesCarrier.Length - 1].Split(',')[0]) + 1 : 1;
+
+                using (StreamWriter writer = new StreamWriter(accessFileToCarrier.FilePath, true))
+                {
+                    writer.WriteLine($"{idCarrier},{selectedCarrierStr}");
+                }
+
+                MenuText.SuccessOutput("Перевізник успішно обраний.\n Вітємо з покупкою!");
+            }
+        }
+
+        private static void WriteToFile()
+        {
+
+            AccessFile accessFileToSoldOut = new("SoldOut.txt", "..\\..\\..\\MainFunctions\\OrderF");
+            string[] linesSoldOut = accessFileToSoldOut.Lines!;
+            int idSoldOut = linesSoldOut!.Length > 0 ? int.Parse(linesSoldOut[linesSoldOut.Length - 1].Split(',')[0]) + 1 : 1;
+
+            string[] linesOrder = TextFileReader.GetLinesFromFile("OrderDB.txt", "..\\..\\..\\MainFunctions\\OrderF", idSoldOut - 1, 1);
+            string[] linesVehicle = TextFileReader.GetLinesFromFile("SelectedVehicleDB.txt", "..\\..\\..\\MainFunctions\\OrderF", idSoldOut - 1, 1);
+            string[] linesProvider = TextFileReader.GetLinesFromFile("ProviderDB.txt", "..\\..\\..\\MainFunctions\\OrderF", idSoldOut - 1, 1);
+            string[] linesCarrier = TextFileReader.GetLinesFromFile("ProviderDB.txt", "..\\..\\..\\MainFunctions\\OrderF", idSoldOut - 1, 1);
+
+            string orderStr = $"{linesOrder[0].Split(',')[1]},{linesOrder[0].Split(',')[2]},{linesOrder[0].Split(',')[3]}";         
+            string vehicleStr = $"{linesVehicle[0].Split(',')[1]},{linesVehicle[0].Split(',')[2]},{linesVehicle[0].Split(',')[3]},{linesVehicle[0].Split(',')[6]}";
+            string providerStr = $"{linesProvider[0].Split(',')[1]}";   
+            string carrierStr = $"{linesCarrier[0].Split(',')[1]}";
+
+            using (StreamWriter writer = new StreamWriter(accessFileToSoldOut.FilePath!, true))
+            {
+                writer.WriteLine($"{idSoldOut},{orderStr}, {vehicleStr}, {providerStr}, {carrierStr}, {TotalPrice}");
+            }
+
+            List<string> newLines = linesOfClients.ToList();
+            newLines.RemoveAt(indexToDelete);
+            linesOfClients = newLines.ToArray();
+
+            using (StreamWriter writer = new StreamWriter(accessFileOfClients.FilePath!))
+            {
+                for (int i = linesOfClients.Length - 1; i >= 0; i--)
+                {
+                    writer.WriteLine(linesOfClients[i]);
                 }
             }
-            int carrier;
-            bool carrierBool = false;
-            chooseCarrier();
-            void chooseCarrier()
+
+            List<Client> clients = ClientImporter.ImportClientsFromFileForPrint(linesOfClients);
+
+            clients = clients.OrderBy(client => client.Id).ToList();
+
+            using (StreamWriter sw = new StreamWriter(accessFileOfClients.FilePath!))
             {
-                var selectedCarrierStr = "";
-                Console.Write("Обиріть перевізника нижче:\n" +
-                                "1. Швидкий (+1000$ до загальної вартості)\n" +
-                                "2. Із середньою швидкістю (+700$ до загальної вартості)\n" +
-                                "3. Повільний (+500$ до загальної вартості)");
-                MenuText.OutputEnterNumOfFunc();
-                carrier = Convert.ToInt32(Console.ReadLine());
-
-                if (carrier < 1 || carrier > 3)
+                foreach (Client client in clients)
                 {
-                    MenuText.ErrorOutputText("Значення введено не правильно!");
-                    chooseCarrier();
-                }
-                else
-                {
-                    switch (carrier)
-                    {
-                        case 1:
-                            TotalPrice += 1000;
-                            selectedCarrierStr = "Швидкий";
-                            break;
-                        case 2:
-                            TotalPrice += 700;
-                            selectedCarrierStr = "Із середньою швидкістю";
-                            break;
-                        case 3:
-                            TotalPrice += 500;
-                            selectedCarrierStr = "Повільний";
-                            break;
-                        default:
-                            break;
-                    }
-
-                    AccessFile accessFileToCarrier = AccessFile.GetAccessToFile("CarrierDB.txt", "..\\..\\..\\MainFunctions\\OrderF");
-                    string[] linesCarrier = accessFileToCarrier.Lines;
-                    int idCarrier = linesCarrier.Length > 0 ? int.Parse(linesCarrier[linesCarrier.Length - 1].Split(',')[0]) + 1 : 1;
-
-                    using (StreamWriter writer = new StreamWriter(accessFileToCarrier.FilePath, true))
-                    {
-                        writer.WriteLine($"{idCarrier},{selectedCarrierStr}");
-                    }
-
-                    MenuText.SuccessOutput("Перевізник успішно обраний.\n Вітємо з покупкою!");
-                    carrierBool = true;
+                    string line = $"{client.Id},{client.Name},{client.Phone},{client.Email},{client.PreferredBrand},{client.MinPrice},{client.MaxPrice},{client.MinYear},{client.MaxYear}";
+                    sw.WriteLine(line);
                 }
             }
+            Array.Sort(linesOfClients, (a, b) => int.Parse(a.Split(',')[0]).CompareTo(int.Parse(b.Split(',')[0])));
 
-            bool confirmOrder = false;
-            if (providerBool && carrierBool)
+            using (StreamWriter writer = new StreamWriter(accessFileOfClients.FilePath!))
             {
-                confirmOrder = true;
-            }
-            if (confirmOrder)
-            {
-                AccessFile accessFileToSoldOut = AccessFile.GetAccessToFile("SoldOut.txt", "..\\..\\..\\MainFunctions\\OrderF");
-                string[] linesSoldOut = accessFileToSoldOut.Lines;
-                int idSoldOut = linesSoldOut.Length > 0 ? int.Parse(linesSoldOut[linesSoldOut.Length - 1].Split(',')[0]) + 1 : 1;
+                int newId = 1;
 
-                string[] linesOrder =TextFileReader.GetLinesFromFile("OrderDB.txt", "..\\..\\..\\MainFunctions\\OrderF", idSoldOut - 1, 1);
-                string orderStr = $"{linesOrder[0].Split(',')[1]},{linesOrder[0].Split(',')[2]},{linesOrder[0].Split(',')[3]}";
-
-                string[] linesVehicle = TextFileReader.GetLinesFromFile("SelectedVehicleDB.txt", "..\\..\\..\\MainFunctions\\OrderF", idSoldOut - 1, 1);
-                string vehicleStr = $"{linesVehicle[0].Split(',')[1]},{linesVehicle[0].Split(',')[2]},{linesVehicle[0].Split(',')[3]},{linesVehicle[0].Split(',')[6]}";
-
-                string[] linesProvider = TextFileReader.GetLinesFromFile("ProviderDB.txt", "..\\..\\..\\MainFunctions\\OrderF", idSoldOut - 1, 1);
-                string providerStr = $"{linesProvider[0].Split(',')[1]}";
-
-                string[] linesCarrier = TextFileReader.GetLinesFromFile("ProviderDB.txt", "..\\..\\..\\MainFunctions\\OrderF", idSoldOut - 1, 1);
-                string carrierStr = $"{linesCarrier[0].Split(',')[1]}";
-
-                using (StreamWriter writer = new StreamWriter(accessFileToSoldOut.FilePath, true))
-                {
-                    writer.WriteLine($"{idSoldOut},{orderStr}, {vehicleStr}, {providerStr}, {carrierStr}, {TotalPrice}");
-                }
-
-                // Видаляємо рядок з файлу
-                List<string> newLines = linesOfClients.ToList();
-                newLines.RemoveAt(indexToDelete);
-                linesOfClients = newLines.ToArray();
-
-                // Перезаписуємо файл
-                using (StreamWriter writer = new StreamWriter(accessFileOfClients.FilePath))
-                {
-                    for (int i = linesOfClients.Length - 1; i >= 0; i--)
-                    {
-                        writer.WriteLine(linesOfClients[i]);
-                    }
-                }
-
-
-                List<Client> clients = new List<Client>();
                 foreach (string line in linesOfClients)
                 {
-                    string[] fields = line.Split(',');
-                    int id = int.Parse(fields[0]);
-                    string name = fields[1];
-                    string phone = fields[2];
-                    string email = fields[3];
-                    string preferredBrand = fields[4];
-                    int minPrice = int.Parse(fields[5]);
-                    int maxPrice = int.Parse(fields[6]);
-                    int minYear = int.Parse(fields[7]);
-                    int maxYear = int.Parse(fields[8]);
-                    Client client = new Client(id, name, phone, email, preferredBrand, minPrice, maxPrice, minYear, maxYear);
-                    clients.Add(client);
-                }
-
-                // Сортуємо клієнтів за айдішником
-                clients = clients.OrderBy(client => client.Id).ToList();
-
-                // Перезаписуємо файл
-                using (StreamWriter sw = new StreamWriter(accessFileOfClients.FilePath))
-                {
-                    foreach (Client client in clients)
-                    {
-                        string line = $"{client.Id},{client.Name},{client.Phone},{client.Email},{client.PreferredBrand},{client.MinPrice},{client.MaxPrice},{client.MinYear},{client.MaxYear}";
-                        sw.WriteLine(line);
-                    }
-                }
-                Array.Sort(linesOfClients, (a, b) => int.Parse(a.Split(',')[0]).CompareTo(int.Parse(b.Split(',')[0])));
-
-                // Перезаписуємо файл з відсортованими рядками та новими айді
-                using (StreamWriter writer = new StreamWriter(accessFileOfClients.FilePath))
-                {
-                    int newId = 1;
-
-                    foreach (string line in linesOfClients)
-                    {
-                        string[] parts = line.Split(',');
-                        parts[0] = newId.ToString();
-                        writer.WriteLine(string.Join(',', parts));
-                        newId++;
-                    }
+                    string[] parts = line.Split(',');
+                    parts[0] = newId.ToString();
+                    writer.WriteLine(string.Join(',', parts));
+                    newId++;
                 }
             }
         }
