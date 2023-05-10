@@ -38,9 +38,7 @@
             Console.Write("\nВведіть тут цифру функції: ");
             Console.ResetColor();
         }
-
-        // OutputEnterNumOfFunc - blue 
-
+        
         public static void BlueOutput(string text)
         {
             Console.ForegroundColor = ConsoleColor.Blue;

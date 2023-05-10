@@ -103,6 +103,7 @@ namespace CarDealership.MainFunctions.OrderF
                                 "1. Амереканський - найдорожчий та найбільш якісний транспорт (+1000$ до вартості транспорту)\n" +
                                 "2. Європейський - якісний транспорт та найдійний постачальник (+700$ до вартості транспорту)\n" +
                                 "3. Постачальник з Японії - якісний транспорт (+500$ до вартості транспорту)");
+                MenuText.OutputEnterNumOfFunc();
                 provider = Convert.ToInt32(Console.ReadLine());
 
                 if (provider < 1 || provider > 3)
@@ -153,6 +154,7 @@ namespace CarDealership.MainFunctions.OrderF
                                 "1. Швидкий (+1000$ до загальної вартості)\n" +
                                 "2. Із середньою швидкістю (+700$ до загальної вартості)\n" +
                                 "3. Повільний (+500$ до загальної вартості)");
+                MenuText.OutputEnterNumOfFunc();
                 carrier = Convert.ToInt32(Console.ReadLine());
 
                 if (carrier < 1 || carrier > 3)
@@ -201,38 +203,21 @@ namespace CarDealership.MainFunctions.OrderF
             }
             if (confirmOrder)
             {
-
-                // soldOut
                 AccessFile accessFileToSoldOut = AccessFile.GetAccessToFile("SoldOut.txt", "..\\..\\..\\MainFunctions\\OrderF");
                 string[] linesSoldOut = accessFileToSoldOut.Lines;
                 int idSoldOut = linesSoldOut.Length > 0 ? int.Parse(linesSoldOut[linesSoldOut.Length - 1].Split(',')[0]) + 1 : 1;
 
-                // orderDB or client
-                AccessFile accessFileOrderDB = AccessFile.GetAccessToFile("OrderDB.txt", "..\\..\\..\\MainFunctions\\OrderF");
-                string[] linesOrder = accessFileOrderDB.Lines;
-                string[] lineOrder = linesOrder[idSoldOut - 1].Split(',');
-                string orderStr = $"{lineOrder[1]}, {lineOrder[2]}, {lineOrder[3]} ";
+                string[] linesOrder =TextFileReader.GetLinesFromFile("OrderDB.txt", "..\\..\\..\\MainFunctions\\OrderF", idSoldOut - 1, 1);
+                string orderStr = $"{linesOrder[0].Split(',')[1]},{linesOrder[0].Split(',')[2]},{linesOrder[0].Split(',')[3]}";
 
-                // vehicle
+                string[] linesVehicle = TextFileReader.GetLinesFromFile("SelectedVehicleDB.txt", "..\\..\\..\\MainFunctions\\OrderF", idSoldOut - 1, 1);
+                string vehicleStr = $"{linesVehicle[0].Split(',')[1]},{linesVehicle[0].Split(',')[2]},{linesVehicle[0].Split(',')[3]},{linesVehicle[0].Split(',')[6]}";
 
-                AccessFile accessFileVehicle = AccessFile.GetAccessToFile("SelectedVehicleDB.txt", "..\\..\\..\\MainFunctions\\OrderF");
-                string[] linesVehicle = accessFileVehicle.Lines;
-                string[] lineVehicle = linesVehicle[idSoldOut - 1].Split(',');
-                string vehicleStr = $"{lineVehicle[1]}, {lineVehicle[2]}, {lineVehicle[3]}, {lineVehicle[6]}";
+                string[] linesProvider = TextFileReader.GetLinesFromFile("ProviderDB.txt", "..\\..\\..\\MainFunctions\\OrderF", idSoldOut - 1, 1);
+                string providerStr = $"{linesProvider[0].Split(',')[1]}";
 
-                // provider
-
-                AccessFile accessFileToProvider = AccessFile.GetAccessToFile("ProviderDB.txt", "..\\..\\..\\MainFunctions\\OrderF");
-                string[] linesProvider = accessFileToProvider.Lines;
-                string[] lineProvider = linesProvider[idSoldOut - 1].Split(',');
-                string providerStr = $"{lineProvider[1]}";
-
-                // carrier
-
-                AccessFile accessFileToCarrier = AccessFile.GetAccessToFile("CarrierDB.txt", "..\\..\\..\\MainFunctions\\OrderF");
-                string[] linesCarrier = accessFileToCarrier.Lines;
-                string[] lineCarrier = linesCarrier[idSoldOut - 1].Split(',');
-                string carrierStr = $"{lineCarrier[1]}";
+                string[] linesCarrier = TextFileReader.GetLinesFromFile("ProviderDB.txt", "..\\..\\..\\MainFunctions\\OrderF", idSoldOut - 1, 1);
+                string carrierStr = $"{linesCarrier[0].Split(',')[1]}";
 
                 using (StreamWriter writer = new StreamWriter(accessFileToSoldOut.FilePath, true))
                 {
