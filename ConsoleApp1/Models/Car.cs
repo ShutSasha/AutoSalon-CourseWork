@@ -8,7 +8,6 @@
         {
             NumberOfDoors = numberOfDoors;
         }
-
         public Car(): base()
         {
         }

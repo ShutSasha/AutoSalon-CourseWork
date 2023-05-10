@@ -43,7 +43,10 @@ namespace CarDealership.ValidatorsMethods
             if (inputNumber > maxNumberInInput || inputNumber < 1 && inputNumber != -1)
             {
                 MenuText.ErrorOutputText("Введене значення не валідне, спробуйте ще раз");
-                Program.Start();
+
+                var StartTheProgram = new StartTheProgram();
+
+                StartTheProgram.Start();
             }
         }
 
@@ -79,104 +82,63 @@ namespace CarDealership.ValidatorsMethods
         }
         private static void AddOrEditVehicle(int selectedNumber)
         {
-            var methods = new List<MethodDelegate>();
-
-            if (selectedNumber == 1)
-            {
-                methods.Add(AddCar.AddCarToFileMethod);
-                methods.Add(AddClient.AddClientToFileMethod);
-                methods.Add(AddMotorcycle.AddMotorcycleToFileMethod);
-                methods.Add(AddTruck.AddTruckToFileMethod);
-            }
-
-            else if (selectedNumber == 2)
-            {
-                methods.Add(EditInfoAboutCar.EditInfoAboutCarMethod);
-                methods.Add(EditClientInfo.EditInfoAboutClientMethod);
-                methods.Add(EditMotorcycleInfo.EditInfoAboutMotorcycleMethod);
-                methods.Add(EditTruckInfo.EditInfoAboutTruckMethod);
-            }
-
-            methods.Add(PrintCars.PrintCarsMethod);
-            methods.Add(PrintClients.PrintAllClients);
-
-            ChooseAddOrEditVehicle(selectedNumber, methods);
-        }
-        private static void ChooseAddOrEditVehicle(int selectedNumber, List<MethodDelegate> methods)
-        {
             string prompt = selectedNumber == 1 ? "додати" : "редагувати";
+            var methods = new List<MethodDelegate>
+            {
+                 AddCar.AddCarToFileMethod,
+                 AddClient.AddClientToFileMethod,
+                 AddMotorcycle.AddMotorcycleToFileMethod,
+                 AddTruck.AddTruckToFileMethod,
+                 PrintCars.PrintCarsMethod,
+                 PrintClients.PrintAllClients
+            };
 
             Console.WriteLine($"Оберіть, що хочете {prompt}\n" +
-            "1. Автомобіль\n" +
-            "2. Клієнта\n" +
-            "3. Мотоцикл\n" +
-            "4. Грузовик");
+                "1. Автомобіль\n" +
+                "2. Клієнта\n" +
+                "3. Мотоцикл\n" +
+                "4. Грузовик");
 
             MenuText.OutputEnterNumOfFunc();
+
             if (!int.TryParse(Console.ReadLine(), out int selectedAction))
             {
                 Console.WriteLine("Не вірно введене значення, спробуйте ще раз");
-                ChooseAddOrEditVehicle(selectedNumber, methods);
+                AddOrEditVehicle(selectedNumber);
                 return;
             }
 
-            if (selectedAction == 1)
+            var methodsToExecute = new List<MethodDelegate>();
+
+            switch (selectedAction)
             {
-                if (selectedNumber == 1)
-                {
-                    AddCar.AddCarToFileMethod();
-                    ExitOrContinueShorter(MenuText.textForAdding, methods);
-                }
-                else if (selectedNumber == 2)
-                {
-                    EditInfoAboutCar.EditInfoAboutCarMethod();
-                    ExitOrContinueShorter(MenuText.textForEditing, methods);
-                }
+                case 1:
+                    methodsToExecute.Add(selectedNumber == 1 ? AddCar.AddCarToFileMethod : EditInfoAboutCar.EditInfoAboutCarMethod);
+                    break;
+                case 2:
+                    methodsToExecute.Add(selectedNumber == 1 ? AddClient.AddClientToFileMethod : EditClientInfo.EditInfoAboutClientMethod);
+                    break;
+                case 3:
+                    methodsToExecute.Add(selectedNumber == 1 ? AddMotorcycle.AddMotorcycleToFileMethod : EditMotorcycleInfo.EditInfoAboutMotorcycleMethod);
+                    break;
+                case 4:
+                    methodsToExecute.Add(selectedNumber == 1 ? AddTruck.AddTruckToFileMethod : EditTruckInfo.EditInfoAboutTruckMethod);
+                    break;
+                default:
+                    MenuText.ErrorOutputText("\nНе вірно введене значення, спробуйте ще раз\n");
+                    AddOrEditVehicle(selectedNumber);
+                    return;
             }
-            else if (selectedAction == 2)
+
+            methodsToExecute.Add(() => ExitOrContinueShorter(selectedNumber == 1 ? MenuText.textForAdding : MenuText.textForEditing, methods));
+            ExecuteMethods(methodsToExecute);
+        }
+
+        private static void ExecuteMethods(List<MethodDelegate> methods)
+        {
+            foreach (var method in methods)
             {
-                if (selectedNumber == 1)
-                {
-                    AddClient.AddClientToFileMethod();
-                    ExitOrContinueShorter(MenuText.textForAdding, methods);
-                }
-                else if (selectedNumber == 2)
-                {
-                    EditClientInfo.EditInfoAboutClientMethod();
-                    ExitOrContinueShorter(MenuText.textForEditing, methods);
-                }
-            }
-            else if (selectedAction == 3)
-            {
-                if (selectedNumber == 1)
-                {
-                    AddMotorcycle.AddMotorcycleToFileMethod();
-                    ExitOrContinueShorter(MenuText.textForAdding, methods);
-                }
-                else if (selectedNumber == 2)
-                {
-                    EditMotorcycleInfo.EditInfoAboutMotorcycleMethod();
-                    ExitOrContinueShorter(MenuText.textForEditing, methods);
-                }
-            }
-            else if (selectedAction == 4)
-            {
-                if (selectedNumber == 1)
-                {
-                    AddTruck.AddTruckToFileMethod();
-                    ExitOrContinueShorter(MenuText.textForAdding, methods);
-                }
-                else if (selectedNumber == 2)
-                {
-                    EditTruckInfo.EditInfoAboutTruckMethod();
-                    ExitOrContinueShorter(MenuText.textForEditing, methods);
-                }
-            }
-            else
-            {
-                MenuText.ErrorOutputText("\nНе вірно введене значення, спробуйте ще раз\n");
-                ChooseAddOrEditVehicle(selectedNumber, methods);
-                return;
+                method();
             }
         }
         private static void ChoosePrint()

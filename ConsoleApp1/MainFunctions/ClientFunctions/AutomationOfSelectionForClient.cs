@@ -146,7 +146,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
             {
                 string brand = allClients[id - 1].PreferredBrand;
                 bool check = false;
-                if ((brand == "" || vehicle.Brand == brand)
+                if ((brand == "" || vehicle.Brand.ToLower() == brand.ToLower())
                  && (yearFrom == 0 || vehicle.Year >= yearFrom)
                  && (yearTo == 0 || vehicle.Year <= yearTo)
                  && (priceFrom == 0 || vehicle.Price >= priceFrom)

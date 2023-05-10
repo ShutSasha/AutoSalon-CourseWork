@@ -16,11 +16,11 @@ namespace CarDealership.MainFunctions
 
             if (selectedNumber == 1)
             {
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("\nВи обрали функцію вийти до головного меню");
-                Console.ResetColor();
+                MenuText.BlueOutput("\nВи обрали функцію вийти до головного меню");
 
-                Program.Start();
+                var StartTheProgram = new StartTheProgram();
+
+                StartTheProgram.Start();
             }
 
             else if (selectedNumber == 2)

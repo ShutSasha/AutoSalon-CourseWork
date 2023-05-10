@@ -1,6 +1,6 @@
 ﻿using CarDealership.Models;
+using CarDealership.Utils;
 using CarDealership.ValidatorsMethods;
-using System.Text;
 
 namespace CarDealership.MainFunctions.TruckFunctions
 {
@@ -9,9 +9,10 @@ namespace CarDealership.MainFunctions.TruckFunctions
         public void SelectChanges(string[] lines, int id, string filePath)
         {
 
-            string outputText = "Вибиріть, що Ви хчоете змінити:\n" + "1. Бренд\n" + "2. Рік випуску\n" + "3. Модель\n" + "4. Колір\n" + "5. Технічний стан\n" + "6. Ціна\n" + "7. Кількість колес\n" + "8. Вантажопідйомність\n";
+            string outputText = "Виберіть, що Ви хчоете змінити:\n" + "1. Бренд\n" + "2. Рік випуску\n" + "3. Модель\n" + "4. Колір\n" + "5. Технічний стан\n" + "6. Ціна\n" + "7. Кількість колес\n" + "8. Вантажопідйомність\n";
             Console.WriteLine(outputText);
 
+            MenuText.OutputEnterNumOfFunc();
             int selectedNumber = Convert.ToInt32(Console.ReadLine());
 
             if (selectedNumber >= 1 && selectedNumber <= Validators.FindMaxNumberInString(outputText))

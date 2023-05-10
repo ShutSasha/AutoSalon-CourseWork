@@ -1,6 +1,7 @@
 1,Kia,2010,QS3,White,good,12000,4
 2,Audi,2001,A1Q,White,Good,6400,2
 3,Audi,2001,A1Q,White,Good,6400,2
-4,Audi,2001,A1Q,White,Good,6400,2
+4,Audi,2001,A1Q,White,Good,17800,2
 5,Audi,2001,A1Q,White,Good,6400,2
 6,Audi,1921,a7,White,Excellent,15000,4
+7,Reno,2003,Megan 3,Black,Good,8000,4

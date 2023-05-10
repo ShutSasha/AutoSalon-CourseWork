@@ -3,8 +3,6 @@ using ConsoleTables;
 
 namespace CarDealership.MainFunctions.ClientFunctions
 {
-
-
     public class PrintClients
     {
         static public void PrintAllClients()

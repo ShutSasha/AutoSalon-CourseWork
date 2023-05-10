@@ -7,8 +7,9 @@ namespace CarDealership.MainFunctions.CarFunctions
     {
         static public void AddCarToFileMethod()
         {
-
+           
             InputValidators.EnterTheCharacteristicsOfTheVehicle(out string brand, out int year, out string model, out string color, out string condition, out int price);
+
             int numberOfDoors = InputValidators.NumberOfDoorsInputValidator();
             
             AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");

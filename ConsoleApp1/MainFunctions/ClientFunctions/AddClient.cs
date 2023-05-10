@@ -17,23 +17,16 @@ namespace CarDealership.MainFunctions.ClientFunctions
 
             string? PreferredBrand = InputValidators.BrandInputValidator();
 
-            Console.Write("Enter the price from: ");
-            int priceFrom;
-            int.TryParse(Console.ReadLine(), out priceFrom);
+            int priceFrom = InputValidators.PriceInputFromTo("Enter the price from: ", 0, 3000000);
 
-            Console.Write("Enter the price to: ");
-            int priceTo;
-            int.TryParse(Console.ReadLine(), out priceTo);
+            int priceTo = InputValidators.PriceInputFromTo("Enter the price to: ", 1, 3000000);
+            if (priceFrom > priceTo) (priceFrom, priceTo) = (priceTo, priceFrom);
 
-            Console.Write("Enter the year from: ");
-            int yearFrom;
-            int.TryParse(Console.ReadLine(), out yearFrom);
+            int yearFrom = InputValidators.YearInputFromTo("Enter the year from: ", 1920, DateTime.Now.Year);
 
-            Console.Write("Enter the year to: ");
-            int yearTo;
-            int.TryParse(Console.ReadLine(), out yearTo);
+            int yearTo = InputValidators.YearInputFromTo("Enter the year To: ", 1920, DateTime.Now.Year);
+            if (yearFrom > yearTo) (yearFrom, yearTo) = (yearTo, yearFrom);
 
-           
             AccessFile accessFile = AccessFile.GetAccessToFile("ClientDB.txt", "..\\..\\..\\MainFunctions\\ClientFunctions");
             string[] lines = accessFile.Lines;
             int id = lines.Length > 0 ? int.Parse(lines[lines.Length - 1].Split(',')[0]) + 1 : 1;

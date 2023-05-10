@@ -30,10 +30,23 @@ namespace CarDealership.ValidatorsMethods
                 {
                     if (year >= 1920 && year <= DateTime.Now.Year)
                     {
-                        return year; // якщо рік в межах 1920 - поточний рік, то повертаємо його
+                        return year; 
                     }
                 }
                 MenuText.ErrorOutputText("Неправильний рік випуску. Будь ласка, спробуйте ще раз. Потрібно вводити рік тільке від 1920-нині");
+            }
+        }
+
+        public static int YearInputFromTo(string prompt, int minYear, int maxYear)
+        {
+            while (true)
+            {
+                Console.Write(prompt);
+                if (int.TryParse(Console.ReadLine(), out int year) && year >= minYear && year <= maxYear)
+                {
+                    return year;
+                }
+                MenuText.ErrorOutputText($"Неправильний рік випуску. Будь ласка, спробуйте ще раз. Потрібно вводити рік тільки від {minYear} до {maxYear}");
             }
         }
 
@@ -92,10 +105,23 @@ namespace CarDealership.ValidatorsMethods
                 {
                     return price;
                 }
-                MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. Ціна повинна бути від від 1.000$ до 3.000.000$");
+                MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. Ціна повинна бути від  1.000$ до 3.000.000$");
             }
         }
 
+
+        public static int PriceInputFromTo(string prompt, int minValue, int maxValue)
+        {
+            while (true)
+            {
+                Console.Write(prompt);
+                if (int.TryParse(Console.ReadLine(), out int price) && price >= minValue && price <= maxValue)
+                {
+                    return price;
+                }
+                MenuText.ErrorOutputText($"Неправильний ввід. Будь ласка, спробуйте ще раз. Ціна повинна бути від {minValue}$ до {maxValue}$");
+            }
+        }
         public static void EnterTheCharacteristicsOfTheVehicle(out string brand, out int year, out string model, out string color, out string condition, out int price)
         {
             brand = BrandInputValidator();
@@ -126,7 +152,7 @@ namespace CarDealership.ValidatorsMethods
                 string motorcycleType = Console.ReadLine()?.Trim();
                 if (!string.IsNullOrEmpty(motorcycleType) && motorcycleType.Length <= 20 && motorcycleType.All(c => Char.IsLetter(c)))
                 {
-                    motorcycleType = char.ToUpper(motorcycleType[0]) + motorcycleType.Substring(1); // першу букву перетворюємо на велику
+                    motorcycleType = char.ToUpper(motorcycleType[0]) + motorcycleType.Substring(1);
                     return motorcycleType;
                 }
                 MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. Тільки букви та до 20 символів.");
@@ -162,12 +188,12 @@ namespace CarDealership.ValidatorsMethods
             while (true)
             {
                 Console.Write("Введіть ПІБ клієнта: ");
-                string fullName = Console.ReadLine()?.Trim();
-                if (!string.IsNullOrEmpty(fullName) && fullName.Length <= 40 && fullName.All(c => char.IsLetter(c)))
+                string fullName = Console.ReadLine()?.Replace(" ", "").Trim();
+                if (!string.IsNullOrEmpty(fullName) && fullName.Length <= 60 && fullName.All(c => char.IsLetter(c)))
                 {
                     return fullName;
                 }
-                MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. До 40 символів та тільки букви");
+                MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. До 60 символів та тільки букви");
             }
         }
         public static string EmailInputValidator()

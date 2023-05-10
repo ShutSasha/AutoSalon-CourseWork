@@ -44,7 +44,6 @@ namespace CarDealership.MainFunctions
             int priceTo;
             int.TryParse(Console.ReadLine(), out priceTo);
 
-            // Шукаємо всі автомобілі, які відповідають критеріям
             foreach (string line in linesOfCars)
             {
                 string[] fields = line.Split(',');
@@ -57,7 +56,6 @@ namespace CarDealership.MainFunctions
                 }
             }
 
-            // Виводимо знайдені автомобілі
             Print.PrintMatchingVehicle(matchingCars.ConvertAll(list => (Vehicle)list), "cars", MenuText.carHeader);
             
             foreach (string line in linesOfBikes)
@@ -72,7 +70,6 @@ namespace CarDealership.MainFunctions
                 }
             }
 
-            // Виводимо знайдені автомобілі
             Print.PrintMatchingVehicle(matchingBikes.ConvertAll(list => (Vehicle)list), "bikes", MenuText.bikeHeader);
 
             foreach (string line in linesOfTrucks)
@@ -92,7 +89,7 @@ namespace CarDealership.MainFunctions
             bool CheckOfMatchingVehicle(Vehicle vehicle)
             {
                 bool check = false;
-                if ((brand == "" || vehicle.Brand == brand)
+                if ((brand == "" || vehicle.Brand.ToLower() == brand.ToLower())
                  && (yearFrom == 0 || vehicle.Year >= yearFrom)
                  && (yearTo == 0 || vehicle.Year <= yearTo)
                  && (model == "" || vehicle.Model == model)
