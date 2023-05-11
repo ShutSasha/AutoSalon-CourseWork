@@ -35,9 +35,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
 
             PrintClients.PrintAllClients();
 
-            MenuText.BlueOutput("\nВиберіть id клієнта для якого хочете зробити автоматичний підбір транспорту: ");
-
-            int id = Convert.ToInt32(Console.ReadLine());
+            int id = ValidateIdInput(linesClients);
 
             AccessFile accessFileOfCar = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
             string[] lines = accessFileOfCar.Lines;
@@ -61,7 +59,6 @@ namespace CarDealership.MainFunctions.ClientFunctions
                 }
             }
 
-            // Виводимо знайдені автомобілі
             if (matchingCars.Count > 0)
             {
 
@@ -76,7 +73,6 @@ namespace CarDealership.MainFunctions.ClientFunctions
             {
                 MenuText.OutputErrorOfNoMatchingVehicle("cars");
             }
-
 
             AccessFile accessFileOfMotorcycle = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
             string[] linesOfBike = accessFileOfMotorcycle.Lines;
@@ -109,7 +105,6 @@ namespace CarDealership.MainFunctions.ClientFunctions
             {
                 MenuText.OutputErrorOfNoMatchingVehicle("bikes");
             }
-
 
             AccessFile accessFileOfTruck = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
             string[] linesOfTruck = accessFileOfTruck.Lines;
@@ -160,6 +155,39 @@ namespace CarDealership.MainFunctions.ClientFunctions
             var methodsForExit = new List<MethodDelegate>();
             methodsForExit.Add(AutomationSearch);
             ExitOrContinueShorter("\n3. Продовжити автоматичний пошук.",methodsForExit);
+        }
+        private static int ValidateIdInput(string[] lines)
+        {
+            while (true)
+            {
+                Console.Write("\nВиберіть id клієнта для якого хочете зробити автоматичний підбір транспорту: ");
+                string input = Console.ReadLine();
+                if (!int.TryParse(input, out int id) || id <= 0)
+                {
+                    MenuText.ErrorOutputText("Неправильний ввід. Введіть додатнє ціле число.");
+                }
+                else
+                {
+                    bool idExists = false;
+                    foreach (string line in lines)
+                    {
+                        string[] data = line.Split(',');
+                        if (data[0] == input)
+                        {
+                            idExists = true;
+                            break;
+                        }
+                    }
+                    if (idExists)
+                    {
+                        return id;
+                    }
+                    else
+                    {
+                        MenuText.ErrorOutputText("Неправильно обраний id, спробуйте ще раз.");
+                    }
+                }
+            }
         }
     }
 }

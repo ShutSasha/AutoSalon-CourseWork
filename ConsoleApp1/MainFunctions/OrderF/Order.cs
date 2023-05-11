@@ -28,8 +28,7 @@ namespace CarDealership.MainFunctions.OrderF
         {
             MenuText.BlueOutput("\nОбиріть клієнта з списку вище, який буде робити замовлення:\n");
 
-            Console.Write("\nВведіть id клієнта: ");
-            int idClient = Convert.ToInt32(Console.ReadLine());
+            int idClient = ValidateIdInput(linesOfClients);
 
             for (int i = 0; i < linesOfClients.Length; i++)
             {
@@ -63,9 +62,21 @@ namespace CarDealership.MainFunctions.OrderF
         private static void ChooseTransportForClient()
         {
             Console.Write(MenuText.ChoosePrintForVehicle);
-            MenuText.OutputEnterNumOfFunc();
 
-            int selectOfDelete = int.Parse(Console.ReadLine());
+            int selectOfDelete;
+
+            while (true)
+            {
+                MenuText.OutputEnterNumOfFunc();
+                if (int.TryParse(Console.ReadLine(), out int selectedNumber)
+                    && selectedNumber >= 1 && selectedNumber <= 3)
+                {
+                    selectOfDelete = selectedNumber;
+                    break;
+                }
+                MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. Введіть число від 1 до 3 включно.");
+            }
+
             if (selectOfDelete == 1)
             {
                 DeleteVehicle.DeleteCarForPurchased();
@@ -97,88 +108,98 @@ namespace CarDealership.MainFunctions.OrderF
 
             var selectedproviderStr = "";
             Console.Write(MenuText.ChooseProvider);
-            MenuText.OutputEnterNumOfFunc();
-            int provider = Convert.ToInt32(Console.ReadLine());
 
-            if (provider < 1 || provider > 3)
+            int provider;
+
+            while (true)
             {
-                MenuText.ErrorOutputText("Значення введено не правильно!");
-                ChooseProviderForClient();
+                MenuText.OutputEnterNumOfFunc();
+                if (int.TryParse(Console.ReadLine(), out int selectedProvider)
+                    && selectedProvider >= 1 && selectedProvider <= 3)
+                {
+                    provider = selectedProvider;
+                    break;
+                }
+                MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. Введіть число від 1 до 3 включно.");
             }
-            else
+
+            switch (provider)
             {
-                switch (provider)
-                {
-                    case 1:
-                        TotalPrice += 1000;
-                        selectedproviderStr = "Амереканський";
-                        break;
-                    case 2:
-                        TotalPrice += 700;
-                        selectedproviderStr = "Європейський";
-                        break;
-                    case 3:
-                        TotalPrice += 500;
-                        selectedproviderStr = "Японський";
-                        break;
-                    default:
-                        break;
-                }
-
-                AccessFile accessFileToProvider = new("ProviderDB.txt", "..\\..\\..\\MainFunctions\\OrderF");
-                string[] linesProvider = accessFileToProvider.Lines;
-                int idProvider = linesProvider.Length > 0 ? int.Parse(linesProvider[linesProvider.Length - 1].Split(',')[0]) + 1 : 1;
-
-                using (StreamWriter writer = new StreamWriter(accessFileToProvider.FilePath, true))
-                {
-                    writer.WriteLine($"{idProvider},{selectedproviderStr}");
-                }
-
-                MenuText.SuccessOutput("Постачальник успішно обраний");
+                case 1:
+                    TotalPrice += 1000;
+                    selectedproviderStr = "Амереканський";
+                    break;
+                case 2:
+                    TotalPrice += 700;
+                    selectedproviderStr = "Європейський";
+                    break;
+                case 3:
+                    TotalPrice += 500;
+                    selectedproviderStr = "Японський";
+                    break;
+                default:
+                    break;
             }
+
+            AccessFile accessFileToProvider = new("ProviderDB.txt", "..\\..\\..\\MainFunctions\\OrderF");
+            string[] linesProvider = accessFileToProvider.Lines;
+            int idProvider = linesProvider.Length > 0 ? int.Parse(linesProvider[linesProvider.Length - 1].Split(',')[0]) + 1 : 1;
+
+            using (StreamWriter writer = new StreamWriter(accessFileToProvider.FilePath, true))
+            {
+                writer.WriteLine($"{idProvider},{selectedproviderStr}");
+            }
+
+            MenuText.SuccessOutput("Постачальник успішно обраний");
+
         }
         private static void ChooseCarrierForClient()
         {
             Console.Write(MenuText.ChooseCarrier);
-            MenuText.OutputEnterNumOfFunc();
-            carrier = Convert.ToInt32(Console.ReadLine());
 
-            if (carrier < 1 || carrier > 3)
+            int carrier;
+
+            while (true)
             {
-                MenuText.ErrorOutputText("Значення введено не правильно!");
-                ChooseCarrierForClient();
+                MenuText.OutputEnterNumOfFunc();
+                if (int.TryParse(Console.ReadLine(), out int selectedCarrier)
+                    && selectedCarrier >= 1 && selectedCarrier <= 3)
+                {
+                    carrier = selectedCarrier;
+                    break;
+                }
+                MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. Введіть число від 1 до 3 включно.");
             }
-            else
+
+            switch (carrier)
             {
-                switch (carrier)
-                {
-                    case 1:
-                        TotalPrice += 1000;
-                        selectedCarrierStr = "Швидкий";
-                        break;
-                    case 2:
-                        TotalPrice += 700;
-                        selectedCarrierStr = "Із середньою швидкістю";
-                        break;
-                    case 3:
-                        TotalPrice += 500;
-                        selectedCarrierStr = "Повільний";
-                        break;
-                    default:
-                        break;
-                }
-
-                AccessFile accessFileToCarrier = new("CarrierDB.txt", "..\\..\\..\\MainFunctions\\OrderF");
-                string[] linesCarrier = accessFileToCarrier.Lines;
-                int idCarrier = linesCarrier.Length > 0 ? int.Parse(linesCarrier[linesCarrier.Length - 1].Split(',')[0]) + 1 : 1;
-
-                using (StreamWriter writer = new StreamWriter(accessFileToCarrier.FilePath, true))
-                {
-                    writer.WriteLine($"{idCarrier},{selectedCarrierStr}");
-                }
-
-                MenuText.SuccessOutput("Перевізник успішно обраний.\n Вітємо з покупкою!");
+                case 1:
+                    TotalPrice += 1000;
+                    selectedCarrierStr = "Швидкий";
+                    break;
+                case 2:
+                    TotalPrice += 700;
+                    selectedCarrierStr = "Із середньою швидкістю";
+                    break;
+                case 3:
+                    TotalPrice += 500;
+                    selectedCarrierStr = "Повільний";
+                    break;
+                default:
+                    break;
             }
+
+            AccessFile accessFileToCarrier = new("CarrierDB.txt", "..\\..\\..\\MainFunctions\\OrderF");
+            string[] linesCarrier = accessFileToCarrier.Lines;
+            int idCarrier = linesCarrier.Length > 0 ? int.Parse(linesCarrier[linesCarrier.Length - 1].Split(',')[0]) + 1 : 1;
+
+            using (StreamWriter writer = new StreamWriter(accessFileToCarrier.FilePath, true))
+            {
+                writer.WriteLine($"{idCarrier},{selectedCarrierStr}");
+            }
+
+            MenuText.SuccessOutput("Перевізник успішно обраний.\n Вітємо з покупкою!");
+
         }
 
         private static void WriteToFile()
@@ -193,9 +214,9 @@ namespace CarDealership.MainFunctions.OrderF
             string[] linesProvider = TextFileReader.GetLinesFromFile("ProviderDB.txt", "..\\..\\..\\MainFunctions\\OrderF", idSoldOut - 1, 1);
             string[] linesCarrier = TextFileReader.GetLinesFromFile("ProviderDB.txt", "..\\..\\..\\MainFunctions\\OrderF", idSoldOut - 1, 1);
 
-            string orderStr = $"{linesOrder[0].Split(',')[1]},{linesOrder[0].Split(',')[2]},{linesOrder[0].Split(',')[3]}";         
+            string orderStr = $"{linesOrder[0].Split(',')[1]},{linesOrder[0].Split(',')[2]},{linesOrder[0].Split(',')[3]}";
             string vehicleStr = $"{linesVehicle[0].Split(',')[1]},{linesVehicle[0].Split(',')[2]},{linesVehicle[0].Split(',')[3]},{linesVehicle[0].Split(',')[6]}";
-            string providerStr = $"{linesProvider[0].Split(',')[1]}";   
+            string providerStr = $"{linesProvider[0].Split(',')[1]}";
             string carrierStr = $"{linesCarrier[0].Split(',')[1]}";
 
             using (StreamWriter writer = new StreamWriter(accessFileToSoldOut.FilePath!, true))
@@ -239,6 +260,39 @@ namespace CarDealership.MainFunctions.OrderF
                     parts[0] = newId.ToString();
                     writer.WriteLine(string.Join(',', parts));
                     newId++;
+                }
+            }
+        }
+        private static int ValidateIdInput(string[] lines)
+        {
+            while (true)
+            {
+                Console.Write("\nВведіть id клієнта: ");
+                string input = Console.ReadLine();
+                if (!int.TryParse(input, out int id) || id <= 0)
+                {
+                    MenuText.ErrorOutputText("Неправильний ввід. Введіть додатнє ціле число.");
+                }
+                else
+                {
+                    bool idExists = false;
+                    foreach (string line in lines)
+                    {
+                        string[] data = line.Split(',');
+                        if (data[0] == input)
+                        {
+                            idExists = true;
+                            break;
+                        }
+                    }
+                    if (idExists)
+                    {
+                        return id;
+                    }
+                    else
+                    {
+                        MenuText.ErrorOutputText("неправильно введене id");
+                    }
                 }
             }
         }

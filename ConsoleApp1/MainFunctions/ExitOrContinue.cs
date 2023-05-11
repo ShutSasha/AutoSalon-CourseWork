@@ -10,10 +10,8 @@ namespace CarDealership.MainFunctions
         {
             Console.WriteLine(MenuText.exitOrContinueForChanges + textOfNewAction);
 
-            MenuText.OutputEnterNumOfFunc();
-
-            int selectedNumber = Convert.ToInt32(Console.ReadLine());
-
+            int selectedNumber = NumberInputValidator();
+            
             if (selectedNumber == 1)
             {
                 MenuText.BlueOutput("\nВи обрали функцію вийти до головного меню");
@@ -39,19 +37,28 @@ namespace CarDealership.MainFunctions
             {
                 if (methods != null)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\nЗначення введено не вірно, напишіть знову");
-                    Console.ResetColor();
+                    MenuText.ErrorOutputText("\nЗначення введено не вірно, напишіть знову");
                     ExitOrContinueShorter(textOfNewAction, methods);
                 }
 
                 else
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("\nЗначення введено не вірно, напишіть знову");
-                    Console.ResetColor();
+                    MenuText.ErrorOutputText("\nЗначення введено не вірно, напишіть знову");
                     ExitOrContinueShorter(textOfNewAction, null);
                 }
+            }
+        }
+        private static int NumberInputValidator()
+        {
+            while (true)
+            {
+                MenuText.OutputEnterNumOfFunc();
+                string input = Console.ReadLine()?.Trim();
+                if (!string.IsNullOrEmpty(input) && int.TryParse(input, out int number))
+                {
+                    return number;
+                }
+                MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. Введіть ціле число.");
             }
         }
     }

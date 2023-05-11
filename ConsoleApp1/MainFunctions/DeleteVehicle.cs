@@ -34,7 +34,7 @@ namespace CarDealership.MainFunctions
                 }
             }
         }
-        private static void DeleteVehicleMethod(string filePath, string vehicleType)
+        private static void DeleteVehicleMethod(AccessFile AccessFilePath, string vehicleType)
         {
             switch (vehicleType)
             {
@@ -49,10 +49,10 @@ namespace CarDealership.MainFunctions
                     break;
             }
 
-            Console.Write("\nВведіть id транспорту, який хочете видалити: ");
-            int idToDelete = Convert.ToInt32(Console.ReadLine());
 
-            string[] lines = File.ReadAllLines(filePath);
+            int idToDelete = ValidateIdInput(AccessFilePath.Lines, "видалити");
+
+            string[] lines = File.ReadAllLines(AccessFilePath.FilePath);
 
             int indexToDelete = -1;
             for (int i = 0; i < lines.Length; i++)
@@ -69,7 +69,7 @@ namespace CarDealership.MainFunctions
 
             if (indexToDelete >= 0)
             {
-                deleteAndWriteChangesToFile(lines, indexToDelete, filePath);
+                deleteAndWriteChangesToFile(lines, indexToDelete, AccessFilePath.FilePath);
 
                 MenuText.SuccessOutput($"\nЕлемент з айді {idToDelete} успішно видалений з файлу.");
             }
@@ -82,22 +82,55 @@ namespace CarDealership.MainFunctions
         public static void DeleteCar()
         {
             AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
-            DeleteVehicleMethod(accessFile.FilePath, "car");
+            DeleteVehicleMethod(accessFile, "car");
         }
 
         public static void DeleteMotorcycle()
         {
             AccessFile accessFile = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
-            DeleteVehicleMethod(accessFile.FilePath, "motorcycle");
+            DeleteVehicleMethod(accessFile, "motorcycle");
         }
 
         public static void DeleteTruck()
         {
             AccessFile accessFile = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
-            DeleteVehicleMethod(accessFile.FilePath, "truck");
+            DeleteVehicleMethod(accessFile, "truck");
+        }
+        private static int ValidateIdInput(string[] lines, string prompt)
+        {
+            while (true)
+            {
+                Console.Write($"\nВведіть id транспорту, який хочете {prompt}: ");
+                string input = Console.ReadLine();
+                if (!int.TryParse(input, out int id) || id <= 0)
+                {
+                    MenuText.ErrorOutputText("Неправильний ввід. Введіть додатнє ціле число.");
+                }
+                else
+                {
+                    bool idExists = false;
+                    foreach (string line in lines)
+                    {
+                        string[] data = line.Split(',');
+                        if (data[0] == input)
+                        {
+                            idExists = true;
+                            break;
+                        }
+                    }
+                    if (idExists)
+                    {
+                        return id;
+                    }
+                    else
+                    {
+                        MenuText.ErrorOutputText("Транспорт з введеним id не знайдено. Спробуйте ще раз");
+                    }
+                }
+            }
         }
 
-        private static void DeleteForPurchasedVehicle(string filePath, string vehicleType)
+        private static void DeleteForPurchasedVehicle(AccessFile AccessFilePath, string vehicleType)
         {
             var numElements = 0;
             switch (vehicleType)
@@ -116,10 +149,9 @@ namespace CarDealership.MainFunctions
                     break;
             }
 
-            Console.Write("\nВведіть id транспорту, який хочете обрати: ");
-            int idToDelete = Convert.ToInt32(Console.ReadLine());
+            int idToDelete = ValidateIdInput(AccessFilePath.Lines, "обрати");
 
-            string[] lines = File.ReadAllLines(filePath);
+            string[] lines = File.ReadAllLines(AccessFilePath.FilePath);
 
             int indexToDelete = -1;
             string lineofVehicle = "";
@@ -157,7 +189,7 @@ namespace CarDealership.MainFunctions
 
             if (indexToDelete >= 0)
             {
-                deleteAndWriteChangesToFile(lines, indexToDelete, filePath);
+                deleteAndWriteChangesToFile(lines, indexToDelete, AccessFilePath.FilePath);
 
                 MenuText.SuccessOutput($"\nТранспорт з айді {idToDelete} успішно обраний з файлу.");
             }
@@ -170,19 +202,19 @@ namespace CarDealership.MainFunctions
         public static void DeleteCarForPurchased()
         {
             AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
-            DeleteForPurchasedVehicle(accessFile.FilePath, "car");
+            DeleteForPurchasedVehicle(accessFile, "car");
         }
 
         public static void DeleteMotorcycleForPurchased()
         {
             AccessFile accessFile = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
-            DeleteForPurchasedVehicle(accessFile.FilePath, "motorcycle");
+            DeleteForPurchasedVehicle(accessFile, "motorcycle");
         }
 
         public static void DeleteTruckForPurchased()
         {
             AccessFile accessFile = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
-            DeleteForPurchasedVehicle(accessFile.FilePath, "truck");
+            DeleteForPurchasedVehicle(accessFile, "truck");
         }
     }
 }

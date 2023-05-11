@@ -9,10 +9,8 @@ namespace CarDealership.MainFunctions.CarFunctions
         {
             Console.WriteLine("Оберіть, що ви хочете в ньому змінити\n" + "1. Бренд\n" + "2. Рік\n" + "3. Модель\n" + "4. Колір\n" + "5. Стан автомобіля\n" + "6. Ціна\n" + "7. Кількість дверей автомобіля");
 
-            MenuText.OutputEnterNumOfFunc();
-
-            int selectedNumber = Convert.ToInt32(Console.ReadLine());
-
+            int selectedNumber = NumberInputValidator();
+            
             if (selectedNumber >= 1 && selectedNumber <= 7)
             {
                 string[] fieldNames = { "бренд", "рік", "модель", "колір", "стан автомобіля", "ціна", "кількість дверей" };
@@ -66,7 +64,7 @@ namespace CarDealership.MainFunctions.CarFunctions
             PrintCars.PrintCarsMethod();
 
             Console.Write("\nВведіть id автомобіля: ");
-            int id = int.Parse(Console.ReadLine());
+            int id = IdInputValidator();
 
             bool checkId = CheckIdExists.CheckIdExistsVehicle(allCars, id);
 
@@ -80,6 +78,32 @@ namespace CarDealership.MainFunctions.CarFunctions
             {
                 MenuText.ErrorOutputText("\nВи ввели неіснуючий id автомобіля, спробуйте ще раз");
                 EditInfoAboutCarMethod();
+            }
+        }
+        private static int IdInputValidator()
+        {
+            while (true)
+            {
+                Console.Write("Введіть id автомобіля: ");
+                string input = Console.ReadLine()?.Trim();
+                if (!string.IsNullOrEmpty(input) && int.TryParse(input, out int id))
+                {
+                    return id;
+                }
+                MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. Введіть ціле число.");
+            }
+        }
+        private static int NumberInputValidator()
+        {
+            while (true)
+            {
+                MenuText.OutputEnterNumOfFunc();
+                string input = Console.ReadLine()?.Trim();
+                if (!string.IsNullOrEmpty(input) && int.TryParse(input, out int number))
+                {
+                    return number;
+                }
+                MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. Введіть ціле число.");
             }
         }
     }

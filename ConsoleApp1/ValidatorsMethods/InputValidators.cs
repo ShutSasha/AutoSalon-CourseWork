@@ -1,4 +1,5 @@
 ﻿using CarDealership.Utils;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace CarDealership.ValidatorsMethods
@@ -30,7 +31,7 @@ namespace CarDealership.ValidatorsMethods
                 {
                     if (year >= 1920 && year <= DateTime.Now.Year)
                     {
-                        return year; 
+                        return year;
                     }
                 }
                 MenuText.ErrorOutputText("Неправильний рік випуску. Будь ласка, спробуйте ще раз. Потрібно вводити рік тільке від 1920-нині");
@@ -68,7 +69,7 @@ namespace CarDealership.ValidatorsMethods
             while (true)
             {
                 Console.Write("Введіть колір транспорту (до 20 символів): ");
-                string color = Console.ReadLine()?.Trim();
+                string color = Console.ReadLine()?.Replace(" ", "").Trim();
                 if (!string.IsNullOrEmpty(color) && color.Length <= 20 && color.All(c => char.IsLetter(c)))
                 {
                     return char.ToUpper(color[0]) + color.Substring(1);
@@ -87,9 +88,9 @@ namespace CarDealership.ValidatorsMethods
 
                 if (!string.IsNullOrEmpty(condition)
                     && condition.Length <= 20
-                    && Char.IsUpper(condition[0])
-                    && validConditions.Contains(condition))
+                    && validConditions.Contains(condition, StringComparer.OrdinalIgnoreCase))
                 {
+                    condition = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(condition.ToLower());
                     return condition;
                 }
                 MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. Можна вводити тільке ті стани, які є, а саме: Excellent, Good, Normal, Bad");

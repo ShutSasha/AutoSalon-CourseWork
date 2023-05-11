@@ -89,8 +89,6 @@ namespace CarDealership.ValidatorsMethods
                  AddClient.AddClientToFileMethod,
                  AddMotorcycle.AddMotorcycleToFileMethod,
                  AddTruck.AddTruckToFileMethod,
-                 PrintCars.PrintCarsMethod,
-                 PrintClients.PrintAllClients
             };
 
             Console.WriteLine($"Оберіть, що хочете {prompt}\n" +
@@ -150,11 +148,7 @@ namespace CarDealership.ValidatorsMethods
             printMethods.Add(PrintTruck.PrintAllTrucks);
             printMethods.Add(PrintOrder.PrintOrdersMethod);
 
-            Console.WriteLine(MenuText.ChooseBetweenAllPrints);
-
-            MenuText.OutputEnterNumOfFunc();
-
-            int selectedNumberOfPrints = int.Parse(Console.ReadLine());
+            int selectedNumberOfPrints = PrintInputValidator(printMethods.Count);
 
             if (selectedNumberOfPrints > 0 && selectedNumberOfPrints <= 5)
             {
@@ -167,6 +161,26 @@ namespace CarDealership.ValidatorsMethods
             {
                 MenuText.ErrorOutputText("\nНе вірно введене значення, спробуйте ще раз\n");
                 ChoosePrint();
+            }
+        }
+        private static int PrintInputValidator(int maxNum)
+        {
+            while (true)
+            {
+                Console.WriteLine(MenuText.ChooseBetweenAllPrints);
+                MenuText.OutputEnterNumOfFunc();
+
+                string input = Console.ReadLine()?.Trim();
+
+                if (int.TryParse(input, out int selectedNum))
+                {
+                    if (selectedNum >= 1 && selectedNum <= maxNum)
+                    {
+                        return selectedNum;
+                    }
+                }
+
+                MenuText.ErrorOutputText($"Неправильний ввід. Будь ласка, введіть число від 1 до {maxNum}.");
             }
         }
         private static void PerformSearch()
@@ -188,13 +202,9 @@ namespace CarDealership.ValidatorsMethods
             methods.Add(DeleteClient.DeleteClientMethod);
             methods.Add(DeleteVehicle.DeleteMotorcycle);
             methods.Add(DeleteVehicle.DeleteTruck);
-            Console.Write("Виберіть, що хочете видалити:\n" +
-                "1. Автомобіль.\n" +
-                "2. Клієнта.\n" +
-                "3. Мотоцикл.\n" +
-                "4. Грузовик.");
-            MenuText.OutputEnterNumOfFunc();
-            int selectOfDelete = int.Parse(Console.ReadLine());
+
+            int selectOfDelete = IntegerInputValidator();
+
             if (selectOfDelete == 1)
             {
                 DeleteVehicle.DeleteCar();
@@ -229,6 +239,28 @@ namespace CarDealership.ValidatorsMethods
         {
             Console.WriteLine("Exiting...");
             Environment.Exit(0);
+        }
+        private static int IntegerInputValidator()
+        {
+            int result;
+
+            while (true)
+            {
+                Console.Write("Виберіть, що хочете видалити:\n" +
+                "1. Автомобіль.\n" +
+                "2. Клієнта.\n" +
+                "3. Мотоцикл.\n" +
+                "4. Грузовик.");
+
+                MenuText.OutputEnterNumOfFunc();
+
+                if (int.TryParse(Console.ReadLine(), out result))
+                {
+                    return result;
+                }
+                
+                MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз.");
+            }
         }
     }
 }

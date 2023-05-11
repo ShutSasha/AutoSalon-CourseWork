@@ -1,5 +1,6 @@
 ﻿using CarDealership.Models;
 using CarDealership.Utils;
+using CarDealership.ValidatorsMethods;
 
 namespace CarDealership.MainFunctions
 {
@@ -22,27 +23,24 @@ namespace CarDealership.MainFunctions
             List<Motorcycle> matchingBikes = new List<Motorcycle>();
             List<Truck> matchingTrucks = new List<Truck>();
 
+            string brand = InputValidators.BrandInputValidator();
 
-            Console.Write("Enter the brand: ");
-            string brand = Console.ReadLine();
-            Console.Write("Enter the year from: ");
-            int yearFrom;
-            int.TryParse(Console.ReadLine(), out yearFrom);
-            Console.Write("Enter the year to: ");
-            int yearTo;
-            int.TryParse(Console.ReadLine(), out yearTo);
-            Console.Write("Enter the model: ");
-            string model = Console.ReadLine();
-            Console.Write("Enter the color: ");
-            string color = Console.ReadLine();
-            Console.Write("Enter the condition: ");
-            string condition = Console.ReadLine();
-            Console.Write("Enter the price from: ");
-            int priceFrom;
-            int.TryParse(Console.ReadLine(), out priceFrom);
-            Console.Write("Enter the price to: ");
-            int priceTo;
-            int.TryParse(Console.ReadLine(), out priceTo);
+            int yearFrom = InputValidators.YearInputFromTo("Enter the year from: ", 1920, DateTime.Now.Year);
+
+            int yearTo = InputValidators.YearInputFromTo("Enter the year To: ", 1920, DateTime.Now.Year);
+            if (yearFrom > yearTo) (yearFrom, yearTo) = (yearTo, yearFrom);
+
+            string model = InputValidators.ModelInputValidator();
+
+            string color = InputValidators.ColorInputValidator();
+
+            string condition = InputValidators.ConditionInputValidator();
+
+            int priceFrom = InputValidators.PriceInputFromTo("Enter the price from: ", 0, 3000000);
+
+            int priceTo = InputValidators.PriceInputFromTo("Enter the price to: ", 1, 3000000);
+            if (priceFrom > priceTo) (priceFrom, priceTo) = (priceTo, priceFrom);
+           
 
             foreach (string line in linesOfCars)
             {
