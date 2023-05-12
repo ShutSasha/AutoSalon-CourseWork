@@ -12,9 +12,14 @@ namespace CarDealership.ValidatorsMethods
             {
                 Console.Write("Введіть бренд транспорту(до 20 символів): ");
                 string brand = Console.ReadLine()?.Trim();
-                if (!string.IsNullOrEmpty(brand) && brand.Length <= 20 && brand.All(c => Char.IsLetter(c)))
+                string tempBrand = brand.Replace(" ", "");
+                if (!string.IsNullOrEmpty(brand) && brand.Length <= 20 && tempBrand.All(c => Char.IsLetter(c)))
                 {
-                    brand = char.ToUpper(brand[0]) + brand.Substring(1); // першу букву перетворюємо на велику
+                    brand = Regex.Replace(brand, @"\s+", " ");
+
+                    TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+                    brand = textInfo.ToTitleCase(brand.ToLower());
+
                     return brand;
                 }
                 MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. Тільки букви та до 20 символів.");
@@ -69,9 +74,11 @@ namespace CarDealership.ValidatorsMethods
             while (true)
             {
                 Console.Write("Введіть колір транспорту (до 20 символів): ");
-                string color = Console.ReadLine()?.Replace(" ", "").Trim();
-                if (!string.IsNullOrEmpty(color) && color.Length <= 20 && color.All(c => char.IsLetter(c)))
+                string color = Console.ReadLine()?.Trim();
+                string tempColor = color.Replace(" ", "");
+                if (!string.IsNullOrEmpty(color) && color.Length <= 20 && tempColor.All(c => char.IsLetter(c)))
                 {
+                    color = Regex.Replace(color, @"\s+", " ");
                     return char.ToUpper(color[0]) + color.Substring(1);
                 }
                 MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. До 20 символів та тільки букви");
@@ -189,14 +196,21 @@ namespace CarDealership.ValidatorsMethods
             while (true)
             {
                 Console.Write("Введіть ПІБ клієнта: ");
-                string fullName = Console.ReadLine()?.Replace(" ", "").Trim();
-                if (!string.IsNullOrEmpty(fullName) && fullName.Length <= 60 && fullName.All(c => char.IsLetter(c)))
+                string fullName = Console.ReadLine()?.Trim();
+                string tempFullName = fullName.Replace(" ", "");
+                if (!string.IsNullOrEmpty(fullName) && fullName.Length <= 60 && tempFullName.All(c => char.IsLetter(c)))
                 {
+                    fullName = Regex.Replace(fullName, @"\s+", " ");
+
+                    TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+                    fullName = textInfo.ToTitleCase(fullName.ToLower());
+
                     return fullName;
                 }
                 MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. До 60 символів та тільки букви");
             }
         }
+
         public static string EmailInputValidator()
         {
             string email;

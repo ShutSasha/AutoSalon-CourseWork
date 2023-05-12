@@ -72,8 +72,14 @@ namespace CarDealership.MainFunctions.TruckFunctions
             List<Truck> allTrucks = new List<Truck>();
             PrintTruck.PrintAllTrucks();
 
+          
+            int id;
             Console.Write("\nВведіть id грузовика: ");
-            int id = int.Parse(Console.ReadLine());
+            while (!int.TryParse(Console.ReadLine(), out id))
+            {
+                MenuText.ErrorOutputText("\nНеправильний ввід. Будь ласка, спробуйте ще раз. Введіть ціле число.");
+                Console.Write("\nВведіть id грузовика: ");
+            }
 
             foreach (string line in linesTrucks)
             {

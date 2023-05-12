@@ -1,4 +1,5 @@
 ﻿using CarDealership.Models;
+using CarDealership.Utils;
 using CarDealership.ValidatorsMethods;
 
 namespace CarDealership.MainFunctions.MotorcycleFunctions
@@ -68,8 +69,13 @@ namespace CarDealership.MainFunctions.MotorcycleFunctions
             List<Motorcycle> allMotorcycle = new List<Motorcycle>();
             PrintMotorcycle.PrintAllMotorcycles();
 
+            int id;
             Console.Write("\nВведіть id мотоцикла: ");
-            int id = int.Parse(Console.ReadLine());
+            while (!int.TryParse(Console.ReadLine(), out id))
+            {
+                MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, введіть ціле число.");
+                Console.Write("Введіть id мотоцикла: ");
+            }
 
             foreach (string line in linesMotorcycles)
             {
