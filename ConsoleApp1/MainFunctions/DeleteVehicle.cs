@@ -36,6 +36,12 @@ namespace CarDealership.MainFunctions
         }
         private static void DeleteVehicleMethod(AccessFile AccessFilePath, string vehicleType)
         {
+            if (!(AccessFilePath.Lines.Length > 0))
+            {
+                MenuText.ErrorOutputText($"\n{vehicleType} не знайдено в автосалоні.");
+                StartTheProgram startProgmra = new();
+                startProgmra.Start();
+            }
             switch (vehicleType)
             {
                 case "car":
@@ -132,6 +138,12 @@ namespace CarDealership.MainFunctions
 
         private static void DeleteForPurchasedVehicle(AccessFile AccessFilePath, string vehicleType)
         {
+            if (!(AccessFilePath.Lines.Length > 0))
+            {
+                MenuText.ErrorOutputText($"\n{vehicleType} не знайдено в автосалоні.");
+                StartTheProgram startProgmra = new();
+                startProgmra.Start();
+            }
             var numElements = 0;
             switch (vehicleType)
             {

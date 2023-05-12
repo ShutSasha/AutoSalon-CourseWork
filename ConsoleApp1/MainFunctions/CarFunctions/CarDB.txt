@@ -1,3 +1,2 @@
 1,Audi,1990,a3,Whiteblack,Good,2000,4
 2,Audi,1999,a7,White black,Excellent,15125,4
-3,Alfa Romeo,1999,a3,White,Good,19990,4

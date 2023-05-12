@@ -10,12 +10,17 @@ namespace CarDealership.ValidatorsMethods
         {
             while (true)
             {
-                Console.Write("Введіть бренд транспорту(до 20 символів): ");
+                Console.Write("Введіть бренд транспорту (до 20 символів): ");
                 string brand = Console.ReadLine()?.Trim();
                 string tempBrand = brand.Replace(" ", "");
                 if (!string.IsNullOrEmpty(brand) && brand.Length <= 20 && tempBrand.All(c => Char.IsLetter(c)))
                 {
                     brand = Regex.Replace(brand, @"\s+", " ");
+
+                    if (brand == brand.ToUpper())
+                    {
+                        return brand;
+                    }
 
                     TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
                     brand = textInfo.ToTitleCase(brand.ToLower());

@@ -212,7 +212,7 @@ namespace CarDealership.MainFunctions.OrderF
             string[] linesOrder = TextFileReader.GetLinesFromFile("OrderDB.txt", "..\\..\\..\\MainFunctions\\OrderF", idSoldOut - 1, 1);
             string[] linesVehicle = TextFileReader.GetLinesFromFile("SelectedVehicleDB.txt", "..\\..\\..\\MainFunctions\\OrderF", idSoldOut - 1, 1);
             string[] linesProvider = TextFileReader.GetLinesFromFile("ProviderDB.txt", "..\\..\\..\\MainFunctions\\OrderF", idSoldOut - 1, 1);
-            string[] linesCarrier = TextFileReader.GetLinesFromFile("ProviderDB.txt", "..\\..\\..\\MainFunctions\\OrderF", idSoldOut - 1, 1);
+            string[] linesCarrier = TextFileReader.GetLinesFromFile("CarrierDB.txt", "..\\..\\..\\MainFunctions\\OrderF", idSoldOut - 1, 1);
 
             string orderStr = $"{linesOrder[0].Split(',')[1]},{linesOrder[0].Split(',')[2]},{linesOrder[0].Split(',')[3]}";
             string vehicleStr = $"{linesVehicle[0].Split(',')[1]},{linesVehicle[0].Split(',')[2]},{linesVehicle[0].Split(',')[3]},{linesVehicle[0].Split(',')[6]}";
