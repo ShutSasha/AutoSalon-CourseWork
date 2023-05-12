@@ -1,0 +1,3 @@
+1,Yamaha,2008,YZF R1,Red and Black,Normal,12500,Sport
+2,BMW,2021,G 310GS,Black,Good,7023,Cruiser
+3,Moto Leader,2023,ML,Black,Good,2200,Sport

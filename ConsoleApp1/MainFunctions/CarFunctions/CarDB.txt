@@ -1,2 +1,3 @@
-1,Audi,1990,a3,Whiteblack,Good,2000,4
-2,Audi,1999,a7,White black,Excellent,15125,4
+1,Alfa Romeo,2021,Giulia AT,White,Excellent,37500,4
+2,Volga,1967,GAZ-21,White,Excellent,22105,4
+3,Pobeda,1956,GAZ M20,Gray,Good,15158,4

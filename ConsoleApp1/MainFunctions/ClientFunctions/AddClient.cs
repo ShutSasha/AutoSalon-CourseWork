@@ -1,5 +1,6 @@
 ﻿using CarDealership.Utils;
 using CarDealership.ValidatorsMethods;
+using System.Text;
 
 namespace CarDealership.MainFunctions.ClientFunctions
 {
@@ -30,7 +31,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
             string[] lines = accessFile.Lines;
             int id = lines.Length > 0 ? int.Parse(lines[lines.Length - 1].Split(',')[0]) + 1 : 1;
 
-            using (StreamWriter writer = new StreamWriter(accessFile.FilePath, true))
+            using (StreamWriter writer = new StreamWriter(accessFile.FilePath, true, Encoding.GetEncoding("UTF-8")))
             {
                 writer.WriteLine($"{id},{username},{phone},{email},{PreferredBrand},{priceFrom},{priceTo},{yearFrom},{yearTo}");
             }

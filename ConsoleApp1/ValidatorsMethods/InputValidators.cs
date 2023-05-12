@@ -1,5 +1,6 @@
 ﻿using CarDealership.Utils;
 using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace CarDealership.ValidatorsMethods
@@ -200,9 +201,12 @@ namespace CarDealership.ValidatorsMethods
         {
             while (true)
             {
+                //Console.OutputEncoding = Encoding.Unicode;
+                //Console.InputEncoding = Encoding.Unicode;
                 Console.Write("Введіть ПІБ клієнта: ");
                 string fullName = Console.ReadLine()?.Trim();
                 string tempFullName = fullName.Replace(" ", "");
+
                 if (!string.IsNullOrEmpty(fullName) && fullName.Length <= 60 && tempFullName.All(c => char.IsLetter(c)))
                 {
                     fullName = Regex.Replace(fullName, @"\s+", " ");
