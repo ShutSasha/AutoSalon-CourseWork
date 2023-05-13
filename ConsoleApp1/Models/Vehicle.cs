@@ -20,9 +20,5 @@
             Condition = condition;
             Price = price;
         }
-
-        public Vehicle()
-        {
-        }
     }
 }

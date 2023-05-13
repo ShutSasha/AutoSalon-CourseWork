@@ -1,4 +1,6 @@
-﻿using CarDealership.Utils;
+﻿using CarDealership.MainFunctions;
+using CarDealership.Utils;
+using System.Drawing;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -7,14 +9,14 @@ namespace CarDealership.ValidatorsMethods
 {
     public class InputValidators
     {
-        public static string BrandInputValidator()
+        public static string BrandInputValidator(bool isSearch = false)
         {
             while (true)
             {
                 Console.Write("Введіть бренд транспорту (до 20 символів): ");
                 string brand = Console.ReadLine()?.Trim();
                 string tempBrand = brand.Replace(" ", "");
-                if (!string.IsNullOrEmpty(brand) && brand.Length <= 20 && tempBrand.All(c => Char.IsLetter(c)))
+                if ((!string.IsNullOrEmpty(brand) || isSearch) && brand.Length <= 20 && tempBrand.All(c => Char.IsLetter(c)))
                 {
                     brand = Regex.Replace(brand, @"\s+", " ");
 
@@ -49,48 +51,61 @@ namespace CarDealership.ValidatorsMethods
             }
         }
 
-        public static int YearInputFromTo(string prompt, int minYear, int maxYear)
+        public static int YearInputFromTo(string prompt, int minYear, int maxYear, bool isSearch = false)
         {
             while (true)
             {
                 Console.Write(prompt);
-                if (int.TryParse(Console.ReadLine(), out int year) && year >= minYear && year <= maxYear)
+                string input = Console.ReadLine()?.Trim();
+
+                if (isSearch && string.IsNullOrEmpty(input))
+                {
+                    return -1;
+                }
+
+                if (int.TryParse(input, out int year) && year >= minYear && year <= maxYear)
                 {
                     return year;
                 }
+
                 MenuText.ErrorOutputText($"Неправильний рік випуску. Будь ласка, спробуйте ще раз. Потрібно вводити рік тільки від {minYear} до {maxYear}");
             }
         }
 
-        public static string ModelInputValidator()
+        public static string ModelInputValidator(bool isSearch = false)
         {
             while (true)
             {
                 Console.Write("Введіть модель транспорту(A3): ");
                 string model = Console.ReadLine()?.Trim();
-                if (!string.IsNullOrEmpty(model) && model.Length <= 20)
+                if ((!string.IsNullOrEmpty(model) || isSearch) && model.Length <= 20)
                 {
                     return model;
                 }
                 MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. Тільки до 20 символів");
             }
         }
-        public static string ColorInputValidator()
+        public static string ColorInputValidator(bool isSearch = false)
         {
             while (true)
             {
                 Console.Write("Введіть колір транспорту (до 20 символів): ");
                 string color = Console.ReadLine()?.Trim();
                 string tempColor = color.Replace(" ", "");
+                if (isSearch && string.IsNullOrEmpty(color))
+                {
+                    return "";
+                }
                 if (!string.IsNullOrEmpty(color) && color.Length <= 20 && tempColor.All(c => char.IsLetter(c)))
                 {
+                    
                     color = Regex.Replace(color, @"\s+", " ");
                     return char.ToUpper(color[0]) + color.Substring(1);
                 }
                 MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. До 20 символів та тільки букви");
             }
         }
-        public static string ConditionInputValidator()
+        public static string ConditionInputValidator(bool isSearch = false)
         {
             string[] validConditions = { "Excellent", "Good", "Normal", "Bad" };
 
@@ -98,10 +113,11 @@ namespace CarDealership.ValidatorsMethods
             {
                 Console.Write("Введіть стан транспорту (Excellent, Good, Normal, Bad): ");
                 string condition = Console.ReadLine()?.Trim();
-
-                if (!string.IsNullOrEmpty(condition)
-                    && condition.Length <= 20
-                    && validConditions.Contains(condition, StringComparer.OrdinalIgnoreCase))
+                if (isSearch && string.IsNullOrEmpty(condition))
+                {
+                    return "";
+                }
+                if (!string.IsNullOrEmpty(condition) && condition.Length <= 20 && validConditions.Contains(condition, StringComparer.OrdinalIgnoreCase))
                 {
                     condition = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(condition.ToLower());
                     return condition;
@@ -124,12 +140,16 @@ namespace CarDealership.ValidatorsMethods
         }
 
 
-        public static int PriceInputFromTo(string prompt, int minValue, int maxValue)
+        public static int PriceInputFromTo(string prompt, int minValue, int maxValue, bool isSearch = false)
         {
             while (true)
             {
-                Console.Write(prompt);
-                if (int.TryParse(Console.ReadLine(), out int price) && price >= minValue && price <= maxValue)
+                Console.WriteLine(prompt);
+                if (isSearch)
+                {
+                    return 0;
+                }
+                if ((int.TryParse(Console.ReadLine(), out int price) || isSearch) && price >= minValue && price <= maxValue)
                 {
                     return price;
                 }

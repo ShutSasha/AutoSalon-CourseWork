@@ -23,22 +23,22 @@ namespace CarDealership.MainFunctions
             List<Motorcycle> matchingBikes = new List<Motorcycle>();
             List<Truck> matchingTrucks = new List<Truck>();
 
-            string brand = InputValidators.BrandInputValidator();
+            string brand = InputValidators.BrandInputValidator(true);
 
-            int yearFrom = InputValidators.YearInputFromTo("Enter the year from: ", 1920, DateTime.Now.Year);
+            int yearFrom = InputValidators.YearInputFromTo("Enter the year from: ", 1920, DateTime.Now.Year, true);
 
-            int yearTo = InputValidators.YearInputFromTo("Enter the year To: ", 1920, DateTime.Now.Year);
+            int yearTo = InputValidators.YearInputFromTo("Enter the year To: ", 1920, DateTime.Now.Year, true);
             if (yearFrom > yearTo) (yearFrom, yearTo) = (yearTo, yearFrom);
 
-            string model = InputValidators.ModelInputValidator();
+            string model = InputValidators.ModelInputValidator(true);
 
-            string color = InputValidators.ColorInputValidator();
+            string color = InputValidators.ColorInputValidator(true);
 
-            string condition = InputValidators.ConditionInputValidator();
+            string condition = InputValidators.ConditionInputValidator(true);
 
-            int priceFrom = InputValidators.PriceInputFromTo("Enter the price from: ", 0, 3000000);
+            int priceFrom = InputValidators.PriceInputFromTo("Enter the price from: ", 0, 3000000, true);
 
-            int priceTo = InputValidators.PriceInputFromTo("Enter the price to: ", 1, 3000000);
+            int priceTo = InputValidators.PriceInputFromTo("Enter the price to: ", 1, 3000000, true);
             if (priceFrom > priceTo) (priceFrom, priceTo) = (priceTo, priceFrom);
            
 
@@ -88,8 +88,8 @@ namespace CarDealership.MainFunctions
             {
                 bool check = false;
                 if ((brand == "" || vehicle.Brand.ToLower() == brand.ToLower())
-                 && (yearFrom == 0 || vehicle.Year >= yearFrom)
-                 && (yearTo == 0 || vehicle.Year <= yearTo)
+                 && (yearFrom == 0 || yearFrom == -1 || vehicle.Year >= yearFrom)
+                 && (yearTo == 0 || yearTo == -1 || vehicle.Year <= yearTo)
                  && (model == "" || vehicle.Model == model)
                  && (color == "" || vehicle.Color == color)
                  && (condition == "" || vehicle.Condition == condition)

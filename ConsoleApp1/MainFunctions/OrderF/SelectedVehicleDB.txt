@@ -1,1 +1,2 @@
-﻿
+﻿1,Alfa Romeo,2021,Giulia ATR,White,Excellent,57500
+2,Tesla,2023,q92,Black,Good,37000,4

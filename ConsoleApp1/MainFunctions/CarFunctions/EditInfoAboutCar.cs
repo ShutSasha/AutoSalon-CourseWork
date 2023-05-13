@@ -50,7 +50,7 @@ namespace CarDealership.MainFunctions.CarFunctions
             }
             else
             {
-                MenuText.SuccessOutput("Ви ввели неіснуючу функцію, спробуйте ще раз");
+                MenuText.ErrorOutputText("Ви ввели неіснуючу функцію, спробуйте ще раз");
                 SelectChanges(lines, id, filePath);
             }
         }
