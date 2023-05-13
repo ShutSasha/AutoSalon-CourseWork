@@ -7,8 +7,8 @@ namespace CarDealership.MainFunctions.ClientFunctions
     {
         public static void DeleteClientMethod()
         {
-           
-            PrintClients.PrintAllClients();
+            AutoSalon salon = new();
+            salon.PrintClients();
 
             Console.Write("\nВведіть id клієнта, якого хочете видалити: ");
             int idToDelete = Convert.ToInt32(Console.ReadLine());

@@ -12,7 +12,7 @@
             Lines = File.ReadAllLines(filePath);
             FilePath = filePath;
         }
-
+        
         public static AccessFile GetAccessToFile(string fileName, string directoryPath)
         {
             return new AccessFile(fileName, directoryPath);

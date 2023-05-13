@@ -6,8 +6,16 @@ namespace CarDealership
 {
     public class StartTheProgram
     {
+        private AutoSalon salon;
+
+        public StartTheProgram(AutoSalon salon)
+        {
+            this.salon = salon;
+        }
+        
         public void Start()
         {
+        
             bool checkLoop = true;
 
             do
@@ -24,9 +32,9 @@ namespace CarDealership
                 }
                 Console.WriteLine();
 
-                Validators.ValidatorInputValue(selectedNumber, Validators.FindMaxNumberInString(MenuText.chooseOneFunction));
+                Validators.ValidatorInputValue(selectedNumber, Validators.FindMaxNumberInString(MenuText.chooseOneFunction), salon);
 
-                Validators.CheckSelectedFunction(selectedNumber);
+                Validators.CheckSelectedFunction(selectedNumber, salon);
 
             } while (checkLoop);
         }

@@ -40,7 +40,8 @@ namespace CarDealership.MainFunctions.ClientFunctions
             Console.OutputEncoding = Encoding.UTF8;
 
             var allClients = ClientImporter.ImportClientsFromFile(linesClients);
-            PrintClients.PrintAllClients();
+            AutoSalon salon = new();
+            salon.PrintClients();
 
             Console.Write("\nВведіть id клієнта: ");
             int id = int.Parse(Console.ReadLine());

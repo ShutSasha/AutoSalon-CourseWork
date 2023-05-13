@@ -37,56 +37,56 @@ namespace CarDealership.ValidatorsMethods
             return numbers.Max();
         }
 
-        public static void ValidatorInputValue(int inputNumber, int maxNumberInInput)
+        public static void ValidatorInputValue(int inputNumber, int maxNumberInInput, AutoSalon salon)
         {
 
             if (inputNumber > maxNumberInInput || inputNumber < 1 && inputNumber != -1)
             {
                 MenuText.ErrorOutputText("Введене значення не валідне, спробуйте ще раз");
 
-                var StartTheProgram = new StartTheProgram();
+                var StartTheProgram = new StartTheProgram(salon);
 
                 StartTheProgram.Start();
             }
         }
 
-        public static void CheckSelectedFunction(int selectedNumber)
+        public static void CheckSelectedFunction(int selectedNumber, AutoSalon salon)
         {
             switch (selectedNumber)
             {
                 case 1:
                 case 2:
-                    AddOrEditVehicle(selectedNumber);
+                    AddOrEditVehicle(selectedNumber, salon);
                     break;
                 case 3:
-                    AutomationOfSelectionForClient.AutomationSearch();
+                    AutomationOfSelectionForClient.AutomationSearch(salon);
                     break;
                 case 4:
-                    ChoosePrint();
+                    ChoosePrint(salon);
                     break;
                 case 5:
-                    PerformSearch();
+                    PerformSearch(salon);
                     break;
                 case 6:
-                    PerformDelete();
+                    PerformDelete(salon);
                     break;
                 case 7:
-                    MakeAnOrder();
+                    MakeAnOrder(salon);
                     break;
                 case -1:
-                    ExitTheProgram();
+                    ExitTheProgram(salon);
                     break;
                 default:
                     break;
             }
         }
-        private static void AddOrEditVehicle(int selectedNumber)
+        private static void AddOrEditVehicle(int selectedNumber, AutoSalon salon)
         {
             string prompt = selectedNumber == 1 ? "додати" : "редагувати";
             var methods = new List<MethodDelegate>
             {
                  AddCar.AddCarToFileMethod,
-                 AddClient.AddClientToFileMethod,
+                 () => AddClient.AddClientToListMethod(salon),
                  AddMotorcycle.AddMotorcycleToFileMethod,
                  AddTruck.AddTruckToFileMethod,
             };
@@ -102,7 +102,7 @@ namespace CarDealership.ValidatorsMethods
             if (!int.TryParse(Console.ReadLine(), out int selectedAction))
             {
                 Console.WriteLine("Не вірно введене значення, спробуйте ще раз");
-                AddOrEditVehicle(selectedNumber);
+                AddOrEditVehicle(selectedNumber, salon);
                 return;
             }
 
@@ -114,7 +114,7 @@ namespace CarDealership.ValidatorsMethods
                     methodsToExecute.Add(selectedNumber == 1 ? AddCar.AddCarToFileMethod : EditInfoAboutCar.EditInfoAboutCarMethod);
                     break;
                 case 2:
-                    methodsToExecute.Add(selectedNumber == 1 ? AddClient.AddClientToFileMethod : EditClientInfo.EditInfoAboutClientMethod);
+                    methodsToExecute.Add(selectedNumber == 1 ? () => AddClient.AddClientToListMethod(salon) : EditClientInfo.EditInfoAboutClientMethod);
                     break;
                 case 3:
                     methodsToExecute.Add(selectedNumber == 1 ? AddMotorcycle.AddMotorcycleToFileMethod : EditMotorcycleInfo.EditInfoAboutMotorcycleMethod);
@@ -124,11 +124,11 @@ namespace CarDealership.ValidatorsMethods
                     break;
                 default:
                     MenuText.ErrorOutputText("\nНе вірно введене значення, спробуйте ще раз\n");
-                    AddOrEditVehicle(selectedNumber);
+                    AddOrEditVehicle(selectedNumber, salon);
                     return;
             }
 
-            methodsToExecute.Add(() => ExitOrContinueShorter(selectedNumber == 1 ? MenuText.textForAdding : MenuText.textForEditing, methods));
+            methodsToExecute.Add(() => ExitOrContinueShorter(salon, selectedNumber == 1 ? MenuText.textForAdding : MenuText.textForEditing, methods));
             ExecuteMethods(methodsToExecute);
         }
 
@@ -139,13 +139,13 @@ namespace CarDealership.ValidatorsMethods
                 method();
             }
         }
-        private static void ChoosePrint()
+        private static void ChoosePrint(AutoSalon salon)
         {
             var printMethods = new List<MethodDelegate>();
-            printMethods.Add(PrintCars.PrintCarsMethod);
-            printMethods.Add(PrintClients.PrintAllClients);
-            printMethods.Add(PrintMotorcycle.PrintAllMotorcycles);
-            printMethods.Add(PrintTruck.PrintAllTrucks);
+            printMethods.Add(salon.PrintCars);
+            printMethods.Add(salon.PrintClients);
+            printMethods.Add(salon.PrintMotorcycle);
+            printMethods.Add(salon.PrintTruck);
             printMethods.Add(PrintOrder.PrintOrdersMethod);
 
             int selectedNumberOfPrints = PrintInputValidator(printMethods.Count);
@@ -154,13 +154,13 @@ namespace CarDealership.ValidatorsMethods
             {
                 printMethods[selectedNumberOfPrints - 1]();
                 var continuePrint = new List<MethodDelegate>();
-                continuePrint.Add(ChoosePrint);
-                ExitOrContinueShorter("\n3. Повторити пошук", continuePrint);
+                continuePrint.Add(() => ChoosePrint(salon));
+                ExitOrContinueShorter(salon, "\n3. Повторити пошук", continuePrint);
             }
             else
             {
                 MenuText.ErrorOutputText("\nНе вірно введене значення, спробуйте ще раз\n");
-                ChoosePrint();
+                ChoosePrint(salon);
             }
         }
         private static int PrintInputValidator(int maxNum)
@@ -183,61 +183,65 @@ namespace CarDealership.ValidatorsMethods
                 MenuText.ErrorOutputText($"Неправильний ввід. Будь ласка, введіть число від 1 до {maxNum}.");
             }
         }
-        private static void PerformSearch()
+        private static void PerformSearch(AutoSalon salon)
         {
             Search.SearchMethod();
             List<MethodDelegate> methods = new List<MethodDelegate>();
             methods.Add(Search.SearchMethod);
-            ExitOrContinueShorter("\n3. Зробити знову пошук.", methods);
+            ExitOrContinueShorter(salon, "\n3. Зробити знову пошук.", methods);
         }
-        private static void PerformDelete()
+        private static void PerformDelete(AutoSalon salon)
         {
             string textForDelete = "\n3. Видалити ще один автомобіль.\n" +
-                    "4. Видалити ще одного клієнта\n" +
-                    "5. Видалити ще один мотоцикл\n" +
-                    "6. Видалити ще один грузовик";
+                                    "4. Видалити ще одного клієнта\n" +
+                                    "5. Видалити ще один мотоцикл\n" +
+                                    "6. Видалити ще один грузовик";
 
             List<MethodDelegate> methods = new List<MethodDelegate>();
-            methods.Add(DeleteVehicle.DeleteCar);
+            methods.Add(() => DeleteVehicle.DeleteCar(salon));
             methods.Add(DeleteClient.DeleteClientMethod);
-            methods.Add(DeleteVehicle.DeleteMotorcycle);
-            methods.Add(DeleteVehicle.DeleteTruck);
+            methods.Add(() => DeleteVehicle.DeleteMotorcycle(salon));
+            methods.Add(() => DeleteVehicle.DeleteTruck(salon));
 
             int selectOfDelete = IntegerInputValidator();
 
             if (selectOfDelete == 1)
             {
-                DeleteVehicle.DeleteCar();
-                ExitOrContinueShorter(textForDelete, methods);
+                DeleteVehicle.DeleteCar(salon);
+                ExitOrContinueShorter(salon, textForDelete, methods);
             }
             else if (selectOfDelete == 2)
             {
                 DeleteClient.DeleteClientMethod();
-                ExitOrContinueShorter(textForDelete, methods);
+                ExitOrContinueShorter(salon, textForDelete, methods);
             }
             else if (selectOfDelete == 3)
             {
-                DeleteVehicle.DeleteMotorcycle();
-                ExitOrContinueShorter(textForDelete, methods);
+                DeleteVehicle.DeleteMotorcycle(salon);
+                ExitOrContinueShorter(salon, textForDelete, methods);
             }
             else if (selectOfDelete == 4)
             {
-                DeleteVehicle.DeleteTruck();
-                ExitOrContinueShorter(textForDelete, methods);
+                DeleteVehicle.DeleteTruck(salon);
+                ExitOrContinueShorter(salon, textForDelete, methods);
             }
             else
             {
                 MenuText.ErrorOutputText("\nЗначення введено невірно, спробуйте ще раз.\n");
-                PerformDelete();
+                PerformDelete(salon);
             }
         }
-        private static void MakeAnOrder()
+        private static void MakeAnOrder(AutoSalon salon)
         {
-            Order.CreateOrder();
+            Order.CreateOrder(salon);
         }
-        private static void ExitTheProgram()
+        private static void ExitTheProgram(AutoSalon salon)
         {
-            Console.WriteLine("Exiting...");
+            
+            Console.WriteLine("Saving data... Exiting...");
+            Thread.Sleep(1000);
+            AutoSalon.SaveData(salon);
+            
             Environment.Exit(0);
         }
         private static int IntegerInputValidator()

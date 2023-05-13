@@ -61,7 +61,8 @@ namespace CarDealership.MainFunctions.CarFunctions
             string[] lines = accessFile.Lines;
 
             var allCars = CarImporter.ImportCarsFromFile(lines);
-            PrintCars.PrintCarsMethod();
+            AutoSalon salon = new();
+            salon.PrintCars();
 
             Console.Write("\nВведіть id автомобіля: ");
             int id = IdInputValidator();

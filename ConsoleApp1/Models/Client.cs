@@ -25,10 +25,5 @@
             MaxYear = maxYear;
 
         }
-        public Client()
-        {
-
-        }
     }
-
 }

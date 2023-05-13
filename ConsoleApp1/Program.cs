@@ -9,9 +9,19 @@ namespace CarDealership
             Console.OutputEncoding = Encoding.UTF8;
             Console.InputEncoding = Encoding.Unicode;
 
-            var StartTheProgram =  new StartTheProgram();
+            var Salon = new AutoSalon();
 
-            StartTheProgram.Start(); 
+            var StartTheProgram = new StartTheProgram(Salon);
+            Salon.LoadData();
+            StartTheProgram.Start();
+
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler(ConsoleExit);
+
+            void ConsoleExit(object sender, EventArgs e)
+            {
+                AutoSalon.SaveData(Salon);
+            }
+
         }
     }
 }

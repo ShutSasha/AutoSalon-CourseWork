@@ -144,7 +144,7 @@ namespace CarDealership.ValidatorsMethods
         {
             while (true)
             {
-                Console.WriteLine(prompt);
+                Console.Write(prompt);
                 if (isSearch)
                 {
                     return 0;

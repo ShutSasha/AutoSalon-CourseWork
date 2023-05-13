@@ -15,11 +15,11 @@ namespace CarDealership.MainFunctions.OrderF
         private static string[] linesOfClients = (string[])accessFileOfClients.Lines.Clone();
         static int TotalPrice = 0;
 
-        public static void CreateOrder()
+        public static void CreateOrder(AutoSalon salon)
         {
-            PrintClients.PrintAllClients();
+            salon.PrintClients();
             ChooseClientForOrder();
-            ChooseTransportForClient();
+            ChooseTransportForClient(salon);
             ChooseProviderForClient();
             ChooseCarrierForClient();
             WriteToFile();
@@ -59,7 +59,7 @@ namespace CarDealership.MainFunctions.OrderF
 
             MenuText.SuccessOutput($"Клієнт успішно обрайний.");
         }
-        private static void ChooseTransportForClient()
+        private static void ChooseTransportForClient(AutoSalon salon)
         {
             Console.Write(MenuText.ChoosePrintForVehicle);
 
@@ -79,21 +79,21 @@ namespace CarDealership.MainFunctions.OrderF
 
             if (selectOfDelete == 1)
             {
-                DeleteVehicle.DeleteCarForPurchased();
+                DeleteVehicle.DeleteCarForPurchased(salon);
             }
             else if (selectOfDelete == 2)
             {
-                DeleteVehicle.DeleteMotorcycleForPurchased();
+                DeleteVehicle.DeleteMotorcycleForPurchased(salon);
             }
             else if (selectOfDelete == 3)
             {
-                DeleteVehicle.DeleteTruckForPurchased();
+                DeleteVehicle.DeleteTruckForPurchased(salon);
             }
 
             else
             {
                 Console.WriteLine("Значення введено невірно, спробуйте ще раз.");
-                ChooseTransportForClient();
+                ChooseTransportForClient(salon);
             }
         }
 

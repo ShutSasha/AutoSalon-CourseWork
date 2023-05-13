@@ -70,7 +70,8 @@ namespace CarDealership.MainFunctions.TruckFunctions
             string[] linesTrucks = accessFileOfTrucks.Lines;
 
             List<Truck> allTrucks = new List<Truck>();
-            PrintTruck.PrintAllTrucks();
+            AutoSalon salon = new();
+            salon.PrintTruck();
 
           
             int id;

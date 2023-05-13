@@ -6,7 +6,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
 {
     public class AutomationOfSelectionForClient
     {
-        public static void AutomationSearch()
+        public static void AutomationSearch(AutoSalon salon)
         {
             List<Client> allClients = new List<Client>();
 
@@ -33,7 +33,7 @@ namespace CarDealership.MainFunctions.ClientFunctions
                 allClients.Add(newClient);
             }
 
-            PrintClients.PrintAllClients();
+            salon.PrintClients();
 
             int id = ValidateIdInput(linesClients);
 
@@ -153,8 +153,8 @@ namespace CarDealership.MainFunctions.ClientFunctions
                 return check;
             }
             var methodsForExit = new List<MethodDelegate>();
-            methodsForExit.Add(AutomationSearch);
-            ExitOrContinueShorter("\n3. Продовжити автоматичний пошук.",methodsForExit);
+            methodsForExit.Add(() => AutomationSearch(salon));
+            ExitOrContinueShorter(salon, "\n3. Продовжити автоматичний пошук.",methodsForExit);
         }
         private static int ValidateIdInput(string[] lines)
         {

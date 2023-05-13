@@ -1,12 +1,10 @@
-﻿using CarDealership.MainFunctions.CarFunctions;
-using CarDealership.MainFunctions.MotorcycleFunctions;
-using CarDealership.MainFunctions.TruckFunctions;
-using CarDealership.Utils;
+﻿using CarDealership.Utils;
 
 namespace CarDealership.MainFunctions
 {
     public class DeleteVehicle
     {
+     
         private static void deleteAndWriteChangesToFile(string[] lines, int indexToDelete, string filePath)
         {
             List<string> newLines = lines.ToList();
@@ -34,24 +32,26 @@ namespace CarDealership.MainFunctions
                 }
             }
         }
-        private static void DeleteVehicleMethod(AccessFile AccessFilePath, string vehicleType)
+       
+        private static void DeleteVehicleMethod(AccessFile AccessFilePath, string vehicleType, AutoSalon salon)
         {
             if (!(AccessFilePath.Lines.Length > 0))
             {
                 MenuText.ErrorOutputText($"\n{vehicleType} не знайдено в автосалоні.");
-                StartTheProgram startProgmra = new();
+                StartTheProgram startProgmra = new(salon);
                 startProgmra.Start();
             }
+
             switch (vehicleType)
             {
                 case "car":
-                    PrintCars.PrintCarsMethod();
+                    salon.PrintCars();
                     break;
                 case "motorcycle":
-                    PrintMotorcycle.PrintAllMotorcycles();
+                    salon.PrintMotorcycle();
                     break;
                 case "truck":
-                    PrintTruck.PrintAllTrucks();
+                    salon.PrintTruck();
                     break;
             }
 
@@ -85,22 +85,22 @@ namespace CarDealership.MainFunctions
             }
         }
 
-        public static void DeleteCar()
+        public static void DeleteCar(AutoSalon salon)
         {
             AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
-            DeleteVehicleMethod(accessFile, "car");
+            DeleteVehicleMethod(accessFile, "car", salon);
         }
 
-        public static void DeleteMotorcycle()
+        public static void DeleteMotorcycle(AutoSalon salon)
         {
             AccessFile accessFile = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
-            DeleteVehicleMethod(accessFile, "motorcycle");
+            DeleteVehicleMethod(accessFile, "motorcycle", salon);
         }
 
-        public static void DeleteTruck()
+        public static void DeleteTruck(AutoSalon salon)
         {
             AccessFile accessFile = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
-            DeleteVehicleMethod(accessFile, "truck");
+            DeleteVehicleMethod(accessFile, "truck", salon);
         }
         private static int ValidateIdInput(string[] lines, string prompt)
         {
@@ -136,27 +136,28 @@ namespace CarDealership.MainFunctions
             }
         }
 
-        private static void DeleteForPurchasedVehicle(AccessFile AccessFilePath, string vehicleType)
+        private static void DeleteForPurchasedVehicle(AccessFile AccessFilePath, string vehicleType, AutoSalon salon)
         {
             if (!(AccessFilePath.Lines.Length > 0))
             {
                 MenuText.ErrorOutputText($"\n{vehicleType} не знайдено в автосалоні.");
-                StartTheProgram startProgmra = new();
+                StartTheProgram startProgmra = new(salon);
                 startProgmra.Start();
             }
             var numElements = 0;
+
             switch (vehicleType)
             {
                 case "car":
-                    PrintCars.PrintCarsMethod();
+                    salon.PrintCars();
                     numElements = 7;
                     break;
                 case "motorcycle":
-                    PrintMotorcycle.PrintAllMotorcycles();
+                    salon.PrintMotorcycle();
                     numElements = 7;
                     break;
                 case "truck":
-                    PrintTruck.PrintAllTrucks();
+                    salon.PrintTruck();
                     numElements = 8;
                     break;
             }
@@ -211,22 +212,22 @@ namespace CarDealership.MainFunctions
             }
         }
 
-        public static void DeleteCarForPurchased()
+        public static void DeleteCarForPurchased(AutoSalon salon)
         {
             AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
-            DeleteForPurchasedVehicle(accessFile, "car");
+            DeleteForPurchasedVehicle(accessFile, "car", salon);
         }
 
-        public static void DeleteMotorcycleForPurchased()
+        public static void DeleteMotorcycleForPurchased(AutoSalon salon)
         {
             AccessFile accessFile = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
-            DeleteForPurchasedVehicle(accessFile, "motorcycle");
+            DeleteForPurchasedVehicle(accessFile, "motorcycle", salon);
         }
 
-        public static void DeleteTruckForPurchased()
+        public static void DeleteTruckForPurchased(AutoSalon salon)
         {
             AccessFile accessFile = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
-            DeleteForPurchasedVehicle(accessFile, "truck");
+            DeleteForPurchasedVehicle(accessFile, "truck", salon);
         }
     }
 }

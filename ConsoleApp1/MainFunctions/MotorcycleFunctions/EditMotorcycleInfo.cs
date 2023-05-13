@@ -67,7 +67,8 @@ namespace CarDealership.MainFunctions.MotorcycleFunctions
 
 
             List<Motorcycle> allMotorcycle = new List<Motorcycle>();
-            PrintMotorcycle.PrintAllMotorcycles();
+            AutoSalon salon = new();
+            salon.PrintMotorcycle();
 
             int id;
             Console.Write("\nВведіть id мотоцикла: ");

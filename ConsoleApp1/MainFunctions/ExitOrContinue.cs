@@ -6,17 +6,17 @@ namespace CarDealership.MainFunctions
     {
         public delegate void MethodDelegate();
 
-        public static void ExitOrContinueShorter(string textOfNewAction = "", List<MethodDelegate> methods = null)
+        public static void ExitOrContinueShorter(AutoSalon salon, string textOfNewAction = "", List<MethodDelegate> methods = null)
         {
             Console.WriteLine(MenuText.exitOrContinueForChanges + textOfNewAction);
 
             int selectedNumber = NumberInputValidator();
-            
+
             if (selectedNumber == 1)
             {
                 MenuText.BlueOutput("\nВи обрали функцію вийти до головного меню");
 
-                var StartTheProgram = new StartTheProgram();
+                var StartTheProgram = new StartTheProgram(salon);
 
                 StartTheProgram.Start();
             }
@@ -31,20 +31,20 @@ namespace CarDealership.MainFunctions
             {
                 int index = selectedNumber - 3;
                 methods[index]();
-                ExitOrContinueShorter(textOfNewAction, methods);
+                ExitOrContinueShorter(salon, textOfNewAction, methods);
             }
             else
             {
                 if (methods != null)
                 {
                     MenuText.ErrorOutputText("\nЗначення введено не вірно, напишіть знову");
-                    ExitOrContinueShorter(textOfNewAction, methods);
+                    ExitOrContinueShorter(salon, textOfNewAction, methods);
                 }
 
                 else
                 {
                     MenuText.ErrorOutputText("\nЗначення введено не вірно, напишіть знову");
-                    ExitOrContinueShorter(textOfNewAction, null);
+                    ExitOrContinueShorter(salon, textOfNewAction, null);
                 }
             }
         }
