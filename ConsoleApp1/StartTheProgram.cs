@@ -12,7 +12,12 @@ namespace CarDealership
         {
             this.salon = salon;
         }
-        
+
+        public StartTheProgram()
+        {
+
+        }
+
         public void Start()
         {
         
@@ -34,7 +39,7 @@ namespace CarDealership
 
                 Validators.ValidatorInputValue(selectedNumber, Validators.FindMaxNumberInString(MenuText.chooseOneFunction), salon);
 
-                Validators.CheckSelectedFunction(selectedNumber, salon);
+                Validators.CheckSelectedFunction(selectedNumber, salon, this);
 
             } while (checkLoop);
         }

@@ -20,7 +20,6 @@ namespace CarDealership
 
         private readonly AccessFile accessFileOfClients = AccessFile.GetAccessToFile("ClientDB.txt", "..\\..\\..\\MainFunctions\\ClientFunctions");
 
-
         public AutoSalon()
         {
             Vehicles = new List<Vehicle>();
@@ -291,7 +290,7 @@ namespace CarDealership
 
             if (checkId)
             {
-                SelectChanges(lines, id);
+                SelectChangesForCar(lines, id);
             }
 
             else
@@ -300,7 +299,7 @@ namespace CarDealership
                 EditInfoAboutCarMethod();
             }
         }
-        private void SelectChanges(string[] lines, int id)
+        private void SelectChangesForCar(string[] lines, int id)
         {
             Console.WriteLine("Оберіть, що ви хочете в ньому змінити\n" + "1. Бренд\n" + "2. Рік\n" + "3. Модель\n" + "4. Колір\n" + "5. Стан автомобіля\n" + "6. Ціна\n" + "7. Кількість дверей автомобіля");
 
@@ -309,34 +308,10 @@ namespace CarDealership
             if (selectedNumber >= 1 && selectedNumber <= 7)
             {
                 string[] fieldNames = { "бренд", "рік", "модель", "колір", "стан автомобіля", "ціна", "кількість дверей" };
-                Console.Write($"Введіть нове значення для поля '{fieldNames[selectedNumber - 1]}': ");
+                Console.Write($"Значення поля '{fieldNames[selectedNumber - 1]}' буде змінено. ");
                 string newValue = "";
-                switch (selectedNumber)
-                {
-                    case 1:
-                        newValue = InputValidators.BrandInputValidator();
-                        break;
-                    case 2:
-                        newValue = Convert.ToString(InputValidators.YearInputOfVehicle());
-                        break;
-                    case 3:
-                        newValue = InputValidators.ModelInputValidator();
-                        break;
-                    case 4:
-                        newValue = InputValidators.ColorInputValidator();
-                        break;
-                    case 5:
-                        newValue = InputValidators.ConditionInputValidator();
-                        break;
-                    case 6:
-                        newValue = Convert.ToString(InputValidators.PriceInputValidator());
-                        break;
-                    case 7:
-                        newValue = Convert.ToString(InputValidators.NumberOfDoorsInputValidator());
-                        break;
-                    default:
-                        break;
-                }
+
+                int newInt;
                 foreach (Vehicle vehicle in Vehicles)
                 {
                     if (vehicle is Car car && vehicle.Id == id)
@@ -344,10 +319,12 @@ namespace CarDealership
                         switch (selectedNumber)
                         {
                             case 1:
-                                car.Brand = newValue;
+                                car.Brand = newValue = InputValidators.BrandInputValidator();
                                 break;
                             case 2:
-                                car.Year = Convert.ToInt32(newValue);
+                                newInt = InputValidators.YearInputOfVehicle();
+                                car.Year = newInt;
+                                newValue = Convert.ToString(newInt);
                                 break;
                             case 3:
                                 car.Model = newValue;
@@ -359,10 +336,14 @@ namespace CarDealership
                                 car.Condition = newValue;
                                 break;
                             case 6:
-                                car.Price = Convert.ToInt32(newValue);
+                                newInt = InputValidators.PriceInputValidator();
+                                car.Price = newInt;
+                                newValue = Convert.ToString(newInt);
                                 break;
                             case 7:
-                                car.NumberOfDoors = Convert.ToInt32(newValue);
+                                newInt = InputValidators.NumberOfDoorsInputValidator();
+                                car.NumberOfDoors = newInt;
+                                newValue = Convert.ToString(newInt);
                                 break;
                             default:
                                 break;
@@ -375,8 +356,33 @@ namespace CarDealership
             else
             {
                 MenuText.ErrorOutputText("Ви ввели неіснуючу функцію, спробуйте ще раз");
-                SelectChanges(lines, id);
+                SelectChangesForCar(lines, id);
             }
+        }
+        public void AddClientToList()
+        {
+            string? name = InputValidators.FullNameInputValidator();
+            string? phone = InputValidators.GetValidPhoneNumber();
+            string? email = InputValidators.EmailInputValidator();
+            string? preferredBrand = InputValidators.BrandInputValidator();
+            int minPrice = InputValidators.PriceInputFromTo("Enter the minimum price: ", 0, 3000000);
+            int maxPrice = InputValidators.PriceInputFromTo("Enter the maximum price: ", 1, 3000000);
+            if (minPrice > maxPrice)
+            {
+                (minPrice, maxPrice) = (maxPrice, minPrice);
+            }
+            int minYear = InputValidators.YearInputFromTo("Enter the minimum year: ", 1920, DateTime.Now.Year);
+            int maxYear = InputValidators.YearInputFromTo("Enter the maximum year: ", 1920, DateTime.Now.Year);
+            if (minYear > maxYear)
+            {
+                (minYear, maxYear) = (maxYear, minYear);
+            }
+
+            int id = Clients.Count > 0 ? Clients.Max(c => c.Id) + 1 : 1;
+            Client newClient = new Client(id, name, phone, email, preferredBrand, minPrice, maxPrice, minYear, maxYear);
+            Clients.Add(newClient);
+
+            MenuText.SuccessOutput("\nClient added successfully!");
         }
         private int IdInputValidator()
         {
@@ -404,30 +410,386 @@ namespace CarDealership
                 MenuText.ErrorOutputText("Неправильний ввід. Будь ласка, спробуйте ще раз. Введіть ціле число.");
             }
         }
-        public void AddClientToList()
+        public void EditInfoAboutClient()
         {
-            string? name = InputValidators.FullNameInputValidator();
-            string? phone = InputValidators.GetValidPhoneNumber();
-            string? email = InputValidators.EmailInputValidator();
-            string? preferredBrand = InputValidators.BrandInputValidator();
-            int minPrice = InputValidators.PriceInputFromTo("Enter the minimum price: ", 0, 3000000);
-            int maxPrice = InputValidators.PriceInputFromTo("Enter the maximum price: ", 1, 3000000);
-            if (minPrice > maxPrice)
-            {
-                (minPrice, maxPrice) = (maxPrice, minPrice);
-            }
-            int minYear = InputValidators.YearInputFromTo("Enter the minimum year: ", 1920, DateTime.Now.Year);
-            int maxYear = InputValidators.YearInputFromTo("Enter the maximum year: ", 1920, DateTime.Now.Year);
-            if (minYear > maxYear)
-            {
-                (minYear, maxYear) = (maxYear, minYear);
-            }
-            
-            int id = Clients.Count > 0 ? Clients.Max(c => c.Id) + 1 : 1;
-            Client newClient = new Client(id, name, phone, email, preferredBrand, minPrice, maxPrice, minYear, maxYear);
-            Clients.Add(newClient);
 
-            MenuText.SuccessOutput("\nClient added successfully!");
+            var allClients = ImportClientsFromFile(accessFileOfClients.Lines!);
+            PrintClients();
+
+            Console.Write("\nВведіть id клієнта: ");
+            int id = int.Parse(Console.ReadLine()!);
+
+            bool checkId = CheckIdExists.CheckClientExistID(allClients, id);
+
+            if (checkId)
+            {
+                SelectChangesForClient(accessFileOfClients.Lines!, id, accessFileOfClients.FilePath!);
+            }
+
+            else
+            {
+                Console.WriteLine("\nВи ввели неіснуючий id клієнта, спробуйте ще раз");
+                EditInfoAboutClient();
+            }
         }
+        private List<Client> ImportClientsFromFile(string[] linesClients)
+        {
+            List<Client> allClients = new List<Client>();
+
+            foreach (string line in linesClients)
+            {
+                string[] values = line.Split(',');
+
+                int idParse = int.Parse(values[0]);
+                string name = values[1];
+                string phone = values[2];
+                string email = values[3];
+                string preferredBrand = values[4];
+                int minPrice = int.Parse(values[5]);
+                int maxPrice = int.Parse(values[6]);
+                int minYear = int.Parse(values[7]);
+                int maxYear = int.Parse(values[8]);
+
+                Client newClient = new Client(idParse, name, phone, email, preferredBrand, minPrice, maxPrice, minYear, maxYear);
+                allClients.Add(newClient);
+            }
+
+            return allClients;
+        }
+        private void SelectChangesForClient(string[] lines, int id, string filePath)
+        {
+            Console.WriteLine("Оберіть, що ви хочете в ньому змінити\n" + "1. ПІБ\n" + "2. Телефон\n" + "3. Пошту\n" + "4. Бажаний бренд\n" + "5. Мінімальна ціна\n" + "6. Максимальна ціна\n" + "7. Мінімальний рік випуску\n" +
+                "8. Максимальний рік випуску");
+
+            int selectedNumber = Convert.ToInt32(Console.ReadLine());
+
+            if (selectedNumber >= 1 && selectedNumber <= 8)
+            {
+                string[] fieldNames = { "ПІБ", "Телефон", "Пошта", "Бажаний бренд", "Мінімальна ціна", "Максимальна ціна", "Мінімальний рік випуску", "Максимальний рік випуску" };
+                Console.Write($"Введіть знизу нове значення для поля '{fieldNames[selectedNumber - 1]}'\n");
+                string newValue = "";
+
+                int newPriceOrYear;
+                foreach (Client client in Clients)
+                {
+                    if (client.Id == id)
+                    {
+                        switch (selectedNumber)
+                        {
+                            case 1:
+                                client.Name = newValue = InputValidators.FullNameInputValidator();
+                                break;
+                            case 2:
+                                client.Phone = newValue = InputValidators.GetValidPhoneNumber();
+                                break;
+                            case 3:
+                                client.Email = newValue = InputValidators.EmailInputValidator();
+                                break;
+                            case 4:
+                                client.PreferredBrand = newValue = InputValidators.BrandInputValidator();
+                                break;
+                            case 5:
+                                newPriceOrYear = InputValidators.PriceInputValidator();
+                                client.MinPrice = newPriceOrYear;
+                                newValue = Convert.ToString(newPriceOrYear);
+                                break;
+                            case 6:
+                                newPriceOrYear = InputValidators.PriceInputValidator();
+                                client.MaxPrice = newPriceOrYear;
+                                newValue = Convert.ToString(newPriceOrYear);
+                                break;
+                            case 7:
+                                newPriceOrYear = InputValidators.YearInputOfVehicle();
+                                client.MinYear = newPriceOrYear;
+                                newValue = Convert.ToString(newPriceOrYear);
+                                break;
+                            case 8:
+                                newPriceOrYear = InputValidators.YearInputOfVehicle();
+                                client.MaxPrice = newPriceOrYear;
+                                newValue = Convert.ToString(newPriceOrYear);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+
+                Console.WriteLine($"Поле '{fieldNames[selectedNumber - 1]}' змінено на '{newValue}'");
+
+            }
+            else
+            {
+                Console.WriteLine("Ви ввели неіснуючу функцію, спробуйте ще раз");
+                SelectChangesForClient(lines, id, filePath);
+            }
+        }
+        public void RemoveClient(StartTheProgram ToMainMenu)
+        {
+            if(Clients.Count == 0)
+            {
+                MenuText.ErrorOutputText("\nКлієнтів немає. Список пустий");
+                Console.WriteLine("1. До головного меню.\n" +
+                    "2. Добавити клієнта");
+                Console.Write("Введіть цифру, що хочете зробити далі: ");
+                int selectNum = Convert.ToInt32(Console.ReadLine());
+                switch (selectNum)
+                {
+                    case 1:
+                        ToMainMenu.Start();
+                        break;
+                    case 2:
+                        AddClientToList();
+                        ToMainMenu.Start();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            PrintClients();
+
+            Console.Write("\nВведіть id клієнта, якого хочете видалити: ");
+            int idToDelete = Convert.ToInt32(Console.ReadLine());
+
+            var clientToRemove = Clients.FirstOrDefault(c => c.Id == idToDelete);
+            if (clientToRemove != null)
+            {
+
+                Clients.Remove(clientToRemove);
+
+                for (int i = 0; i < Clients.Count; i++)
+                {
+                    Clients[i].Id = i + 1;
+                }
+                MenuText.SuccessOutput($"\nКлієнт з айді {idToDelete} успішно видалений з файлу.\n");
+            }
+            else
+            {
+                MenuText.ErrorOutputText("Клієнтів немає в списку");
+            }
+        }
+        public void RemoveCar(StartTheProgram ToMainMenu)
+        {
+            if (Vehicles.Count == 0)
+            {
+                MenuText.ErrorOutputText("\nМашин немає. Список порожній.");
+                Console.WriteLine("1. До головного меню.\n" +
+                    "2. Додати машину.");
+                Console.Write("Введіть цифру, що хочете зробити далі: ");
+                int selectNum = Convert.ToInt32(Console.ReadLine());
+                switch (selectNum)
+                {
+                    case 1:
+                        ToMainMenu.Start();
+                        break;
+                    case 2:
+                        AddCarToList();
+                        ToMainMenu.Start();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            PrintCars();
+
+            Console.Write("\nВведіть id машини, яку хочете видалити: ");
+            int idToDelete = Convert.ToInt32(Console.ReadLine());
+            Car carToRemove = null;
+            foreach (Vehicle vehicle in Vehicles)
+            {
+                if (vehicle is Car car && car.Id == idToDelete)
+                {
+                    carToRemove = car;
+                }
+            }
+
+            if (carToRemove != null)
+            {
+                Vehicles.Remove(carToRemove);
+
+                for (int i = 0; i < Vehicles.Count; i++)
+                {
+                    Vehicles[i].Id = i + 1;
+                }
+
+                MenuText.SuccessOutput($"\nМашина з айді {idToDelete} успішно видалена з файлу.\n");
+            }
+            else
+            {
+                MenuText.ErrorOutputText("Машин немає в списку.");
+                ToMainMenu.Start();
+            }
+        }
+        //public void RemoveMotorcycle(StartTheProgram ToMainMenu)
+        //{
+        //    if (Vehicles.Count == 0)
+        //    {
+        //        MenuText.ErrorOutputText("\nМотоциклів немає. Список порожній.");
+        //        Console.WriteLine("1. До головного меню.\n" +
+        //            "2. Додати мотоцикл.");
+        //        Console.Write("Введіть цифру, що хочете зробити далі: ");
+        //        int selectNum = Convert.ToInt32(Console.ReadLine());
+        //        switch (selectNum)
+        //        {
+        //            case 1:
+        //                ToMainMenu.Start();
+        //                break;
+        //            case 2:
+        //                //AddMotorcycleToList();
+        //                ToMainMenu.Start();
+        //                break;
+        //            default:
+        //                break;
+        //        }
+        //    }
+
+        //    PrintMotorcycle();
+
+        //    Console.Write("\nВведіть id мотоцикла, який хочете видалити: ");
+        //    int idToDelete = Convert.ToInt32(Console.ReadLine());
+        //    Motorcycle motorcycleToRemove = null;
+        //    foreach (Vehicle vehicle in Vehicles)
+        //    {
+        //        if (vehicle is Motorcycle motorcycle && motorcycle.Id == idToDelete)
+        //        {
+        //            motorcycleToRemove = motorcycle;
+        //        }
+        //    }
+
+        //    if (motorcycleToRemove != null)
+        //    {
+        //        Vehicles.Remove(motorcycleToRemove);
+
+        //        for (int i = 0; i < Vehicles.Count; i++)
+        //        {
+        //            Vehicles[i].Id = i + 1;
+        //        }
+
+        //        MenuText.SuccessOutput($"\nМотоцикл з айді {idToDelete} успішно видалений з файлу.\n");
+        //    }
+        //    else
+        //    {
+        //        MenuText.ErrorOutputText("Мотоциклів немає в списку.");
+        //        ToMainMenu.Start();
+        //    }
+        //}
+        //public void RemoveTruck(StartTheProgram ToMainMenu)
+        //{
+        //    if (Vehicles.Count == 0)
+        //    {
+        //        MenuText.ErrorOutputText("\nГрузовиків немає. Список порожній.");
+        //        Console.WriteLine("1. До головного меню.\n" +
+        //            "2. Додати грузовик.");
+        //        Console.Write("Введіть цифру, що хочете зробити далі: ");
+        //        int selectNum = Convert.ToInt32(Console.ReadLine());
+        //        switch (selectNum)
+        //        {
+        //            case 1:
+        //                ToMainMenu.Start();
+        //                break;
+        //            case 2:
+        //                //AddTruckToList();
+        //                ToMainMenu.Start();
+        //                break;
+        //            default:
+        //                break;
+        //        }
+        //    }
+
+        //    PrintTruck();
+
+        //    Console.Write("\nВведіть id грузовика, який хочете видалити: ");
+        //    int idToDelete = Convert.ToInt32(Console.ReadLine());
+        //    Truck truckToRemove = null;
+        //    foreach (Vehicle vehicle in Vehicles)
+        //    {
+        //        if (vehicle is Truck truck && truck.Id == idToDelete)
+        //        {
+        //            truckToRemove = truck;
+        //        }
+        //    }
+
+        //    if (truckToRemove != null)
+        //    {
+        //        Vehicles.Remove(truckToRemove);
+
+        //        for (int i = 0; i < Vehicles.Count; i++)
+        //        {
+        //            Vehicles[i].Id = i + 1;
+        //        }
+
+        //        MenuText.SuccessOutput($"\nГрузовик з айді {idToDelete} успішно видалений з файлу.\n");
+        //    }
+        //    else
+        //    {
+        //        MenuText.ErrorOutputText("Грузовика немає в списку.");
+        //        ToMainMenu.Start();
+        //    }
+        //}
+        //public void RemoveVehicle<T>(StartTheProgram ToMainMenu) where T : Vehicle
+        //{
+        //    if (Vehicles.Count == 0)
+        //    {
+        //        MenuText.ErrorOutputText($"\n{typeof(T).Name} немає. Список порожній.");
+        //        Console.WriteLine("1. До головного меню.\n" +
+        //            $"2. Додати {typeof(T).Name.ToLower()}.");
+        //        Console.Write("Введіть цифру, що хочете зробити далі: ");
+        //        int selectNum = Convert.ToInt32(Console.ReadLine());
+        //        switch (selectNum)
+        //        {
+        //            case 1:
+        //                ToMainMenu.Start();
+        //                break;
+        //            case 2:
+        //                if (typeof(T) == typeof(Car))
+        //                {
+        //                    AddCarToList();
+        //                }
+        //                else if (typeof(T) == typeof(Truck))
+        //                {
+        //                    AddTruckToList();
+        //                }
+        //                else if (typeof(T) == typeof(Motorcycle))
+        //                {
+        //                    AddMotorcycleToList();
+        //                }
+        //                ToMainMenu.Start();
+        //                break;
+        //            default:
+        //                break;
+        //        }
+        //    }
+
+        //    PrintVehicles<T>();
+
+        //    Console.Write($"\nВведіть id {typeof(T).Name.ToLower()}, який хочете видалити: ");
+        //    int idToDelete = Convert.ToInt32(Console.ReadLine());
+        //    T vehicleToRemove = null;
+        //    foreach (Vehicle vehicle in Vehicles)
+        //    {
+        //        if (vehicle is T v && v.Id == idToDelete)
+        //        {
+        //            vehicleToRemove = v;
+        //        }
+        //    }
+
+        //    if (vehicleToRemove != null)
+        //    {
+        //        Vehicles.Remove(vehicleToRemove);
+
+        //        for (int i = 0; i < Vehicles.Count; i++)
+        //        {
+        //            Vehicles[i].Id = i + 1;
+        //        }
+
+        //        MenuText.SuccessOutput($"\n{typeof(T).Name} з айді {idToDelete} успішно видалений з файлу.\n");
+        //    }
+        //    else
+        //    {
+        //        MenuText.ErrorOutputText($"{typeof(T).Name} немає в списку.");
+        //        ToMainMenu.Start();
+        //    }
+        //}
     }
 }

@@ -1,2 +1,1 @@
-1,Bmw,1990,a3,White,Good,1000,4
-2,Audi,2000,q7,Black,Normal,12000,4
+1,Audi,1990,Q7,White,Bad,15000,4

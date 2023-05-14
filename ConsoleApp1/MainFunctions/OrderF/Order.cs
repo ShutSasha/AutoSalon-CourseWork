@@ -22,7 +22,7 @@ namespace CarDealership.MainFunctions.OrderF
             ChooseTransportForClient(salon);
             ChooseProviderForClient();
             ChooseCarrierForClient();
-            WriteToFile();
+            WriteToFile(salon);
         }
         private static void ChooseClientForOrder()
         {
@@ -202,7 +202,7 @@ namespace CarDealership.MainFunctions.OrderF
 
         }
 
-        private static void WriteToFile()
+        private static void WriteToFile(AutoSalon salon)
         {
 
             AccessFile accessFileToSoldOut = new("SoldOut.txt", "..\\..\\..\\MainFunctions\\OrderF");
@@ -236,13 +236,10 @@ namespace CarDealership.MainFunctions.OrderF
                 }
             }
 
-            List<Client> clients = ClientImporter.ImportClientsFromFileForPrint(linesOfClients);
-
-            clients = clients.OrderBy(client => client.Id).ToList();
 
             using (StreamWriter sw = new StreamWriter(accessFileOfClients.FilePath!))
             {
-                foreach (Client client in clients)
+                foreach (Client client in salon.Clients)
                 {
                     string line = $"{client.Id},{client.Name},{client.Phone},{client.Email},{client.PreferredBrand},{client.MinPrice},{client.MaxPrice},{client.MinYear},{client.MaxYear}";
                     sw.WriteLine(line);

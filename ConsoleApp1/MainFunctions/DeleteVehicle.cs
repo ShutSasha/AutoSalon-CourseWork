@@ -85,11 +85,11 @@ namespace CarDealership.MainFunctions
             }
         }
 
-        public static void DeleteCar(AutoSalon salon)
-        {
-            AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
-            DeleteVehicleMethod(accessFile, "car", salon);
-        }
+        //public static void DeleteCar(AutoSalon salon)
+        //{
+        //    AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
+        //    DeleteVehicleMethod(accessFile, "car", salon);
+        //}
 
         public static void DeleteMotorcycle(AutoSalon salon)
         {

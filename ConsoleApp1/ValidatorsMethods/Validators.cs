@@ -49,7 +49,7 @@ namespace CarDealership.ValidatorsMethods
             }
         }
 
-        public static void CheckSelectedFunction(int selectedNumber, AutoSalon salon)
+        public static void CheckSelectedFunction(int selectedNumber, AutoSalon salon, StartTheProgram toMainMenu)
         {
             switch (selectedNumber)
             {
@@ -67,7 +67,7 @@ namespace CarDealership.ValidatorsMethods
                     PerformSearch(salon);
                     break;
                 case 6:
-                    PerformDelete(salon);
+                    PerformDelete(salon, toMainMenu);
                     break;
                 case 7:
                     MakeAnOrder(salon);
@@ -113,7 +113,7 @@ namespace CarDealership.ValidatorsMethods
                     methodsToExecute.Add(selectedNumber == 1 ? salon.AddCarToList : salon.EditInfoAboutCarMethod);
                     break;
                 case 2:
-                    methodsToExecute.Add(selectedNumber == 1 ? () => salon.AddClientToList() : EditClientInfo.EditInfoAboutClientMethod);
+                    methodsToExecute.Add(selectedNumber == 1 ? () => salon.AddClientToList() : salon.EditInfoAboutClient);
                     break;
                 case 3:
                     methodsToExecute.Add(selectedNumber == 1 ? AddMotorcycle.AddMotorcycleToFileMethod : EditMotorcycleInfo.EditInfoAboutMotorcycleMethod);
@@ -189,7 +189,7 @@ namespace CarDealership.ValidatorsMethods
             methods.Add(Search.SearchMethod);
             ExitOrContinueShorter(salon, "\n3. Зробити знову пошук.", methods);
         }
-        private static void PerformDelete(AutoSalon salon)
+        private static void PerformDelete(AutoSalon salon, StartTheProgram toMainMenu)
         {
             string textForDelete = "\n3. Видалити ще один автомобіль.\n" +
                                     "4. Видалити ще одного клієнта\n" +
@@ -197,8 +197,8 @@ namespace CarDealership.ValidatorsMethods
                                     "6. Видалити ще один грузовик";
 
             List<MethodDelegate> methods = new List<MethodDelegate>();
-            methods.Add(() => DeleteVehicle.DeleteCar(salon));
-            methods.Add(DeleteClient.DeleteClientMethod);
+            methods.Add(() => salon.RemoveCar(toMainMenu));
+            methods.Add(() => salon.RemoveClient(toMainMenu));
             methods.Add(() => DeleteVehicle.DeleteMotorcycle(salon));
             methods.Add(() => DeleteVehicle.DeleteTruck(salon));
 
@@ -206,12 +206,12 @@ namespace CarDealership.ValidatorsMethods
 
             if (selectOfDelete == 1)
             {
-                DeleteVehicle.DeleteCar(salon);
+                salon.RemoveCar(toMainMenu);
                 ExitOrContinueShorter(salon, textForDelete, methods);
             }
             else if (selectOfDelete == 2)
             {
-                DeleteClient.DeleteClientMethod();
+                salon.RemoveClient(toMainMenu);
                 ExitOrContinueShorter(salon, textForDelete, methods);
             }
             else if (selectOfDelete == 3)
@@ -227,7 +227,7 @@ namespace CarDealership.ValidatorsMethods
             else
             {
                 MenuText.ErrorOutputText("\nЗначення введено невірно, спробуйте ще раз.\n");
-                PerformDelete(salon);
+                PerformDelete(salon, toMainMenu);
             }
         }
         private static void MakeAnOrder(AutoSalon salon)
