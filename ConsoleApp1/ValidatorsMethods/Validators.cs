@@ -240,7 +240,7 @@ namespace CarDealership.ValidatorsMethods
             
             Console.WriteLine("Saving data... Exiting...");
             Thread.Sleep(1000);
-            AutoSalon.SaveData(salon);
+            salon.SaveData();
             
             Environment.Exit(0);
         }

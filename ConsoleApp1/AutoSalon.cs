@@ -6,8 +6,8 @@ namespace CarDealership
 {
     public class AutoSalon
     {
-        public  List<Vehicle> Vehicles { get; set; }
-        public  List<Client> Clients { get; set; }
+        public List<Vehicle> Vehicles { get; set; }
+        public List<Client> Clients { get; set; }
 
         public AutoSalon()
         {
@@ -112,7 +112,7 @@ namespace CarDealership
 
         }
 
-        public static void SaveData(AutoSalon salon)
+        public void SaveData()
         {
             AccessFile accessFileOfClients = AccessFile.GetAccessToFile("ClientDB.txt", "..\\..\\..\\MainFunctions\\ClientFunctions");
 
@@ -120,12 +120,29 @@ namespace CarDealership
 
             using (StreamWriter writer = new StreamWriter(accessFileOfClients.FilePath!))
             {
-                
-                foreach (Client client in salon.Clients)
+
+                foreach (Client client in Clients)
                 {
                     writer.WriteLine($"{client.Id},{client.Name},{client.Phone},{client.Email},{client.PreferredBrand},{client.MinPrice},{client.MaxPrice},{client.MinYear},{client.MaxYear}");
                 }
             }
+
+            //AccessFile accessFileToCars = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
+
+            //File.WriteAllText(accessFileOfClients.FilePath!, "");
+
+            //using (StreamWriter writer = new StreamWriter(accessFileOfClients.FilePath!))
+            //{
+
+            //    foreach (Vehicle vehicle in salon.Vehicles)
+            //    {
+            //        if (vehicle is Car car)
+            //        {
+            //            writer.WriteLine($"{client.Id},{client.Name},{client.Phone},{client.Email},{client.PreferredBrand},{client.MinPrice},{client.MaxPrice},{client.MinYear},{client.MaxYear}");
+            //        }
+
+            //    }
+            //}
         }
 
         public void PrintCars()
