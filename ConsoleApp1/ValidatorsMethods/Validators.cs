@@ -1,5 +1,4 @@
 ﻿using CarDealership.MainFunctions;
-using CarDealership.MainFunctions.CarFunctions;
 using CarDealership.MainFunctions.ClientFunctions;
 using CarDealership.MainFunctions.MotorcycleFunctions;
 using CarDealership.MainFunctions.OrderF;
@@ -85,8 +84,8 @@ namespace CarDealership.ValidatorsMethods
             string prompt = selectedNumber == 1 ? "додати" : "редагувати";
             var methods = new List<MethodDelegate>
             {
-                 AddCar.AddCarToFileMethod,
-                 () => AddClient.AddClientToListMethod(salon),
+                 salon.AddCarToList,
+                 () => salon.AddClientToList(),
                  AddMotorcycle.AddMotorcycleToFileMethod,
                  AddTruck.AddTruckToFileMethod,
             };
@@ -111,10 +110,10 @@ namespace CarDealership.ValidatorsMethods
             switch (selectedAction)
             {
                 case 1:
-                    methodsToExecute.Add(selectedNumber == 1 ? AddCar.AddCarToFileMethod : EditInfoAboutCar.EditInfoAboutCarMethod);
+                    methodsToExecute.Add(selectedNumber == 1 ? salon.AddCarToList : salon.EditInfoAboutCarMethod);
                     break;
                 case 2:
-                    methodsToExecute.Add(selectedNumber == 1 ? () => AddClient.AddClientToListMethod(salon) : EditClientInfo.EditInfoAboutClientMethod);
+                    methodsToExecute.Add(selectedNumber == 1 ? () => salon.AddClientToList() : EditClientInfo.EditInfoAboutClientMethod);
                     break;
                 case 3:
                     methodsToExecute.Add(selectedNumber == 1 ? AddMotorcycle.AddMotorcycleToFileMethod : EditMotorcycleInfo.EditInfoAboutMotorcycleMethod);

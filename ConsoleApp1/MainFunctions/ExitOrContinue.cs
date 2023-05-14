@@ -23,7 +23,9 @@ namespace CarDealership.MainFunctions
 
             else if (selectedNumber == 2)
             {
-                Console.WriteLine("Exiting...");
+                Console.WriteLine("Saving data... Exiting...");
+                Thread.Sleep(1000);
+                salon.SaveData();
                 Environment.Exit(Environment.ExitCode);
             }
 

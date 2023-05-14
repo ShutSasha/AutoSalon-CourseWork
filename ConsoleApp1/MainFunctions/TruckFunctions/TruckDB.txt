@@ -1,2 +1,0 @@
-1,MAN,2007,TGA 26,White,Good,37000,18,50
-2,Audi,2007,552,White,Bad,90000,6,364,Tesla,2023,Q87,Gray,Normal,1000,4,2
