@@ -123,8 +123,11 @@ namespace CarDealership
 
         public void SaveData()
         {
-            AccessFile accessFileOfClients = AccessFile.GetAccessToFile("ClientDB.txt", "..\\..\\..\\MainFunctions\\ClientFunctions");
-            File.WriteAllText(accessFileOfClients.FilePath!, "");
+
+            //File.WriteAllText(accessFileOfClients.FilePath!, "");
+            //File.WriteAllText(accessFileOfCars.FilePath!, "");
+            //File.WriteAllText(accessFileOfBikes.FilePath!, "");
+            //File.WriteAllText(accessFileOfTruck.FilePath!, "");
 
             using (StreamWriter writer = new StreamWriter(accessFileOfClients.FilePath!))
             {
@@ -134,17 +137,6 @@ namespace CarDealership
                     writer.WriteLine($"{client.Id},{client.Name},{client.Phone},{client.Email},{client.PreferredBrand},{client.MinPrice},{client.MaxPrice},{client.MinYear},{client.MaxYear}");
                 }
             }
-
-            AccessFile accessFileOfCars = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
-            File.WriteAllText(accessFileOfCars.FilePath!, "");
-
-            AccessFile accessFileOfBikes = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
-            File.WriteAllText(accessFileOfBikes.FilePath!, "");
-
-
-            AccessFile accessFileOfTruck = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
-            File.WriteAllText(accessFileOfTruck.FilePath!, "");
-
             using (StreamWriter writer = new StreamWriter(accessFileOfCars.FilePath!))
             {
                 foreach (Vehicle vehicle in Vehicles)
@@ -168,7 +160,7 @@ namespace CarDealership
                 }
             }
 
-            using (StreamWriter writer = new StreamWriter(accessFileOfBikes.FilePath!))
+            using (StreamWriter writer = new StreamWriter(accessFileOfTrucks.FilePath!))
             {
                 foreach (Vehicle vehicle in Vehicles)
                 {
@@ -237,14 +229,19 @@ namespace CarDealership
 
             int numberOfDoors = InputValidators.NumberOfDoorsInputValidator();
 
-            string[]? lines = accessFileOfCars.Lines;
-
-            int id = lines.Length > 0 ? int.Parse(lines[lines.Length - 1].Split(',')[0]) + 1 : 1;
+            int id = 1;
+            foreach (Vehicle vehicle in Vehicles)
+            {
+                if (vehicle is Car car)
+                {
+                    id++;
+                }
+            }
 
             Car newCar = new Car(id, brand, year, model, color, condition, price, numberOfDoors);
             Vehicles.Add(newCar);
 
-            MenuText.SuccessOutput("\nCar added to file successfully!");
+            MenuText.SuccessOutput("\nCar added successfully!");
         }
         private void EnterTheCharacteristicsOfTheVehicle(out string brand, out int year, out string model, out string color, out string condition, out int price)
         {
@@ -570,7 +567,16 @@ namespace CarDealership
         }
         public void RemoveCar(StartTheProgram ToMainMenu)
         {
-            if (Vehicles.Count == 0)
+
+            int countCars = 0;
+            foreach (Vehicle vehicle in Vehicles)
+            {
+                if (vehicle is Car car)
+                {
+                    countCars++;
+                }
+            }
+            if (countCars == 0)
             {
                 MenuText.ErrorOutputText("\nМашин немає. Список порожній.");
                 Console.WriteLine("1. До головного меню.\n" +
@@ -587,6 +593,8 @@ namespace CarDealership
                         ToMainMenu.Start();
                         break;
                     default:
+                        MenuText.ErrorOutputText("Ввід некоректний. Оберіть 1 або 2.");
+                        RemoveBike(ToMainMenu);
                         break;
                 }
             }
@@ -608,11 +616,15 @@ namespace CarDealership
             {
                 Vehicles.Remove(carToRemove);
 
-                for (int i = 0; i < Vehicles.Count; i++)
+                int newId = 1;
+                foreach (Vehicle vehicle in Vehicles)
                 {
-                    Vehicles[i].Id = i + 1;
+                    if (vehicle is Car car)
+                    {
+                        car.Id = newId;
+                        newId++;
+                    }
                 }
-
                 MenuText.SuccessOutput($"\nМашина з айді {idToDelete} успішно видалена з файлу.\n");
             }
             else
@@ -621,175 +633,174 @@ namespace CarDealership
                 ToMainMenu.Start();
             }
         }
-        //public void RemoveMotorcycle(StartTheProgram ToMainMenu)
-        //{
-        //    if (Vehicles.Count == 0)
-        //    {
-        //        MenuText.ErrorOutputText("\nМотоциклів немає. Список порожній.");
-        //        Console.WriteLine("1. До головного меню.\n" +
-        //            "2. Додати мотоцикл.");
-        //        Console.Write("Введіть цифру, що хочете зробити далі: ");
-        //        int selectNum = Convert.ToInt32(Console.ReadLine());
-        //        switch (selectNum)
-        //        {
-        //            case 1:
-        //                ToMainMenu.Start();
-        //                break;
-        //            case 2:
-        //                //AddMotorcycleToList();
-        //                ToMainMenu.Start();
-        //                break;
-        //            default:
-        //                break;
-        //        }
-        //    }
+        public void RemoveBike(StartTheProgram ToMainMenu)
+        {
+            int countBikes = 0;
+            foreach(Vehicle vehicle in Vehicles)
+            {
+                if(vehicle is Motorcycle bike)
+                {
+                    countBikes++;
+                }
+            }
+            if (countBikes == 0)
+            {
+                MenuText.ErrorOutputText("\nМотоциклів немає. Список порожній.");
+                Console.WriteLine("1. До головного меню.\n" +
+                    "2. Додати мотоцикл.");
+                Console.Write("Введіть цифру, що хочете зробити далі: ");
+                int selectNum = Convert.ToInt32(Console.ReadLine());
+                switch (selectNum)
+                {
+                    case 1:
+                        ToMainMenu.Start();
+                        break;
+                    case 2:
+                        AddMotorcycleToList();
+                        ToMainMenu.Start();
+                        break;
+                    default:
+                        MenuText.ErrorOutputText("Ввід некоректний. Оберіть 1 або 2.");
+                        RemoveBike(ToMainMenu);
+                        break;
+                }
+            }
 
-        //    PrintMotorcycle();
+            PrintMotorcycle();
 
-        //    Console.Write("\nВведіть id мотоцикла, який хочете видалити: ");
-        //    int idToDelete = Convert.ToInt32(Console.ReadLine());
-        //    Motorcycle motorcycleToRemove = null;
-        //    foreach (Vehicle vehicle in Vehicles)
-        //    {
-        //        if (vehicle is Motorcycle motorcycle && motorcycle.Id == idToDelete)
-        //        {
-        //            motorcycleToRemove = motorcycle;
-        //        }
-        //    }
+            Console.Write("\nВведіть id мотоцикла, який хочете видалити: ");
+            int idToDelete = Convert.ToInt32(Console.ReadLine());
+            Motorcycle bikeToRemove = Vehicles.FirstOrDefault(vehicle => vehicle is Motorcycle bike && bike.Id == idToDelete) as Motorcycle;
 
-        //    if (motorcycleToRemove != null)
-        //    {
-        //        Vehicles.Remove(motorcycleToRemove);
+            if (bikeToRemove != null)
+            {
+                Vehicles.Remove(bikeToRemove);
 
-        //        for (int i = 0; i < Vehicles.Count; i++)
-        //        {
-        //            Vehicles[i].Id = i + 1;
-        //        }
+                int newId = 1;
+                foreach (Vehicle vehicle in Vehicles)
+                {
+                    if (vehicle is Motorcycle bike)
+                    {
+                        bike.Id = newId;
+                        newId++;
+                    }
+                }
 
-        //        MenuText.SuccessOutput($"\nМотоцикл з айді {idToDelete} успішно видалений з файлу.\n");
-        //    }
-        //    else
-        //    {
-        //        MenuText.ErrorOutputText("Мотоциклів немає в списку.");
-        //        ToMainMenu.Start();
-        //    }
-        //}
-        //public void RemoveTruck(StartTheProgram ToMainMenu)
-        //{
-        //    if (Vehicles.Count == 0)
-        //    {
-        //        MenuText.ErrorOutputText("\nГрузовиків немає. Список порожній.");
-        //        Console.WriteLine("1. До головного меню.\n" +
-        //            "2. Додати грузовик.");
-        //        Console.Write("Введіть цифру, що хочете зробити далі: ");
-        //        int selectNum = Convert.ToInt32(Console.ReadLine());
-        //        switch (selectNum)
-        //        {
-        //            case 1:
-        //                ToMainMenu.Start();
-        //                break;
-        //            case 2:
-        //                //AddTruckToList();
-        //                ToMainMenu.Start();
-        //                break;
-        //            default:
-        //                break;
-        //        }
-        //    }
+                MenuText.SuccessOutput($"\nМотоцикл з айді {idToDelete} успішно видалений з файлу.\n");
+            }
+            else
+            {
+                MenuText.ErrorOutputText("Мотоцикла немає в списку.");
+                ToMainMenu.Start();
+            }
+        }
+        public void RemoveTruck(StartTheProgram ToMainMenu)
+        {
+            int countTrucks = 0;
+            foreach (Vehicle vehicle in Vehicles)
+            {
+                if (vehicle is Truck truck)
+                {
+                    countTrucks++;
+                }
+            }
 
-        //    PrintTruck();
+            if (countTrucks == 0)
+            {
+                MenuText.ErrorOutputText("\nГрузовиків немає. Список порожній.");
+                Console.WriteLine("1. До головного меню.\n" +
+                    "2. Додати грузовик.");
+                Console.Write("Введіть цифру, що хочете зробити далі: ");
+                int selectNum = Convert.ToInt32(Console.ReadLine());
+                switch (selectNum)
+                {
+                    case 1:
+                        ToMainMenu.Start();
+                        break;
+                    case 2:
+                        AddTruckToList();
+                        ToMainMenu.Start();
+                        break;
+                    default:
+                        MenuText.ErrorOutputText("Ввід некоректний. Оберіть 1 або 2.");
+                        RemoveTruck(ToMainMenu);
+                        break;
+                }
+            }
 
-        //    Console.Write("\nВведіть id грузовика, який хочете видалити: ");
-        //    int idToDelete = Convert.ToInt32(Console.ReadLine());
-        //    Truck truckToRemove = null;
-        //    foreach (Vehicle vehicle in Vehicles)
-        //    {
-        //        if (vehicle is Truck truck && truck.Id == idToDelete)
-        //        {
-        //            truckToRemove = truck;
-        //        }
-        //    }
+            PrintTruck();
 
-        //    if (truckToRemove != null)
-        //    {
-        //        Vehicles.Remove(truckToRemove);
+            Console.Write("\nВведіть id грузовика, який хочете видалити: ");
+            int idToDelete = Convert.ToInt32(Console.ReadLine());
+            Truck truckToRemove = Vehicles.FirstOrDefault(vehicle => vehicle is Truck truck && truck.Id == idToDelete) as Truck;
 
-        //        for (int i = 0; i < Vehicles.Count; i++)
-        //        {
-        //            Vehicles[i].Id = i + 1;
-        //        }
+            if (truckToRemove != null)
+            {
+                Vehicles.Remove(truckToRemove);
 
-        //        MenuText.SuccessOutput($"\nГрузовик з айді {idToDelete} успішно видалений з файлу.\n");
-        //    }
-        //    else
-        //    {
-        //        MenuText.ErrorOutputText("Грузовика немає в списку.");
-        //        ToMainMenu.Start();
-        //    }
-        //}
-        //public void RemoveVehicle<T>(StartTheProgram ToMainMenu) where T : Vehicle
-        //{
-        //    if (Vehicles.Count == 0)
-        //    {
-        //        MenuText.ErrorOutputText($"\n{typeof(T).Name} немає. Список порожній.");
-        //        Console.WriteLine("1. До головного меню.\n" +
-        //            $"2. Додати {typeof(T).Name.ToLower()}.");
-        //        Console.Write("Введіть цифру, що хочете зробити далі: ");
-        //        int selectNum = Convert.ToInt32(Console.ReadLine());
-        //        switch (selectNum)
-        //        {
-        //            case 1:
-        //                ToMainMenu.Start();
-        //                break;
-        //            case 2:
-        //                if (typeof(T) == typeof(Car))
-        //                {
-        //                    AddCarToList();
-        //                }
-        //                else if (typeof(T) == typeof(Truck))
-        //                {
-        //                    AddTruckToList();
-        //                }
-        //                else if (typeof(T) == typeof(Motorcycle))
-        //                {
-        //                    AddMotorcycleToList();
-        //                }
-        //                ToMainMenu.Start();
-        //                break;
-        //            default:
-        //                break;
-        //        }
-        //    }
+                int newId = 1;
+                foreach (Vehicle vehicle in Vehicles)
+                {
+                    if (vehicle is Truck truck)
+                    {
+                        truck.Id = newId;
+                        newId++;
+                    }
+                }
 
-        //    PrintVehicles<T>();
+                MenuText.SuccessOutput($"\nГрузовик з айді {idToDelete} успішно видалений з файлу.\n");
+            }
+            else
+            {
+                MenuText.ErrorOutputText("Грузовика немає в списку.");
+                ToMainMenu.Start();
+            }
+        }
+        public  void AddMotorcycleToList()
+        {
 
-        //    Console.Write($"\nВведіть id {typeof(T).Name.ToLower()}, який хочете видалити: ");
-        //    int idToDelete = Convert.ToInt32(Console.ReadLine());
-        //    T vehicleToRemove = null;
-        //    foreach (Vehicle vehicle in Vehicles)
-        //    {
-        //        if (vehicle is T v && v.Id == idToDelete)
-        //        {
-        //            vehicleToRemove = v;
-        //        }
-        //    }
+            InputValidators.EnterTheCharacteristicsOfTheVehicle(out string brand, out int year, out string model, out string color, out string condition, out int price);
 
-        //    if (vehicleToRemove != null)
-        //    {
-        //        Vehicles.Remove(vehicleToRemove);
+            Console.Write("Введіть тип мотоцикла(sport, cruiser): ");
+            string motorcycleType = InputValidators.BikeType();
 
-        //        for (int i = 0; i < Vehicles.Count; i++)
-        //        {
-        //            Vehicles[i].Id = i + 1;
-        //        }
 
-        //        MenuText.SuccessOutput($"\n{typeof(T).Name} з айді {idToDelete} успішно видалений з файлу.\n");
-        //    }
-        //    else
-        //    {
-        //        MenuText.ErrorOutputText($"{typeof(T).Name} немає в списку.");
-        //        ToMainMenu.Start();
-        //    }
-        //}
+            int id = 1;
+            foreach (Vehicle vehicle in Vehicles)
+            {
+                if (vehicle is Motorcycle bike)
+                {
+                    id++;
+                }
+            }
+
+            Motorcycle newBike = new Motorcycle(id, brand, year, model, color, condition, price, motorcycleType);
+            Vehicles.Add(newBike);
+
+            MenuText.SuccessOutput("\nMotorcycle added successfully!");
+        }
+        public void AddTruckToList()
+        {
+
+            InputValidators.EnterTheCharacteristicsOfTheVehicle(out string brand, out int year, out string model, out string color, out string condition, out int price);
+
+            int numberOfWheels = InputValidators.NumberOfWheelsInputValidator();
+
+            int loadCapacity = InputValidators.LoadCapacityInputValidator();
+
+            int id = 1;
+            foreach (Vehicle vehicle in Vehicles)
+            {
+                if (vehicle is Truck truck)
+                {
+                    id++;
+                }
+            }
+
+            Truck newTruck = new Truck(id, brand, year, model, color, condition, price, numberOfWheels, loadCapacity);
+            Vehicles.Add(newTruck);
+
+            MenuText.SuccessOutput("\nTruck added successfully!");
+        }
     }
 }

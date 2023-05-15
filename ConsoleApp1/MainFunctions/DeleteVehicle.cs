@@ -33,75 +33,8 @@ namespace CarDealership.MainFunctions
             }
         }
        
-        private static void DeleteVehicleMethod(AccessFile AccessFilePath, string vehicleType, AutoSalon salon)
-        {
-            if (!(AccessFilePath.Lines.Length > 0))
-            {
-                MenuText.ErrorOutputText($"\n{vehicleType} не знайдено в автосалоні.");
-                StartTheProgram startProgmra = new(salon);
-                startProgmra.Start();
-            }
+      
 
-            switch (vehicleType)
-            {
-                case "car":
-                    salon.PrintCars();
-                    break;
-                case "motorcycle":
-                    salon.PrintMotorcycle();
-                    break;
-                case "truck":
-                    salon.PrintTruck();
-                    break;
-            }
-
-
-            int idToDelete = ValidateIdInput(AccessFilePath.Lines, "видалити");
-
-            string[] lines = File.ReadAllLines(AccessFilePath.FilePath);
-
-            int indexToDelete = -1;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                string[] values = lines[i].Split(',');
-                int id = int.Parse(values[0]);
-
-                if (id == idToDelete)
-                {
-                    indexToDelete = i;
-                    break;
-                }
-            }
-
-            if (indexToDelete >= 0)
-            {
-                deleteAndWriteChangesToFile(lines, indexToDelete, AccessFilePath.FilePath);
-
-                MenuText.SuccessOutput($"\nЕлемент з айді {idToDelete} успішно видалений з файлу.");
-            }
-            else
-            {
-                MenuText.ErrorOutputText($"\nТранспорт з айді {idToDelete} не знайдено!.");
-            }
-        }
-
-        //public static void DeleteCar(AutoSalon salon)
-        //{
-        //    AccessFile accessFile = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
-        //    DeleteVehicleMethod(accessFile, "car", salon);
-        //}
-
-        public static void DeleteMotorcycle(AutoSalon salon)
-        {
-            AccessFile accessFile = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
-            DeleteVehicleMethod(accessFile, "motorcycle", salon);
-        }
-
-        public static void DeleteTruck(AutoSalon salon)
-        {
-            AccessFile accessFile = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
-            DeleteVehicleMethod(accessFile, "truck", salon);
-        }
         private static int ValidateIdInput(string[] lines, string prompt)
         {
             while (true)

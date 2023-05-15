@@ -1,1 +1,2 @@
-1,Audi,1990,Q7,White,Bad,15000,4
+1,Audi,2022,r8,White,Good,156000,4
+2,Mazda,2020,asd213,White,Good,12455,4

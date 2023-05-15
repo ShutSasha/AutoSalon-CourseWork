@@ -85,9 +85,9 @@ namespace CarDealership.ValidatorsMethods
             var methods = new List<MethodDelegate>
             {
                  salon.AddCarToList,
-                 () => salon.AddClientToList(),
-                 AddMotorcycle.AddMotorcycleToFileMethod,
-                 AddTruck.AddTruckToFileMethod,
+                 salon.AddClientToList,
+                 salon.AddMotorcycleToList,
+                 salon.AddTruckToList,
             };
 
             Console.WriteLine($"Оберіть, що хочете {prompt}\n" +
@@ -116,10 +116,10 @@ namespace CarDealership.ValidatorsMethods
                     methodsToExecute.Add(selectedNumber == 1 ? () => salon.AddClientToList() : salon.EditInfoAboutClient);
                     break;
                 case 3:
-                    methodsToExecute.Add(selectedNumber == 1 ? AddMotorcycle.AddMotorcycleToFileMethod : EditMotorcycleInfo.EditInfoAboutMotorcycleMethod);
+                    methodsToExecute.Add(selectedNumber == 1 ? salon.AddMotorcycleToList : EditMotorcycleInfo.EditInfoAboutMotorcycleMethod);
                     break;
                 case 4:
-                    methodsToExecute.Add(selectedNumber == 1 ? AddTruck.AddTruckToFileMethod : EditTruckInfo.EditInfoAboutTruckMethod);
+                    methodsToExecute.Add(selectedNumber == 1 ? salon.AddTruckToList : EditTruckInfo.EditInfoAboutTruckMethod);
                     break;
                 default:
                     MenuText.ErrorOutputText("\nНе вірно введене значення, спробуйте ще раз\n");
@@ -199,8 +199,8 @@ namespace CarDealership.ValidatorsMethods
             List<MethodDelegate> methods = new List<MethodDelegate>();
             methods.Add(() => salon.RemoveCar(toMainMenu));
             methods.Add(() => salon.RemoveClient(toMainMenu));
-            methods.Add(() => DeleteVehicle.DeleteMotorcycle(salon));
-            methods.Add(() => DeleteVehicle.DeleteTruck(salon));
+            methods.Add(() => salon.RemoveBike(toMainMenu));
+            methods.Add(() => salon.RemoveTruck(toMainMenu));
 
             int selectOfDelete = IntegerInputValidator();
 
@@ -216,12 +216,12 @@ namespace CarDealership.ValidatorsMethods
             }
             else if (selectOfDelete == 3)
             {
-                DeleteVehicle.DeleteMotorcycle(salon);
+                salon.RemoveBike(toMainMenu);
                 ExitOrContinueShorter(salon, textForDelete, methods);
             }
             else if (selectOfDelete == 4)
             {
-                DeleteVehicle.DeleteTruck(salon);
+                salon.RemoveTruck(toMainMenu);
                 ExitOrContinueShorter(salon, textForDelete, methods);
             }
             else
