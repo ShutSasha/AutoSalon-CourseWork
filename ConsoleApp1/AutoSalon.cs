@@ -256,9 +256,9 @@ namespace CarDealership
             List<Car> allCars = new List<Car>();
             foreach (Vehicle vehicle in Vehicles)
             {
-                if(vehicle is Car car)
-                {     
-                    allCars.Add(car);  
+                if (vehicle is Car car)
+                {
+                    allCars.Add(car);
                 }
             }
             return allCars;
@@ -276,7 +276,7 @@ namespace CarDealership
 
             if (checkId)
             {
-                SelectChangesForCar( id);
+                SelectChangesForCar(id);
             }
 
             else
@@ -285,7 +285,7 @@ namespace CarDealership
                 EditInfoAboutCarMethod();
             }
         }
-        private void SelectChangesForCar( int id)
+        private void SelectChangesForCar(int id)
         {
             Console.WriteLine("Оберіть, що ви хочете в ньому змінити\n" + "1. Бренд\n" + "2. Рік\n" + "3. Модель\n" + "4. Колір\n" + "5. Стан автомобіля\n" + "6. Ціна\n" + "7. Кількість дверей автомобіля");
 
@@ -400,17 +400,17 @@ namespace CarDealership
         public void EditInfoAboutClient()
         {
 
-            var allClients = ImportClientsFromFile(accessFileOfClients.Lines!);
+
             PrintClients();
 
             Console.Write("\nВведіть id клієнта: ");
             int id = int.Parse(Console.ReadLine()!);
 
-            bool checkId = CheckIdExists.CheckClientExistID(allClients, id);
+            bool checkId = CheckIdExists.CheckClientExistID(Clients, id);
 
             if (checkId)
             {
-                SelectChangesForClient(accessFileOfClients.Lines!, id, accessFileOfClients.FilePath!);
+                SelectChangesForClient(id);
             }
 
             else
@@ -419,31 +419,7 @@ namespace CarDealership
                 EditInfoAboutClient();
             }
         }
-        private List<Client> ImportClientsFromFile(string[] linesClients)
-        {
-            List<Client> allClients = new List<Client>();
-
-            foreach (string line in linesClients)
-            {
-                string[] values = line.Split(',');
-
-                int idParse = int.Parse(values[0]);
-                string name = values[1];
-                string phone = values[2];
-                string email = values[3];
-                string preferredBrand = values[4];
-                int minPrice = int.Parse(values[5]);
-                int maxPrice = int.Parse(values[6]);
-                int minYear = int.Parse(values[7]);
-                int maxYear = int.Parse(values[8]);
-
-                Client newClient = new Client(idParse, name, phone, email, preferredBrand, minPrice, maxPrice, minYear, maxYear);
-                allClients.Add(newClient);
-            }
-
-            return allClients;
-        }
-        private void SelectChangesForClient(string[] lines, int id, string filePath)
+        private void SelectChangesForClient(int id)
         {
             Console.WriteLine("Оберіть, що ви хочете в ньому змінити\n" + "1. ПІБ\n" + "2. Телефон\n" + "3. Пошту\n" + "4. Бажаний бренд\n" + "5. Мінімальна ціна\n" + "6. Максимальна ціна\n" + "7. Мінімальний рік випуску\n" +
                 "8. Максимальний рік випуску");
@@ -507,12 +483,12 @@ namespace CarDealership
             else
             {
                 Console.WriteLine("Ви ввели неіснуючу функцію, спробуйте ще раз");
-                SelectChangesForClient(lines, id, filePath);
+                SelectChangesForClient(id);
             }
         }
         public void RemoveClient(StartTheProgram ToMainMenu)
         {
-            if(Clients.Count == 0)
+            if (Clients.Count == 0)
             {
                 MenuText.ErrorOutputText("\nКлієнтів немає. Список пустий");
                 Console.WriteLine("1. До головного меню.\n" +
@@ -626,9 +602,9 @@ namespace CarDealership
         public void RemoveBike(StartTheProgram ToMainMenu)
         {
             int countBikes = 0;
-            foreach(Vehicle vehicle in Vehicles)
+            foreach (Vehicle vehicle in Vehicles)
             {
-                if(vehicle is Motorcycle bike)
+                if (vehicle is Motorcycle bike)
                 {
                     countBikes++;
                 }
@@ -909,7 +885,7 @@ namespace CarDealership
         {
             List<Truck> allTrucks = ImportTrucksFromList();
 
-           PrintTruck();
+            PrintTruck();
 
             int id = IdInputValidator();
 
@@ -1001,5 +977,190 @@ namespace CarDealership
                 SelectChangesForTruck(id);
             }
         }
+
+        //public void AutomationSearch()
+        //{
+           
+
+            
+        //    string[] linesClients = accessFileOfClients.Lines;
+
+
+        //    foreach (string line in linesClients)
+        //    {
+        //        string[] values = line.Split(',');
+
+        //        int idClient = int.Parse(values[0]);
+        //        string name = values[1] != "0" ? values[1] : "Даних немає";
+        //        string phone = values[2] != "0" ? values[2] : "Даних немає";
+        //        string email = values[3] != "0" ? values[3] : "Даних немає";
+        //        string preferredBrand = values[4] != "0" ? values[4] : "Даних немає";
+        //        int minPrice = values[5] != "0" ? int.Parse(values[5]) : 0;
+        //        int maxPrice = values[6] != "0" ? int.Parse(values[6]) : 9999999;
+        //        int minYear = values[7] != "0" ? int.Parse(values[7]) : 1900;
+        //        int maxYear = values[8] != "0" ? int.Parse(values[8]) : 2023;
+
+        //        Client newClient = new Client(idClient, name, phone, email, preferredBrand, minPrice, maxPrice, minYear, maxYear);
+
+        //        allClients.Add(newClient);
+        //    }
+
+        //    salon.PrintClients();
+
+        //    int id = ValidateIdInput(linesClients);
+
+        //    AccessFile accessFileOfCar = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
+        //    string[] lines = accessFileOfCar.Lines;
+
+        //    List<Car> matchingCars = new List<Car>();
+
+        //    int priceFrom = allClients[id - 1].MinPrice;
+        //    int priceTo = allClients[id - 1].MaxPrice;
+        //    int yearFrom = allClients[id - 1].MinYear;
+        //    int yearTo = allClients[id - 1].MaxYear;
+
+        //    foreach (string line in lines)
+        //    {
+        //        string[] fields = line.Split(',');
+        //        Car car = new Car(int.Parse(fields[0]), fields[1], int.Parse(fields[2]), fields[3], fields[4], fields[5], int.Parse(fields[6]), int.Parse(fields[7]));
+
+
+        //        if (CheckOfMatchingVehicle(car))
+        //        {
+        //            matchingCars.Add(car);
+        //        }
+        //    }
+
+        //    if (matchingCars.Count > 0)
+        //    {
+
+        //        MenuText.BlueOutput("\nMatching cars:\n");
+
+        //        foreach (Car car in matchingCars)
+        //        {
+        //            Console.WriteLine("Id: {0}, Brand: {1}, Year: {2}, Model: {3}, Color: {4}, Condition: {5}, Price: {6}, NumberOfDoors: {7}", car.Id, car.Brand, car.Year, car.Model, car.Color, car.Condition, car.Price, car.NumberOfDoors);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        MenuText.OutputErrorOfNoMatchingVehicle("cars");
+        //    }
+
+        //    AccessFile accessFileOfMotorcycle = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
+        //    string[] linesOfBike = accessFileOfMotorcycle.Lines;
+
+        //    List<Motorcycle> matchingBikes = new List<Motorcycle>();
+
+        //    foreach (string line in linesOfBike)
+        //    {
+        //        string[] fields = line.Split(',');
+        //        Motorcycle bike = new Motorcycle(int.Parse(fields[0]), fields[1], int.Parse(fields[2]), fields[3], fields[4], fields[5], int.Parse(fields[6]), fields[7]);
+
+
+        //        if (CheckOfMatchingVehicle(bike))
+        //        {
+        //            matchingBikes.Add(bike);
+        //        }
+        //    }
+
+
+        //    if (matchingBikes.Count > 0)
+        //    {
+        //        MenuText.BlueOutput("\nMatching bikes:\n");
+
+        //        foreach (Motorcycle bike in matchingBikes)
+        //        {
+        //            Console.WriteLine("Id: {0}, Brand: {1}, Year: {2}, Model: {3}, Color: {4}, Condition: {5}, Price: {6}, bikeType: {7}", bike.Id, bike.Brand, bike.Year, bike.Model, bike.Color, bike.Condition, bike.Price, bike.MotorcycleType);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        MenuText.OutputErrorOfNoMatchingVehicle("bikes");
+        //    }
+
+        //    AccessFile accessFileOfTruck = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
+        //    string[] linesOfTruck = accessFileOfTruck.Lines;
+
+        //    List<Truck> matchingTrucks = new List<Truck>();
+
+        //    foreach (string line in linesOfTruck)
+        //    {
+        //        string[] fields = line.Split(',');
+        //        Truck truck = new Truck(int.Parse(fields[0]), fields[1], int.Parse(fields[2]), fields[3], fields[4], fields[5], int.Parse(fields[6]), int.Parse(fields[7]), int.Parse(fields[8]));
+
+
+        //        if (CheckOfMatchingVehicle(truck))
+        //        {
+        //            matchingTrucks.Add(truck);
+        //        }
+        //    }
+
+        //    if (matchingTrucks.Count > 0)
+        //    {
+        //        MenuText.BlueOutput("\nMatching trucks:\n");
+
+        //        foreach (Truck truck in matchingTrucks)
+        //        {
+        //            Console.WriteLine("Id: {0}, Brand: {1}, Year: {2}, Model: {3}, Color: {4}, Condition: {5}, Price: {6}, Number of wheels: {7}, loadCapacity: {8}", truck.Id, truck.Brand, truck.Year, truck.Model, truck.Color, truck.Condition, truck.Price, truck.NumberOfWheels, truck.LoadCapacity);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        MenuText.OutputErrorOfNoMatchingVehicle("trucks");
+        //    }
+
+        //    bool CheckOfMatchingVehicle(Vehicle vehicle)
+        //    {
+        //        string brand = allClients[id - 1].PreferredBrand;
+        //        bool check = false;
+        //        if ((brand == "" || vehicle.Brand.ToLower() == brand.ToLower())
+        //         && (yearFrom == 0 || vehicle.Year >= yearFrom)
+        //         && (yearTo == 0 || vehicle.Year <= yearTo)
+        //         && (priceFrom == 0 || vehicle.Price >= priceFrom)
+        //         && (priceTo == 0 || vehicle.Price <= priceTo))
+        //        {
+        //            check = true;
+        //        }
+
+        //        return check;
+        //    }
+        //    var methodsForExit = new List<MethodDelegate>();
+        //    methodsForExit.Add(() => AutomationSearch(salon));
+        //    ExitOrContinueShorter(salon, "\n3. Продовжити автоматичний пошук.", methodsForExit);
+        //}
+        //private static int ValidateIdInput(string[] lines)
+        //{
+        //    while (true)
+        //    {
+        //        Console.Write("\nВиберіть id клієнта для якого хочете зробити автоматичний підбір транспорту: ");
+        //        string input = Console.ReadLine();
+        //        if (!int.TryParse(input, out int id) || id <= 0)
+        //        {
+        //            MenuText.ErrorOutputText("Неправильний ввід. Введіть додатнє ціле число.");
+        //        }
+        //        else
+        //        {
+        //            bool idExists = false;
+        //            foreach (string line in lines)
+        //            {
+        //                string[] data = line.Split(',');
+        //                if (data[0] == input)
+        //                {
+        //                    idExists = true;
+        //                    break;
+        //                }
+        //            }
+        //            if (idExists)
+        //            {
+        //                return id;
+        //            }
+        //            else
+        //            {
+        //                MenuText.ErrorOutputText("Неправильно обраний id, спробуйте ще раз.");
+        //            }
+        //        }
+        //    }
+        //}
+
     }
 }

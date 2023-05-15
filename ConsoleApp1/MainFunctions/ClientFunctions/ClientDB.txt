@@ -1,1 +1,2 @@
-1,Artem,+380951231212,asd@gmail.com,Audi,0,300000,2000,2009
+1,Sasha,+380951231212,asd@gmail.com,Audi,0,300000,2000,2009
+2,Artem,+380921231221,fa@gmailc.om,Audi,100,20000,2000,2020

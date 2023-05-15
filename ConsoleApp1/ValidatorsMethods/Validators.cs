@@ -1,5 +1,4 @@
 ﻿using CarDealership.MainFunctions;
-using CarDealership.MainFunctions.ClientFunctions;
 using CarDealership.MainFunctions.OrderF;
 using CarDealership.Utils;
 using static CarDealership.MainFunctions.ExitOrContinue;
@@ -56,7 +55,7 @@ namespace CarDealership.ValidatorsMethods
                     AddOrEditVehicle(selectedNumber, salon);
                     break;
                 case 3:
-                    AutomationOfSelectionForClient.AutomationSearch(salon);
+                    //AutomationOfSelectionForClient.AutomationSearch(salon);
                     break;
                 case 4:
                     ChoosePrint(salon);
