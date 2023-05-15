@@ -120,7 +120,6 @@ namespace CarDealership
             }
 
         }
-
         public void SaveData()
         {
 
@@ -252,32 +251,22 @@ namespace CarDealership
             condition = InputValidators.ConditionInputValidator();
             price = InputValidators.PriceInputValidator();
         }
-        private List<Car> ImportCarsFromList(string[] lines)
+        private List<Car> ImportCarsFromList()
         {
             List<Car> allCars = new List<Car>();
-
-            foreach (string line in lines)
+            foreach (Vehicle vehicle in Vehicles)
             {
-                string[] values = line.Split(',');
-                int idParse = int.Parse(values[0]);
-                string brand = values[1];
-                int year = int.Parse(values[2]);
-                string model = values[3];
-                string color = values[4];
-                string condition = values[5];
-                int price = int.Parse(values[6]);
-                int numberOfDoors = int.Parse(values[7]);
-                Car newCar = new Car(idParse, brand, year, model, color, condition, price, numberOfDoors);
-                allCars.Add(newCar);
+                if(vehicle is Car car)
+                {     
+                    allCars.Add(car);  
+                }
             }
-
             return allCars;
+
         }
         public void EditInfoAboutCarMethod()
         {
-            string[] lines = accessFileOfCars.Lines;
-
-            var allCars = ImportCarsFromList(lines);
+            var allCars = ImportCarsFromList();
 
             PrintCars();
 
@@ -287,7 +276,7 @@ namespace CarDealership
 
             if (checkId)
             {
-                SelectChangesForCar(lines, id);
+                SelectChangesForCar( id);
             }
 
             else
@@ -296,7 +285,7 @@ namespace CarDealership
                 EditInfoAboutCarMethod();
             }
         }
-        private void SelectChangesForCar(string[] lines, int id)
+        private void SelectChangesForCar( int id)
         {
             Console.WriteLine("Оберіть, що ви хочете в ньому змінити\n" + "1. Бренд\n" + "2. Рік\n" + "3. Модель\n" + "4. Колір\n" + "5. Стан автомобіля\n" + "6. Ціна\n" + "7. Кількість дверей автомобіля");
 
@@ -311,7 +300,7 @@ namespace CarDealership
                 int newInt;
                 foreach (Vehicle vehicle in Vehicles)
                 {
-                    if (vehicle is Car car && vehicle.Id == id)
+                    if (vehicle is Car car && car.Id == id)
                     {
                         switch (selectedNumber)
                         {
@@ -324,13 +313,13 @@ namespace CarDealership
                                 newValue = Convert.ToString(newInt);
                                 break;
                             case 3:
-                                car.Model = newValue;
+                                car.Model = newValue = InputValidators.ModelInputValidator();
                                 break;
                             case 4:
-                                car.Color = newValue;
+                                car.Color = newValue = InputValidators.ColorInputValidator();
                                 break;
                             case 5:
-                                car.Condition = newValue;
+                                car.Condition = newValue = InputValidators.ConditionInputValidator();
                                 break;
                             case 6:
                                 newInt = InputValidators.PriceInputValidator();
@@ -346,6 +335,7 @@ namespace CarDealership
                                 break;
                         }
                         Console.WriteLine($"Поле '{fieldNames[selectedNumber - 1]}' змінено на '{newValue}'");
+                        break;
                     }
                 }
 
@@ -353,7 +343,7 @@ namespace CarDealership
             else
             {
                 MenuText.ErrorOutputText("Ви ввели неіснуючу функцію, спробуйте ще раз");
-                SelectChangesForCar(lines, id);
+                SelectChangesForCar(id);
             }
         }
         public void AddClientToList()
@@ -801,6 +791,106 @@ namespace CarDealership
             Vehicles.Add(newTruck);
 
             MenuText.SuccessOutput("\nTruck added successfully!");
+        }
+        private List<Motorcycle> ImportBikesFromList()
+        {
+            List<Motorcycle> allBikes = new List<Motorcycle>();
+            foreach (Vehicle vehicle in Vehicles)
+            {
+                if (vehicle is Motorcycle bike)
+                {
+                    allBikes.Add(bike);
+                }
+            }
+            return allBikes;
+
+        }
+        public void EditInfoAboutBikes()
+        {
+            List<Motorcycle> allBikes = ImportBikesFromList();
+
+            PrintMotorcycle();
+
+            int id = IdInputValidator();
+
+            bool checkId = CheckIdExists.CheckIdExistsVehicle(allBikes, id);
+
+            if (checkId)
+            {
+                SelectChangesForBike(id);
+            }
+
+            else
+            {
+                MenuText.ErrorOutputText("\nВи ввели неіснуючий id мотоцикла, спробуйте ще раз");
+                EditInfoAboutBikes();
+            }
+        }
+        private void SelectChangesForBike(int id)
+        {
+            Console.WriteLine("Оберіть, що ви хочете змінити:\n" +
+                   "1. Бренд\n" +
+                   "2. Рік\n" +
+                   "3. Модель\n" +
+                   "4. Колір\n" +
+                   "5. Стан мотоцикла\n" +
+                   "6. Ціна\n" +
+                   "7. Тип мотоцикла");
+
+            int selectedNumber = NumberInputValidator();
+
+            if (selectedNumber >= 1 && selectedNumber <= 7)
+            {
+                string[] fieldNames = { "Бренд", "Рік", "Модель", "Колір", "Стан мотоцикла", "Ціна", "Тип мотоцикла" };
+                Console.Write($"Значення поля '{fieldNames[selectedNumber - 1]}' буде змінено. ");
+                string newValue = "";
+
+                int newInt;
+                foreach (Vehicle vehicle in Vehicles)
+                {
+                    if (vehicle is Motorcycle bike && bike.Id == id)
+                    {
+                        switch (selectedNumber)
+                        {
+                            case 1:
+                                bike.Brand = newValue = InputValidators.BrandInputValidator();
+                                break;
+                            case 2:
+                                newInt = InputValidators.YearInputOfVehicle();
+                                bike.Year = newInt;
+                                newValue = Convert.ToString(newInt);
+                                break;
+                            case 3:
+                                bike.Model = newValue = InputValidators.ModelInputValidator();
+                                break;
+                            case 4:
+                                bike.Color = newValue = InputValidators.ColorInputValidator();
+                                break;
+                            case 5:
+                                bike.Condition = newValue = InputValidators.ConditionInputValidator();
+                                break;
+                            case 6:
+                                newInt = InputValidators.PriceInputValidator();
+                                bike.Price = newInt;
+                                newValue = Convert.ToString(newInt);
+                                break;
+                            case 7:
+                                bike.MotorcycleType = newValue = InputValidators.BikeType();
+                                break;
+                            default:
+                                break;
+                        }
+                        Console.WriteLine($"Поле '{fieldNames[selectedNumber - 1]}' змінено на '{newValue}'");
+                        break;
+                    }
+                }
+
+            }
+            else
+            {
+                MenuText.ErrorOutputText("Ви ввели неіснуючу функцію, спробуйте ще раз");
+                SelectChangesForBike(id);
+            }
         }
     }
 }

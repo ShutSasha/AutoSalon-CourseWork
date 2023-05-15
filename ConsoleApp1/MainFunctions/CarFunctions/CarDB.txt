@@ -1,2 +1,3 @@
 1,Audi,2022,r8,White,Good,156000,4
-2,Mazda,2020,asd213,White,Good,12455,4
+2,Mazda,2020,A7,White,Good,12455,4
+3,Alfa Romeo,2001,asd123,White,Good,15000,4

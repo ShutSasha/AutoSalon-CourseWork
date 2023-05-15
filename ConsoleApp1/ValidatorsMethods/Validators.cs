@@ -1,6 +1,5 @@
 ﻿using CarDealership.MainFunctions;
 using CarDealership.MainFunctions.ClientFunctions;
-using CarDealership.MainFunctions.MotorcycleFunctions;
 using CarDealership.MainFunctions.OrderF;
 using CarDealership.MainFunctions.TruckFunctions;
 using CarDealership.Utils;
@@ -116,7 +115,7 @@ namespace CarDealership.ValidatorsMethods
                     methodsToExecute.Add(selectedNumber == 1 ? () => salon.AddClientToList() : salon.EditInfoAboutClient);
                     break;
                 case 3:
-                    methodsToExecute.Add(selectedNumber == 1 ? salon.AddMotorcycleToList : EditMotorcycleInfo.EditInfoAboutMotorcycleMethod);
+                    methodsToExecute.Add(selectedNumber == 1 ? salon.AddMotorcycleToList : salon.EditInfoAboutBikes);
                     break;
                 case 4:
                     methodsToExecute.Add(selectedNumber == 1 ? salon.AddTruckToList : EditTruckInfo.EditInfoAboutTruckMethod);
