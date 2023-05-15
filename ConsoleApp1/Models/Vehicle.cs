@@ -8,8 +8,7 @@
         public string Model { get; set; }
         public string Color { get; set; }
         public string Condition { get; set; }
-        public int Price { get; set; }
-
+        public int Price { get; set; }  
         public Vehicle(int id, string brand, int year, string model, string color, string condition, int price)
         {
             Id = id;

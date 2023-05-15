@@ -1,3 +1,2 @@
 1,DAF,2023,a8,White,Good,12505,14,30
-2,MAN,2006,555,White,Good,34000,10,30
-3,Audi,2014,monsterTruck,Red,Excellent,16070,10,24
+2,Audi,2014,monsterTruck,Red,Excellent,16070,10,24

@@ -11,6 +11,9 @@ namespace CarDealership
     {
         public List<Vehicle> Vehicles { get; set; }
         public List<Client> Clients { get; set; }
+        public List<Supplier> Suppliers { get; set; }
+        public List<Carrier> Carriers { get; set; }
+        public List<Receipt> Receipts  { get; set; }
 
         private readonly AccessFile accessFileOfCars = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
 
@@ -20,10 +23,19 @@ namespace CarDealership
 
         private readonly AccessFile accessFileOfClients = AccessFile.GetAccessToFile("ClientDB.txt", "..\\..\\..\\MainFunctions\\ClientFunctions");
 
+        private readonly AccessFile accessFileOfSuppliers = AccessFile.GetAccessToFile("Supplier.txt", "..\\..\\..\\DB");
+
+        private readonly AccessFile accessFileOfCarriers = AccessFile.GetAccessToFile("Carrier.txt", "..\\..\\..\\DB");
+
+        private readonly AccessFile accessFileOfReceipt = AccessFile.GetAccessToFile("Receipt.txt", "..\\..\\..\\DB");
+
         public AutoSalon()
         {
             Vehicles = new List<Vehicle>();
             Clients = new List<Client>();
+            Suppliers = new List<Supplier>();
+            Carriers = new List<Carrier>();
+            Receipts = new List<Receipt>();
         }
         public void LoadData()
         {
@@ -119,14 +131,61 @@ namespace CarDealership
                 }
             }
 
+            if (accessFileOfSuppliers != null)
+            {
+                string[] suppliers = File.ReadAllLines(accessFileOfSuppliers.FilePath!);
+                foreach (string supplier in suppliers)
+                {
+                    string[] supplierInfo = supplier.Split(',');
+                    int id = int.Parse(supplierInfo[0]);
+                    string name = supplierInfo[1];
+                    int price = int.Parse(supplierInfo[2]);
+                    Supplier newSupplier = new Supplier(id, name, price);
+                    Suppliers.Add(newSupplier);
+                }
+            }
+
+            if (accessFileOfCarriers != null)
+            {
+                string[] carriers = File.ReadAllLines(accessFileOfCarriers.FilePath!);
+                foreach (string carrier in carriers)
+                {
+                    string[] carrierInfo = carrier.Split(',');
+                    int id = int.Parse(carrierInfo[0]);
+                    string name = carrierInfo[1];
+                    int price = int.Parse(carrierInfo[2]);
+                    string speedDescription = carrierInfo[3];
+                    Carrier newСarrier = new Carrier(id, name, price, speedDescription);
+                    Carriers.Add(newСarrier);
+                }
+            }
+            if (accessFileOfReceipt != null)
+            {
+                string[] receipts = File.ReadAllLines(accessFileOfReceipt.FilePath!);
+                foreach (string receipt in receipts)
+                {
+                    string[] receiptInfo = receipt.Split(',');
+                    string clientName = receiptInfo[0];
+                    string clientEmail = receiptInfo[1];
+                    string clientPhone = receiptInfo[2];
+                    int vehiclePrice = int.Parse(receiptInfo[3]);
+                    string vehicleBrand = receiptInfo[4];
+                    string vehicleModel = receiptInfo[5];
+                    string vehicleColor = receiptInfo[6];
+                    string supplierName = receiptInfo[7];
+                    int supplierPrice = int.Parse(receiptInfo[8]);
+                    string carrierName = receiptInfo[9];
+                    int carrierPrice = int.Parse(receiptInfo[10]);
+                    int totalPrice = int.Parse(receiptInfo[11]);
+                    DateTime purchaseDate = DateTime.Parse(receiptInfo[12]);
+                    Receipt newReceipt = new Receipt(clientName, clientEmail, clientPhone, vehiclePrice, vehicleBrand, vehicleModel, vehicleColor, supplierName, supplierPrice, carrierName, carrierPrice, totalPrice, purchaseDate);
+                    Receipts.Add(newReceipt);
+                }
+            }
+
         }
         public void SaveData()
         {
-
-            //File.WriteAllText(accessFileOfClients.FilePath!, "");
-            //File.WriteAllText(accessFileOfCars.FilePath!, "");
-            //File.WriteAllText(accessFileOfBikes.FilePath!, "");
-            //File.WriteAllText(accessFileOfTruck.FilePath!, "");
 
             using (StreamWriter writer = new StreamWriter(accessFileOfClients.FilePath!))
             {
@@ -168,6 +227,14 @@ namespace CarDealership
                         writer.WriteLine($"{truck.Id},{truck.Brand},{truck.Year},{truck.Model},{truck.Color},{truck.Condition},{truck.Price},{truck.NumberOfWheels},{truck.LoadCapacity}");
                     }
 
+                }
+            }
+
+            using (StreamWriter writer = new StreamWriter(accessFileOfReceipt.FilePath!))
+            {
+                foreach (Receipt receipt in Receipts)
+                {
+                    writer.WriteLine($"{receipt.ClientName},{receipt.ClientEmail},{receipt.ClientPhone},{receipt.VehiclePrice},{receipt.VehicleBrand},{receipt.VehicleModel},{receipt.VehicleColor},{receipt.SupplierName},{receipt.SupplierPrice},{receipt.CarrierName},{receipt.CarrierPrice},{receipt.TotalPrice},{receipt.PurchaseDate}");
                 }
             }
         }
@@ -220,6 +287,66 @@ namespace CarDealership
                 table.AddRow(client.Id, client.Name, client.Phone, client.Email, client.PreferredBrand, client.MinPrice, client.MaxPrice, client.MinYear, client.MaxYear);
             }
             Console.Write(table.ToString());
+        }
+        public void PrintSuppliers()
+        {
+            var table = new ConsoleTable("ID", "Постачальник", "Ціна");
+
+            foreach (Supplier supplier in Suppliers)
+            {
+                table.AddRow(supplier.Id, supplier.Name, supplier.Price);
+            }
+            Console.Write(table.ToString());
+        }
+        public void PrintCarriers()
+        {
+            var table = new ConsoleTable("ID", "Постачальник", "Ціна", "Швидкість");
+
+            foreach (Carrier carrier in Carriers)
+            {
+                table.AddRow(carrier.Id, carrier.Name, carrier.Price, carrier.SpeedDescription);
+            }
+            Console.Write(table.ToString());
+        }
+        public void PrintReceipts()
+        {
+            var table = new ConsoleTable(
+                "Ім'я клієнта",
+                "Електронна пошта",
+                "Телефон",
+                "Ціна транспорту ($)",
+                "Бренд транспорту",
+                "Модель транспорту",
+                "Колір транспорту",
+                "Постачальник",
+                "Ціна постачальника ($)",
+                "Перевізник",
+                "Ціна перевізника ($)",
+                "Загальна ціна ($)",
+                "Дата покупки"
+            );
+
+            foreach (Receipt receipt in Receipts)
+            {
+                table.AddRow(
+                    receipt.ClientName,
+                    receipt.ClientEmail,
+                    receipt.ClientPhone,
+                    receipt.VehiclePrice,
+                    receipt.VehicleBrand,
+                    receipt.VehicleModel,
+                    receipt.VehicleColor,
+                    receipt.SupplierName,
+                    receipt.SupplierPrice,
+                    receipt.CarrierName,
+                    receipt.CarrierPrice,
+                    receipt.TotalPrice,
+                    receipt.PurchaseDate.ToString("yyyy-MM-dd HH:mm:ss")
+                );
+            }
+
+            Console.WriteLine("\nСписок чеків:");
+            Console.WriteLine(table.ToString());
         }
         public void AddCarToList()
         {
@@ -533,7 +660,6 @@ namespace CarDealership
         }
         public void RemoveCar(StartTheProgram ToMainMenu)
         {
-
             int countCars = 0;
             foreach (Vehicle vehicle in Vehicles)
             {
@@ -977,7 +1103,6 @@ namespace CarDealership
                 SelectChangesForTruck(id);
             }
         }
-
         public void AutomationSearch()
         {
 
@@ -1206,6 +1331,233 @@ namespace CarDealership
                 return check;
             }
         }
+        public void PlaceOrder(StartTheProgram toMainMenu)
+        {
+            Console.WriteLine("Список клієнтів:");
 
+            PrintClients();
+            Client selectedClient = ChooseClientForOrder(toMainMenu);
+            Vehicle selectedVehicle = ChooseVehicleForOrder();
+            Supplier selectedSupplier = ChooseSupplierForOrder();
+            Carrier selectedCarrier = ChooseCarrierForOrder();
+            CreateReceipt(selectedClient, selectedVehicle, selectedSupplier, selectedCarrier);
+
+        }
+        private Client ChooseClientForOrder(StartTheProgram toMainMenu)
+        {
+            if (Clients.Count < 1)
+            {
+                MenuText.ErrorOutputText("\nКлієнтів немає. Обиріть наступну функцію -> 1. Вийти до головного меню. 2. Додати клієнта до списку.");
+                MenuText.BlueOutput("Оберіть цифру: ");
+                int selectedAction;
+                bool isValidSelectedAction = int.TryParse(Console.ReadLine(), out selectedAction);
+                if (isValidSelectedAction)
+                {
+                    switch (selectedAction)
+                    {
+                        case 1:
+                            toMainMenu.Start();
+                            break;
+                        case 2:
+                            AddClientToList();
+                            break;
+                        default:
+                            return ChooseClientForOrder(toMainMenu); // Повернути результат виклику методу
+                    }
+                }
+                else
+                {
+                    return ChooseClientForOrder(toMainMenu); // Повернути результат виклику методу
+                }
+            }
+
+            Console.Write("\nВиберіть ID клієнта: ");
+            int clientId;
+            bool isValidClientId = int.TryParse(Console.ReadLine(), out clientId);
+
+            if (!isValidClientId || (clientId <= 0 || clientId > Clients.Count))
+            {
+                MenuText.ErrorOutputText("Некоректний ID клієнта. Будь ласка, введіть ціле число або правильний id клієнта.");
+                return ChooseClientForOrder(toMainMenu); // Повернути результат виклику методу
+            }
+
+            var selectedClient = Clients.FirstOrDefault(c => c.Id == clientId);
+
+            return selectedClient;
+        }
+        private Vehicle ChooseVehicleForOrder()
+        {
+            Console.WriteLine("\nОберіть тип транспорту:\n" +
+                     "1. Машина\n" +
+                     "2. Мотоцикл\n" +
+                     "3. Грузовик");
+
+            Console.Write("Введіть номер варіанту: ");
+            int transportType;
+            bool isValidTransportType = int.TryParse(Console.ReadLine(), out transportType);
+
+            if (!isValidTransportType || transportType < 1 || transportType > 3)
+            {
+                MenuText.ErrorOutputText("Некоректний варіант транспорту. Будь ласка, введіть ціле число від 1 до 3.");
+                return ChooseVehicleForOrder();
+            }
+
+            Type selectedVehicleType;
+            switch (transportType)
+            {
+                case 1:
+                    PrintCars();
+                    selectedVehicleType = typeof(Car);
+                    break;
+                case 2:
+                    PrintMotorcycle();
+                    selectedVehicleType = typeof(Motorcycle);
+                    break;
+                case 3:
+                    PrintTruck();
+                    selectedVehicleType = typeof(Truck);
+                    break;
+                default:
+                    selectedVehicleType = null;
+                    break;
+            }
+
+            if (selectedVehicleType == null)
+            {
+                MenuText.ErrorOutputText("Некоректний варіант транспорту.");
+                return ChooseVehicleForOrder();
+            }
+
+            Console.Write("\nВиберіть ID транспортного засобу: ");
+            int vehicleId;
+            bool isValidVehicleId = int.TryParse(Console.ReadLine(), out vehicleId);
+
+            if (!isValidVehicleId)
+            {
+                MenuText.ErrorOutputText("Некоректний ID транспортного засобу. Будь ласка, введіть ціле число.");
+                return ChooseVehicleForOrder();
+            }
+
+            var selectedVehicle = Vehicles.FirstOrDefault(v => v.Id == vehicleId && v.GetType() == selectedVehicleType);
+
+            if (selectedVehicle == null)
+            {
+                MenuText.ErrorOutputText("Транспортний засіб з вказаним ID не знайдено.");
+                return ChooseVehicleForOrder();
+            }
+
+            return selectedVehicle;
+        }
+        private Supplier ChooseSupplierForOrder()
+        {
+            Console.WriteLine("\nОберіть постачальника:");
+
+            PrintSuppliers();
+
+            Console.Write("Введіть ID постачальника: ");
+            int supplierId;
+            bool isValidSupplierId = int.TryParse(Console.ReadLine(), out supplierId);
+
+            if (!isValidSupplierId || supplierId <= 0 || supplierId > Suppliers.Count)
+            {
+                MenuText.ErrorOutputText("Некоректний ID постачальника. Будь ласка, введіть ціле число.");
+                return ChooseSupplierForOrder();
+            }
+
+            var selectedSupplier = Suppliers.FirstOrDefault(s => s.Id == supplierId);
+
+            if (selectedSupplier == null)
+            {
+                MenuText.ErrorOutputText("Постачальник з вказаним ID не знайдений. Будь ласка, виберіть існуючого постачальника.");
+                return ChooseSupplierForOrder();
+            }
+
+            return selectedSupplier;
+        }
+        private Carrier ChooseCarrierForOrder()
+        {
+            Console.WriteLine("\nОберіть перевізника:");
+
+            PrintCarriers();
+
+            Console.Write("\nВведіть ID перевізника: ");
+            int carrierId;
+            bool isValidCarrierId = int.TryParse(Console.ReadLine(), out carrierId);
+
+            if (!isValidCarrierId || carrierId <= 0 || carrierId > Carriers.Count)
+            {
+                MenuText.ErrorOutputText("Некоректний ID перевізника. Будь ласка, введіть ціле число.");
+                return ChooseCarrierForOrder();
+            }
+
+            var selectedCarrier = Carriers.FirstOrDefault(c => c.Id == carrierId);
+
+            if (selectedCarrier == null)
+            {
+                MenuText.ErrorOutputText("Перевізник з вказаним ID не знайдений. Будь ласка, виберіть існуючого перевізника.");
+                return ChooseCarrierForOrder();
+            }
+
+            return selectedCarrier;
+        }
+        private void CreateReceipt(Client client, Vehicle vehicle, Supplier supplier, Carrier carrier)
+        {
+            Receipt receipt = new Receipt(
+                client.Name,
+                client.Email,
+                client.Phone,
+                vehicle.Price,
+                vehicle.Brand,
+                vehicle.Model,
+                vehicle.Color,
+                supplier.Name,
+                supplier.Price,
+                carrier.Name,
+                carrier.Price,
+                vehicle.Price + supplier.Price + carrier.Price,
+                DateTime.Now
+            );
+
+            Receipts.Add(receipt);
+            Vehicles.Remove(vehicle);
+            Clients.Remove(client);
+
+            for (int i = 0; i < Clients.Count; i++)
+            {
+                Clients[i].Id = i + 1;
+            }
+
+            int newIdForCar = 1;
+            foreach (Vehicle v in Vehicles)
+            {
+                if (v is Car car)
+                {
+                    car.Id = newIdForCar;
+                    newIdForCar++;
+                }
+            }
+
+            int newIdForMotorcycle = 1;
+            foreach (Vehicle v in Vehicles)
+            {
+                if (v is Motorcycle motorcycle)
+                {
+                    motorcycle.Id = newIdForMotorcycle;
+                    newIdForMotorcycle++;
+                }
+            }
+
+            int newIdForTruck = 1;
+            foreach (Vehicle v in Vehicles)
+            {
+                if (v is Truck truck)
+                {
+                    truck.Id = newIdForTruck;
+                    newIdForTruck++;
+                }
+            }
+
+            Console.WriteLine("\nЧек на покупку створений та збережений.");
+        }
     }
 }

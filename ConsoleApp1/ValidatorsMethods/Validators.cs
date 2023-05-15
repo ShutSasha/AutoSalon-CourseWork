@@ -1,5 +1,4 @@
-﻿using CarDealership.MainFunctions.OrderF;
-using CarDealership.Utils;
+﻿using CarDealership.Utils;
 using static CarDealership.MainFunctions.ExitOrContinue;
 
 namespace CarDealership.ValidatorsMethods
@@ -66,7 +65,7 @@ namespace CarDealership.ValidatorsMethods
                     PerformDelete(salon, toMainMenu);
                     break;
                 case 7:
-                    MakeAnOrder(salon);
+                    MakeAnOrder(salon, toMainMenu);
                     break;
                 case -1:
                     ExitTheProgram(salon);
@@ -141,11 +140,13 @@ namespace CarDealership.ValidatorsMethods
             printMethods.Add(salon.PrintClients);
             printMethods.Add(salon.PrintMotorcycle);
             printMethods.Add(salon.PrintTruck);
-            printMethods.Add(PrintOrder.PrintOrdersMethod);
+            printMethods.Add(salon.PrintSuppliers);
+            printMethods.Add(salon.PrintCarriers);
+            printMethods.Add(salon.PrintReceipts);
 
             int selectedNumberOfPrints = PrintInputValidator(printMethods.Count);
 
-            if (selectedNumberOfPrints > 0 && selectedNumberOfPrints <= 5)
+            if (selectedNumberOfPrints > 0 && selectedNumberOfPrints <= 7)
             {
                 printMethods[selectedNumberOfPrints - 1]();
                 var continuePrint = new List<MethodDelegate>();
@@ -226,9 +227,9 @@ namespace CarDealership.ValidatorsMethods
                 PerformDelete(salon, toMainMenu);
             }
         }
-        private static void MakeAnOrder(AutoSalon salon)
+        private static void MakeAnOrder(AutoSalon salon, StartTheProgram toMainMenu)
         {
-            Order.CreateOrder(salon);
+            salon.PlaceOrder(toMainMenu);
         }
         private static void ExitTheProgram(AutoSalon salon)
         {
