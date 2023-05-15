@@ -1,5 +1,4 @@
-﻿using CarDealership.MainFunctions;
-using CarDealership.MainFunctions.OrderF;
+﻿using CarDealership.MainFunctions.OrderF;
 using CarDealership.Utils;
 using static CarDealership.MainFunctions.ExitOrContinue;
 
@@ -55,7 +54,7 @@ namespace CarDealership.ValidatorsMethods
                     AddOrEditVehicle(selectedNumber, salon);
                     break;
                 case 3:
-                    //AutomationOfSelectionForClient.AutomationSearch(salon);
+                    salon.AutomationSearch();
                     break;
                 case 4:
                     ChoosePrint(salon);
@@ -166,7 +165,7 @@ namespace CarDealership.ValidatorsMethods
                 Console.WriteLine(MenuText.ChooseBetweenAllPrints);
                 MenuText.OutputEnterNumOfFunc();
 
-                string input = Console.ReadLine()?.Trim();
+                string input = Console.ReadLine()?.Trim()!;
 
                 if (int.TryParse(input, out int selectedNum))
                 {
@@ -181,9 +180,9 @@ namespace CarDealership.ValidatorsMethods
         }
         private static void PerformSearch(AutoSalon salon)
         {
-            Search.SearchMethod();
+            salon.SearchMethod();
             List<MethodDelegate> methods = new List<MethodDelegate>();
-            methods.Add(Search.SearchMethod);
+            methods.Add(salon.SearchMethod);
             ExitOrContinueShorter(salon, "\n3. Зробити знову пошук.", methods);
         }
         private static void PerformDelete(AutoSalon salon, StartTheProgram toMainMenu)

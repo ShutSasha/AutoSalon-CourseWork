@@ -3,7 +3,7 @@ using CarDealership.Models;
 using CarDealership.Utils;
 using CarDealership.ValidatorsMethods;
 using ConsoleTables;
-
+using static CarDealership.MainFunctions.ExitOrContinue;
 
 namespace CarDealership
 {
@@ -376,7 +376,7 @@ namespace CarDealership
             while (true)
             {
                 Console.Write("\nВведіть id автомобіля: ");
-                string input = Console.ReadLine()?.Trim();
+                string input = Console.ReadLine()?.Trim()!;
                 if (!string.IsNullOrEmpty(input) && int.TryParse(input, out int id))
                 {
                     return id;
@@ -389,7 +389,7 @@ namespace CarDealership
             while (true)
             {
                 MenuText.OutputEnterNumOfFunc();
-                string input = Console.ReadLine()?.Trim();
+                string input = Console.ReadLine()?.Trim()!;
                 if (!string.IsNullOrEmpty(input) && int.TryParse(input, out int number))
                 {
                     return number;
@@ -569,7 +569,7 @@ namespace CarDealership
 
             Console.Write("\nВведіть id машини, яку хочете видалити: ");
             int idToDelete = Convert.ToInt32(Console.ReadLine());
-            Car carToRemove = null;
+            Car carToRemove = null!;
             foreach (Vehicle vehicle in Vehicles)
             {
                 if (vehicle is Car car && car.Id == idToDelete)
@@ -978,189 +978,234 @@ namespace CarDealership
             }
         }
 
-        //public void AutomationSearch()
-        //{
-           
+        public void AutomationSearch()
+        {
 
-            
-        //    string[] linesClients = accessFileOfClients.Lines;
+            PrintClients();
 
-
-        //    foreach (string line in linesClients)
-        //    {
-        //        string[] values = line.Split(',');
-
-        //        int idClient = int.Parse(values[0]);
-        //        string name = values[1] != "0" ? values[1] : "Даних немає";
-        //        string phone = values[2] != "0" ? values[2] : "Даних немає";
-        //        string email = values[3] != "0" ? values[3] : "Даних немає";
-        //        string preferredBrand = values[4] != "0" ? values[4] : "Даних немає";
-        //        int minPrice = values[5] != "0" ? int.Parse(values[5]) : 0;
-        //        int maxPrice = values[6] != "0" ? int.Parse(values[6]) : 9999999;
-        //        int minYear = values[7] != "0" ? int.Parse(values[7]) : 1900;
-        //        int maxYear = values[8] != "0" ? int.Parse(values[8]) : 2023;
-
-        //        Client newClient = new Client(idClient, name, phone, email, preferredBrand, minPrice, maxPrice, minYear, maxYear);
-
-        //        allClients.Add(newClient);
-        //    }
-
-        //    salon.PrintClients();
-
-        //    int id = ValidateIdInput(linesClients);
-
-        //    AccessFile accessFileOfCar = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
-        //    string[] lines = accessFileOfCar.Lines;
-
-        //    List<Car> matchingCars = new List<Car>();
-
-        //    int priceFrom = allClients[id - 1].MinPrice;
-        //    int priceTo = allClients[id - 1].MaxPrice;
-        //    int yearFrom = allClients[id - 1].MinYear;
-        //    int yearTo = allClients[id - 1].MaxYear;
-
-        //    foreach (string line in lines)
-        //    {
-        //        string[] fields = line.Split(',');
-        //        Car car = new Car(int.Parse(fields[0]), fields[1], int.Parse(fields[2]), fields[3], fields[4], fields[5], int.Parse(fields[6]), int.Parse(fields[7]));
+            int id = ValidateIdInput(Clients);
 
 
-        //        if (CheckOfMatchingVehicle(car))
-        //        {
-        //            matchingCars.Add(car);
-        //        }
-        //    }
-
-        //    if (matchingCars.Count > 0)
-        //    {
-
-        //        MenuText.BlueOutput("\nMatching cars:\n");
-
-        //        foreach (Car car in matchingCars)
-        //        {
-        //            Console.WriteLine("Id: {0}, Brand: {1}, Year: {2}, Model: {3}, Color: {4}, Condition: {5}, Price: {6}, NumberOfDoors: {7}", car.Id, car.Brand, car.Year, car.Model, car.Color, car.Condition, car.Price, car.NumberOfDoors);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        MenuText.OutputErrorOfNoMatchingVehicle("cars");
-        //    }
-
-        //    AccessFile accessFileOfMotorcycle = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
-        //    string[] linesOfBike = accessFileOfMotorcycle.Lines;
-
-        //    List<Motorcycle> matchingBikes = new List<Motorcycle>();
-
-        //    foreach (string line in linesOfBike)
-        //    {
-        //        string[] fields = line.Split(',');
-        //        Motorcycle bike = new Motorcycle(int.Parse(fields[0]), fields[1], int.Parse(fields[2]), fields[3], fields[4], fields[5], int.Parse(fields[6]), fields[7]);
+            int priceFrom = Clients[id - 1].MinPrice;
+            int priceTo = Clients[id - 1].MaxPrice;
+            int yearFrom = Clients[id - 1].MinYear;
+            int yearTo = Clients[id - 1].MaxYear;
 
 
-        //        if (CheckOfMatchingVehicle(bike))
-        //        {
-        //            matchingBikes.Add(bike);
-        //        }
-        //    }
+            List<Car> matchingCars = new List<Car>();
+            matchingCars = FindMatchCars(matchingCars, yearFrom, yearTo, priceFrom, priceTo, id);
+
+            if (matchingCars.Count > 0)
+            {
+
+                MenuText.BlueOutput("\nMatching cars:\n");
+
+                foreach (Car car in matchingCars)
+                {
+                    Console.WriteLine("Id: {0}, Brand: {1}, Year: {2}, Model: {3}, Color: {4}, Condition: {5}, Price: {6}, NumberOfDoors: {7}", car.Id, car.Brand, car.Year, car.Model, car.Color, car.Condition, car.Price, car.NumberOfDoors);
+                }
+            }
+            else
+            {
+                MenuText.OutputErrorOfNoMatchingVehicle("cars");
+            }
 
 
-        //    if (matchingBikes.Count > 0)
-        //    {
-        //        MenuText.BlueOutput("\nMatching bikes:\n");
-
-        //        foreach (Motorcycle bike in matchingBikes)
-        //        {
-        //            Console.WriteLine("Id: {0}, Brand: {1}, Year: {2}, Model: {3}, Color: {4}, Condition: {5}, Price: {6}, bikeType: {7}", bike.Id, bike.Brand, bike.Year, bike.Model, bike.Color, bike.Condition, bike.Price, bike.MotorcycleType);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        MenuText.OutputErrorOfNoMatchingVehicle("bikes");
-        //    }
-
-        //    AccessFile accessFileOfTruck = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
-        //    string[] linesOfTruck = accessFileOfTruck.Lines;
-
-        //    List<Truck> matchingTrucks = new List<Truck>();
-
-        //    foreach (string line in linesOfTruck)
-        //    {
-        //        string[] fields = line.Split(',');
-        //        Truck truck = new Truck(int.Parse(fields[0]), fields[1], int.Parse(fields[2]), fields[3], fields[4], fields[5], int.Parse(fields[6]), int.Parse(fields[7]), int.Parse(fields[8]));
+            List<Motorcycle> matchingBikes = new List<Motorcycle>();
+            matchingBikes = FindMatchBikes(matchingBikes, yearFrom, yearTo, priceFrom, priceTo, id);
 
 
-        //        if (CheckOfMatchingVehicle(truck))
-        //        {
-        //            matchingTrucks.Add(truck);
-        //        }
-        //    }
+            if (matchingBikes.Count > 0)
+            {
+                MenuText.BlueOutput("\nMatching bikes:\n");
 
-        //    if (matchingTrucks.Count > 0)
-        //    {
-        //        MenuText.BlueOutput("\nMatching trucks:\n");
+                foreach (Motorcycle bike in matchingBikes)
+                {
+                    Console.WriteLine("Id: {0}, Brand: {1}, Year: {2}, Model: {3}, Color: {4}, Condition: {5}, Price: {6}, bikeType: {7}", bike.Id, bike.Brand, bike.Year, bike.Model, bike.Color, bike.Condition, bike.Price, bike.MotorcycleType);
+                }
+            }
+            else
+            {
+                MenuText.OutputErrorOfNoMatchingVehicle("bikes");
+            }
 
-        //        foreach (Truck truck in matchingTrucks)
-        //        {
-        //            Console.WriteLine("Id: {0}, Brand: {1}, Year: {2}, Model: {3}, Color: {4}, Condition: {5}, Price: {6}, Number of wheels: {7}, loadCapacity: {8}", truck.Id, truck.Brand, truck.Year, truck.Model, truck.Color, truck.Condition, truck.Price, truck.NumberOfWheels, truck.LoadCapacity);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        MenuText.OutputErrorOfNoMatchingVehicle("trucks");
-        //    }
 
-        //    bool CheckOfMatchingVehicle(Vehicle vehicle)
-        //    {
-        //        string brand = allClients[id - 1].PreferredBrand;
-        //        bool check = false;
-        //        if ((brand == "" || vehicle.Brand.ToLower() == brand.ToLower())
-        //         && (yearFrom == 0 || vehicle.Year >= yearFrom)
-        //         && (yearTo == 0 || vehicle.Year <= yearTo)
-        //         && (priceFrom == 0 || vehicle.Price >= priceFrom)
-        //         && (priceTo == 0 || vehicle.Price <= priceTo))
-        //        {
-        //            check = true;
-        //        }
+            List<Truck> matchingTrucks = new List<Truck>();
+            matchingTrucks = FindMatchTrucks(matchingTrucks, yearFrom, yearTo, priceFrom, priceTo, id);
 
-        //        return check;
-        //    }
-        //    var methodsForExit = new List<MethodDelegate>();
-        //    methodsForExit.Add(() => AutomationSearch(salon));
-        //    ExitOrContinueShorter(salon, "\n3. Продовжити автоматичний пошук.", methodsForExit);
-        //}
-        //private static int ValidateIdInput(string[] lines)
-        //{
-        //    while (true)
-        //    {
-        //        Console.Write("\nВиберіть id клієнта для якого хочете зробити автоматичний підбір транспорту: ");
-        //        string input = Console.ReadLine();
-        //        if (!int.TryParse(input, out int id) || id <= 0)
-        //        {
-        //            MenuText.ErrorOutputText("Неправильний ввід. Введіть додатнє ціле число.");
-        //        }
-        //        else
-        //        {
-        //            bool idExists = false;
-        //            foreach (string line in lines)
-        //            {
-        //                string[] data = line.Split(',');
-        //                if (data[0] == input)
-        //                {
-        //                    idExists = true;
-        //                    break;
-        //                }
-        //            }
-        //            if (idExists)
-        //            {
-        //                return id;
-        //            }
-        //            else
-        //            {
-        //                MenuText.ErrorOutputText("Неправильно обраний id, спробуйте ще раз.");
-        //            }
-        //        }
-        //    }
-        //}
+            if (matchingTrucks.Count > 0)
+            {
+                MenuText.BlueOutput("\nMatching trucks:\n");
+
+                foreach (Truck truck in matchingTrucks)
+                {
+                    Console.WriteLine("Id: {0}, Brand: {1}, Year: {2}, Model: {3}, Color: {4}, Condition: {5}, Price: {6}, Number of wheels: {7}, loadCapacity: {8}", truck.Id, truck.Brand, truck.Year, truck.Model, truck.Color, truck.Condition, truck.Price, truck.NumberOfWheels, truck.LoadCapacity);
+                }
+            }
+            else
+            {
+                MenuText.OutputErrorOfNoMatchingVehicle("trucks");
+            }
+
+
+            var methodsForExit = new List<MethodDelegate>();
+            methodsForExit.Add(() => AutomationSearch());
+            ExitOrContinueShorter(this, "\n3. Продовжити автоматичний пошук.", methodsForExit);
+        }
+        private bool CheckOfMatchingVehicle(Vehicle vehicle, int yearFrom, int yearTo, int priceFrom, int priceTo, int id)
+        {
+            string brand = Clients[id - 1].PreferredBrand;
+            bool check = false;
+            if ((brand == "" || vehicle.Brand.ToLower() == brand.ToLower())
+             && (yearFrom == 0 || vehicle.Year >= yearFrom)
+             && (yearTo == 0 || vehicle.Year <= yearTo)
+             && (priceFrom == 0 || vehicle.Price >= priceFrom)
+             && (priceTo == 0 || vehicle.Price <= priceTo))
+            {
+                check = true;
+            }
+
+            return check;
+        }
+        private List<Car> FindMatchCars(List<Car> matchingCars, int yearFrom, int yearTo, int priceFrom, int priceTo, int id)
+        {
+            foreach (Vehicle vehicle in Vehicles)
+            {
+                if (vehicle is Car car && CheckOfMatchingVehicle(car, yearFrom, yearTo, priceFrom, priceTo, id))
+                {
+                    matchingCars.Add(car);
+                }
+            }
+            return matchingCars;
+        }
+        private List<Motorcycle> FindMatchBikes(List<Motorcycle> matchingBikes, int yearFrom, int yearTo, int priceFrom, int priceTo, int id)
+        {
+            foreach (Vehicle vehicle in Vehicles)
+            {
+                if (vehicle is Motorcycle bike && CheckOfMatchingVehicle(bike, yearFrom, yearTo, priceFrom, priceTo, id))
+                {
+                    matchingBikes.Add(bike);
+                }
+            }
+            return matchingBikes;
+        }
+        private List<Truck> FindMatchTrucks(List<Truck> matchingTrucks, int yearFrom, int yearTo, int priceFrom, int priceTo, int id)
+        {
+            foreach (Vehicle vehicle in Vehicles)
+            {
+                if (vehicle is Truck truck && CheckOfMatchingVehicle(truck, yearFrom, yearTo, priceFrom, priceTo, id))
+                {
+                    matchingTrucks.Add(truck);
+                }
+            }
+            return matchingTrucks;
+        }
+        private static int ValidateIdInput(List<Client> clients)
+        {
+            while (true)
+            {
+                Console.Write("\nВиберіть id клієнта для якого хочете зробити автоматичний підбір транспорту: ");
+                string input = Console.ReadLine()!;
+                if (!int.TryParse(input, out int id) || id <= 0)
+                {
+                    MenuText.ErrorOutputText("Неправильний ввід. Введіть додатнє ціле число.");
+                }
+                else
+                {
+                    bool idExists = false;
+                    foreach (Client client in clients)
+                    {
+                        string data = Convert.ToString(client.Id);
+                        if (data == input)
+                        {
+                            idExists = true;
+                            break;
+                        }
+                    }
+                    if (idExists)
+                    {
+                        return id;
+                    }
+                    else
+                    {
+                        MenuText.ErrorOutputText("Неправильно обраний id, спробуйте ще раз.");
+                    }
+                }
+            }
+        }
+        public void SearchMethod()
+        {
+
+            List<Car> matchingCars = new List<Car>();
+            List<Motorcycle> matchingBikes = new List<Motorcycle>();
+            List<Truck> matchingTrucks = new List<Truck>();
+
+            string brand = InputValidators.BrandInputValidator(true);
+
+            int yearFrom = InputValidators.YearInputFromTo("Enter the year from: ", 1920, DateTime.Now.Year, true);
+
+            int yearTo = InputValidators.YearInputFromTo("Enter the year To: ", 1920, DateTime.Now.Year, true);
+            if (yearFrom > yearTo) (yearFrom, yearTo) = (yearTo, yearFrom);
+
+            string model = InputValidators.ModelInputValidator(true);
+
+            string color = InputValidators.ColorInputValidator(true);
+
+            string condition = InputValidators.ConditionInputValidator(true);
+
+            int priceFrom = InputValidators.PriceInputFromTo("Enter the price from: ", 0, 3000000, true);
+
+            int priceTo = InputValidators.PriceInputFromTo("Enter the price to: ", 1, 3000000, true);
+            if (priceFrom > priceTo) (priceFrom, priceTo) = (priceTo, priceFrom);
+
+            foreach (Vehicle vehicle in Vehicles)
+            {
+                if (vehicle is Car car && CheckOfMatchingVehicle(car))
+                {
+                    matchingCars.Add(car);
+                }
+            }
+
+            Print.PrintMatchingVehicle(matchingCars.ConvertAll(list => (Vehicle)list), "cars", MenuText.carHeader);
+
+            foreach (Vehicle vehicle in Vehicles)
+            {
+                if (vehicle is Motorcycle bike && CheckOfMatchingVehicle(bike))
+                {
+                    matchingBikes.Add(bike);
+                }
+            }
+
+            Print.PrintMatchingVehicle(matchingBikes.ConvertAll(list => (Vehicle)list), "bikes", MenuText.bikeHeader);
+
+            foreach (Vehicle vehicle in Vehicles)
+            {
+                if (vehicle is Truck truck && CheckOfMatchingVehicle(truck))
+                {
+                    matchingTrucks.Add(truck);
+                }
+            }
+
+            Print.PrintMatchingVehicle(matchingTrucks.ConvertAll(list => (Vehicle)list), "trucks", MenuText.truckHeader);
+
+            bool CheckOfMatchingVehicle(Vehicle vehicle)
+            {
+                bool check = false;
+                if ((brand == "" || vehicle.Brand.ToLower() == brand.ToLower())
+                 && (yearFrom == 0 || yearFrom == -1 || vehicle.Year >= yearFrom)
+                 && (yearTo == 0 || yearTo == -1 || vehicle.Year <= yearTo)
+                 && (model == "" || vehicle.Model == model)
+                 && (color == "" || vehicle.Color == color)
+                 && (condition == "" || vehicle.Condition == condition)
+                 && (priceFrom == 0 || vehicle.Price >= priceFrom)
+                 && (priceTo == 0 || vehicle.Price <= priceTo))
+                {
+                    check = true;
+                }
+
+                return check;
+            }
+        }
 
     }
 }

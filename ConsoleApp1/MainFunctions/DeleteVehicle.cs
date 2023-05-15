@@ -32,8 +32,6 @@ namespace CarDealership.MainFunctions
                 }
             }
         }
-       
-      
 
         private static int ValidateIdInput(string[] lines, string prompt)
         {
