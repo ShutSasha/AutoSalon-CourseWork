@@ -1,7 +1,6 @@
 ﻿using CarDealership.MainFunctions;
 using CarDealership.MainFunctions.ClientFunctions;
 using CarDealership.MainFunctions.OrderF;
-using CarDealership.MainFunctions.TruckFunctions;
 using CarDealership.Utils;
 using static CarDealership.MainFunctions.ExitOrContinue;
 
@@ -118,7 +117,7 @@ namespace CarDealership.ValidatorsMethods
                     methodsToExecute.Add(selectedNumber == 1 ? salon.AddMotorcycleToList : salon.EditInfoAboutBikes);
                     break;
                 case 4:
-                    methodsToExecute.Add(selectedNumber == 1 ? salon.AddTruckToList : EditTruckInfo.EditInfoAboutTruckMethod);
+                    methodsToExecute.Add(selectedNumber == 1 ? salon.AddTruckToList : salon.EditInfoAboutTrucks);
                     break;
                 default:
                     MenuText.ErrorOutputText("\nНе вірно введене значення, спробуйте ще раз\n");

@@ -746,7 +746,7 @@ namespace CarDealership
                 ToMainMenu.Start();
             }
         }
-        public  void AddMotorcycleToList()
+        public void AddMotorcycleToList()
         {
 
             InputValidators.EnterTheCharacteristicsOfTheVehicle(out string brand, out int year, out string model, out string color, out string condition, out int price);
@@ -890,6 +890,115 @@ namespace CarDealership
             {
                 MenuText.ErrorOutputText("Ви ввели неіснуючу функцію, спробуйте ще раз");
                 SelectChangesForBike(id);
+            }
+        }
+        private List<Truck> ImportTrucksFromList()
+        {
+            List<Truck> allTrucks = new List<Truck>();
+            foreach (Vehicle vehicle in Vehicles)
+            {
+                if (vehicle is Truck truck)
+                {
+                    allTrucks.Add(truck);
+                }
+            }
+            return allTrucks;
+
+        }
+        public void EditInfoAboutTrucks()
+        {
+            List<Truck> allTrucks = ImportTrucksFromList();
+
+           PrintTruck();
+
+            int id = IdInputValidator();
+
+            bool checkId = CheckIdExists.CheckIdExistsVehicle(allTrucks, id);
+
+            if (checkId)
+            {
+                SelectChangesForTruck(id);
+            }
+
+            else
+            {
+                MenuText.ErrorOutputText("\nВи ввели неіснуючий id мотоцикла, спробуйте ще раз");
+                EditInfoAboutTrucks();
+            }
+        }
+        private void SelectChangesForTruck(int id)
+        {
+            Console.WriteLine("Оберіть, що ви хочете змінити:\n" +
+                   "1. Бренд\n" +
+                   "2. Рік\n" +
+                   "3. Модель\n" +
+                   "4. Колір\n" +
+                   "5. Стан грузовика\n" +
+                   "6. Ціна\n" +
+                   "7. Кількість колес\n" +
+                   "8. Вантажопідйомність (т)");
+
+
+            int selectedNumber = NumberInputValidator();
+
+            if (selectedNumber >= 1 && selectedNumber <= 8)
+            {
+                string[] fieldNames = { "Бренд", "Рік", "Модель", "Колір", "Стан грузовика", "Ціна", "Кількість колес", "Вантажопідйомність(т)" };
+                Console.Write($"Значення поля '{fieldNames[selectedNumber - 1]}' буде змінено. ");
+                string newValue = "";
+
+                int newInt;
+                foreach (Vehicle vehicle in Vehicles)
+                {
+                    if (vehicle is Truck truck && truck.Id == id)
+                    {
+                        switch (selectedNumber)
+                        {
+                            case 1:
+                                truck.Brand = newValue = InputValidators.BrandInputValidator();
+                                break;
+                            case 2:
+                                newInt = InputValidators.YearInputOfVehicle();
+                                truck.Year = newInt;
+                                newValue = Convert.ToString(newInt);
+                                break;
+                            case 3:
+                                truck.Model = newValue = InputValidators.ModelInputValidator();
+                                break;
+                            case 4:
+                                truck.Color = newValue = InputValidators.ColorInputValidator();
+                                break;
+                            case 5:
+                                truck.Condition = newValue = InputValidators.ConditionInputValidator();
+                                break;
+                            case 6:
+                                newInt = InputValidators.PriceInputValidator();
+                                truck.Price = newInt;
+                                newValue = Convert.ToString(newInt);
+                                break;
+                            case 7:
+                                newInt = InputValidators.NumberOfWheelsInputValidator();
+                                truck.NumberOfWheels = newInt;
+                                newValue = Convert.ToString(newInt);
+                                break;
+                            case 8:
+                                newInt = InputValidators.LoadCapacityInputValidator();
+                                truck.LoadCapacity = newInt;
+                                newValue = Convert.ToString(newInt);
+                                break;
+                            default:
+                                break;
+                        }
+                        Console.WriteLine($"Поле '{fieldNames[selectedNumber - 1]}' змінено на '{newValue}'");
+                        break;
+                    }
+                }
+
+            }
+            else
+            {
+                MenuText.ErrorOutputText("Ви ввели неіснуючу функцію, спробуйте ще раз");
+                SelectChangesForTruck(id);
             }
         }
     }
