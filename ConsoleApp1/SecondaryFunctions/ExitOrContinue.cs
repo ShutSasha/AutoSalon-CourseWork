@@ -1,6 +1,6 @@
 ﻿using CarDealership.Utils;
 
-namespace CarDealership.MainFunctions
+namespace CarDealership.SecondaryFunctions
 {
     public class ExitOrContinue
     {

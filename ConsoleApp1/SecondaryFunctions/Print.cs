@@ -2,7 +2,7 @@
 using CarDealership.Utils;
 using ConsoleTables;
 
-namespace CarDealership.MainFunctions
+namespace CarDealership.SecondaryFunctions
 {
     public class Print
     {

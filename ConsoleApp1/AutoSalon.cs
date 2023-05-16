@@ -1,9 +1,9 @@
-﻿using CarDealership.MainFunctions;
+﻿using CarDealership.SecondaryFunctions;
 using CarDealership.Models;
 using CarDealership.Utils;
 using CarDealership.ValidatorsMethods;
 using ConsoleTables;
-using static CarDealership.MainFunctions.ExitOrContinue;
+using static CarDealership.SecondaryFunctions.ExitOrContinue;
 
 namespace CarDealership
 {
@@ -15,13 +15,13 @@ namespace CarDealership
         public List<Carrier> Carriers { get; set; }
         public List<Receipt> Receipts  { get; set; }
 
-        private readonly AccessFile accessFileOfCars = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\MainFunctions\\CarFunctions");
+        private readonly AccessFile accessFileOfCars = AccessFile.GetAccessToFile("CarDB.txt", "..\\..\\..\\DB");
 
-        private readonly AccessFile accessFileOfBikes = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\MainFunctions\\MotorcycleFunctions");
+        private readonly AccessFile accessFileOfBikes = AccessFile.GetAccessToFile("MotorcycleDB.txt", "..\\..\\..\\DB");
 
-        private readonly AccessFile accessFileOfTrucks = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\MainFunctions\\TruckFunctions");
+        private readonly AccessFile accessFileOfTrucks = AccessFile.GetAccessToFile("TruckDB.txt", "..\\..\\..\\DB");
 
-        private readonly AccessFile accessFileOfClients = AccessFile.GetAccessToFile("ClientDB.txt", "..\\..\\..\\MainFunctions\\ClientFunctions");
+        private readonly AccessFile accessFileOfClients = AccessFile.GetAccessToFile("ClientDB.txt", "..\\..\\..\\DB");
 
         private readonly AccessFile accessFileOfSuppliers = AccessFile.GetAccessToFile("Supplier.txt", "..\\..\\..\\DB");
 
@@ -1103,7 +1103,7 @@ namespace CarDealership
                 SelectChangesForTruck(id);
             }
         }
-        public void AutomationSearch()
+        public void AutomationSearch(StartTheProgram toMainMenu)
         {
 
             PrintClients();
@@ -1174,8 +1174,9 @@ namespace CarDealership
 
 
             var methodsForExit = new List<MethodDelegate>();
-            methodsForExit.Add(() => AutomationSearch());
-            ExitOrContinueShorter(this, "\n3. Продовжити автоматичний пошук.", methodsForExit);
+            methodsForExit.Add(() => AutomationSearch(toMainMenu));
+            methodsForExit.Add(() => PlaceOrder(toMainMenu));
+            ExitOrContinueShorter(this, "\n3. Продовжити автоматичний пошук.\n4. Зробити замовлення.", methodsForExit);
         }
         private bool CheckOfMatchingVehicle(Vehicle vehicle, int yearFrom, int yearTo, int priceFrom, int priceTo, int id)
         {

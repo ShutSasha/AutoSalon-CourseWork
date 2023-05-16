@@ -1,5 +1,5 @@
 ﻿using CarDealership.Utils;
-using static CarDealership.MainFunctions.ExitOrContinue;
+using static CarDealership.SecondaryFunctions.ExitOrContinue;
 
 namespace CarDealership.ValidatorsMethods
 {
@@ -50,16 +50,16 @@ namespace CarDealership.ValidatorsMethods
             {
                 case 1:
                 case 2:
-                    AddOrEditVehicle(selectedNumber, salon);
+                    AddOrEditVehicle(selectedNumber, salon, toMainMenu);
                     break;
                 case 3:
-                    salon.AutomationSearch();
+                    salon.AutomationSearch(toMainMenu);
                     break;
                 case 4:
-                    ChoosePrint(salon);
+                    ChoosePrint(salon, toMainMenu);
                     break;
                 case 5:
-                    PerformSearch(salon);
+                    PerformSearch(salon, toMainMenu);
                     break;
                 case 6:
                     PerformDelete(salon, toMainMenu);
@@ -74,7 +74,7 @@ namespace CarDealership.ValidatorsMethods
                     break;
             }
         }
-        private static void AddOrEditVehicle(int selectedNumber, AutoSalon salon)
+        private static void AddOrEditVehicle(int selectedNumber, AutoSalon salon, StartTheProgram toMainMenu)
         {
             string prompt = selectedNumber == 1 ? "додати" : "редагувати";
             var methods = new List<MethodDelegate>
@@ -89,14 +89,15 @@ namespace CarDealership.ValidatorsMethods
                 "1. Автомобіль\n" +
                 "2. Клієнта\n" +
                 "3. Мотоцикл\n" +
-                "4. Грузовик");
+                "4. Грузовик\n" +
+                "5. Вийти до головного меню.");
 
             MenuText.OutputEnterNumOfFunc();
 
             if (!int.TryParse(Console.ReadLine(), out int selectedAction))
             {
                 Console.WriteLine("Не вірно введене значення, спробуйте ще раз");
-                AddOrEditVehicle(selectedNumber, salon);
+                AddOrEditVehicle(selectedNumber, salon, toMainMenu);
                 return;
             }
 
@@ -116,9 +117,12 @@ namespace CarDealership.ValidatorsMethods
                 case 4:
                     methodsToExecute.Add(selectedNumber == 1 ? salon.AddTruckToList : salon.EditInfoAboutTrucks);
                     break;
+                case 5:
+                    toMainMenu.Start();
+                    break;
                 default:
                     MenuText.ErrorOutputText("\nНе вірно введене значення, спробуйте ще раз\n");
-                    AddOrEditVehicle(selectedNumber, salon);
+                    AddOrEditVehicle(selectedNumber, salon, toMainMenu);
                     return;
             }
 
@@ -133,7 +137,7 @@ namespace CarDealership.ValidatorsMethods
                 method();
             }
         }
-        private static void ChoosePrint(AutoSalon salon)
+        private static void ChoosePrint(AutoSalon salon, StartTheProgram toMainMenu)
         {
             var printMethods = new List<MethodDelegate>();
             printMethods.Add(salon.PrintCars);
@@ -143,20 +147,21 @@ namespace CarDealership.ValidatorsMethods
             printMethods.Add(salon.PrintSuppliers);
             printMethods.Add(salon.PrintCarriers);
             printMethods.Add(salon.PrintReceipts);
+            printMethods.Add(toMainMenu.Start);
 
             int selectedNumberOfPrints = PrintInputValidator(printMethods.Count);
 
-            if (selectedNumberOfPrints > 0 && selectedNumberOfPrints <= 7)
+            if (selectedNumberOfPrints > 0 && selectedNumberOfPrints <= 8)
             {
                 printMethods[selectedNumberOfPrints - 1]();
                 var continuePrint = new List<MethodDelegate>();
-                continuePrint.Add(() => ChoosePrint(salon));
+                continuePrint.Add(() => ChoosePrint(salon, toMainMenu));
                 ExitOrContinueShorter(salon, "\n3. Повторити пошук", continuePrint);
             }
             else
             {
                 MenuText.ErrorOutputText("\nНе вірно введене значення, спробуйте ще раз\n");
-                ChoosePrint(salon);
+                ChoosePrint(salon, toMainMenu);
             }
         }
         private static int PrintInputValidator(int maxNum)
@@ -179,11 +184,12 @@ namespace CarDealership.ValidatorsMethods
                 MenuText.ErrorOutputText($"Неправильний ввід. Будь ласка, введіть число від 1 до {maxNum}.");
             }
         }
-        private static void PerformSearch(AutoSalon salon)
+        private static void PerformSearch(AutoSalon salon, StartTheProgram toMainMenu)
         {
             salon.SearchMethod();
             List<MethodDelegate> methods = new List<MethodDelegate>();
             methods.Add(salon.SearchMethod);
+            methods.Add(() => salon.PlaceOrder(toMainMenu));
             ExitOrContinueShorter(salon, "\n3. Зробити знову пошук.", methods);
         }
         private static void PerformDelete(AutoSalon salon, StartTheProgram toMainMenu)
@@ -221,6 +227,10 @@ namespace CarDealership.ValidatorsMethods
                 salon.RemoveTruck(toMainMenu);
                 ExitOrContinueShorter(salon, textForDelete, methods);
             }
+            else if(selectOfDelete == 5)
+            {
+                toMainMenu.Start();
+            }
             else
             {
                 MenuText.ErrorOutputText("\nЗначення введено невірно, спробуйте ще раз.\n");
@@ -250,7 +260,8 @@ namespace CarDealership.ValidatorsMethods
                 "1. Автомобіль.\n" +
                 "2. Клієнта.\n" +
                 "3. Мотоцикл.\n" +
-                "4. Грузовик.");
+                "4. Грузовик.\n" +
+                "5. Вийти до головного меню.");
 
                 MenuText.OutputEnterNumOfFunc();
 

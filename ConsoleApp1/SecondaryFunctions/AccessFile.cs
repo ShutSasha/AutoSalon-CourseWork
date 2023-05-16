@@ -1,4 +1,4 @@
-﻿namespace CarDealership.MainFunctions
+﻿namespace CarDealership.SecondaryFunctions
 {
     public class AccessFile
     {
