@@ -190,7 +190,7 @@ namespace CarDealership.ValidatorsMethods
             List<MethodDelegate> methods = new List<MethodDelegate>();
             methods.Add(salon.SearchMethod);
             methods.Add(() => salon.PlaceOrder(toMainMenu));
-            ExitOrContinueShorter(salon, "\n3. Зробити знову пошук.", methods);
+            ExitOrContinueShorter(salon, "\n3. Зробити знову пошук.\n4. Зробити замовлення", methods);
         }
         private static void PerformDelete(AutoSalon salon, StartTheProgram toMainMenu)
         {

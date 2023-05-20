@@ -29,6 +29,8 @@ namespace CarDealership
 
         private readonly AccessFile accessFileOfReceipt = AccessFile.GetAccessToFile("Receipt.txt", "..\\..\\..\\DB");
 
+        private readonly AccessFile accessFileOfReceiptForClient = AccessFile.GetAccessToFile("ReceiptForClient.txt", "..\\..\\..\\DB");
+
         public AutoSalon()
         {
             Vehicles = new List<Vehicle>();
@@ -39,8 +41,7 @@ namespace CarDealership
         }
         public void LoadData()
         {
-            // Завантаження транспорту з файлу
-
+            
             if (accessFileOfCars != null)
             {
                 string[] cars = File.ReadAllLines(accessFileOfCars.FilePath!);
@@ -59,12 +60,7 @@ namespace CarDealership
                     Vehicles.Add(newCar);
                 }
             }
-            else
-            {
-                // файл пустий 
-            }
-
-            // Завантаження клієнтів з файлу
+           
 
             if (accessFileOfClients != null)
             {
@@ -85,11 +81,7 @@ namespace CarDealership
                     Clients.Add(newClient);
                 }
             }
-            else
-            {
-                //
-            }
-
+         
 
             if (accessFileOfBikes != null)
             {
@@ -300,7 +292,7 @@ namespace CarDealership
         }
         public void PrintCarriers()
         {
-            var table = new ConsoleTable("ID", "Постачальник", "Ціна", "Швидкість");
+            var table = new ConsoleTable("ID", "Перевізник", "Ціна", "Швидкість");
 
             foreach (Carrier carrier in Carriers)
             {
@@ -1363,12 +1355,12 @@ namespace CarDealership
                             AddClientToList();
                             break;
                         default:
-                            return ChooseClientForOrder(toMainMenu); // Повернути результат виклику методу
+                            return ChooseClientForOrder(toMainMenu); 
                     }
                 }
                 else
                 {
-                    return ChooseClientForOrder(toMainMenu); // Повернути результат виклику методу
+                    return ChooseClientForOrder(toMainMenu); 
                 }
             }
 
@@ -1379,7 +1371,7 @@ namespace CarDealership
             if (!isValidClientId || (clientId <= 0 || clientId > Clients.Count))
             {
                 MenuText.ErrorOutputText("Некоректний ID клієнта. Будь ласка, введіть ціле число або правильний id клієнта.");
-                return ChooseClientForOrder(toMainMenu); // Повернути результат виклику методу
+                return ChooseClientForOrder(toMainMenu); 
             }
 
             var selectedClient = Clients.FirstOrDefault(c => c.Id == clientId);
@@ -1518,6 +1510,41 @@ namespace CarDealership
                 vehicle.Price + supplier.Price + carrier.Price,
                 DateTime.Now
             );
+
+            using (StreamWriter writer = new StreamWriter(accessFileOfReceiptForClient.FilePath!))
+            {
+                writer.WriteLine("---------- Receipt ----------");
+                writer.WriteLine($"Date: {DateTime.Now}");
+                writer.WriteLine();
+
+                writer.WriteLine("Client Information:");
+                writer.WriteLine($"Name: {client.Name}");
+                writer.WriteLine($"Email: {client.Email}");
+                writer.WriteLine($"Phone: {client.Phone}");
+                writer.WriteLine();
+
+                writer.WriteLine("Vehicle Information:");
+                writer.WriteLine($"Brand: {vehicle.Brand}");
+                writer.WriteLine($"Model: {vehicle.Model}");
+                writer.WriteLine($"Color: {vehicle.Color}");
+                writer.WriteLine($"Price: ${vehicle.Price}");
+                writer.WriteLine();
+
+                writer.WriteLine("Supplier Information:");
+                writer.WriteLine($"Name: {supplier.Name}");
+                writer.WriteLine($"Price: ${supplier.Price}");
+                writer.WriteLine();
+
+                writer.WriteLine("Carrier Information:");
+                writer.WriteLine($"Name: {carrier.Name}");
+                writer.WriteLine($"Price: ${carrier.Price}");
+                writer.WriteLine();
+
+                writer.WriteLine($"Total Price: ${vehicle.Price + supplier.Price + carrier.Price}");
+                writer.WriteLine();
+
+                writer.WriteLine("-------------------------------");
+            }
 
             Receipts.Add(receipt);
             Vehicles.Remove(vehicle);
