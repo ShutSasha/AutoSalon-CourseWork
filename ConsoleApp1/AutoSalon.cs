@@ -1097,6 +1097,42 @@ namespace CarDealership
         }
         public void AutomationSearch(StartTheProgram toMainMenu)
         {
+            if (Clients.Count == 0)
+            {
+                MenuText.ErrorOutputText("Клієнтів немає. Введіть 1 для додавання нового клієнта або 2 для виходу до головного меню.");
+
+                bool validInput = false;
+                int selectedNum;
+
+                while (!validInput)
+                {
+                    Console.Write("Введіть тут цифру:");
+                    string input = Console.ReadKey().KeyChar.ToString();
+                    validInput = int.TryParse(input, out selectedNum);
+                    Console.WriteLine();
+
+                    if (validInput)
+                    {
+                        switch (selectedNum)
+                        {
+                            case 1:
+                                AddClientToList();
+                                break;
+                            case 2:
+                                toMainMenu.Start();
+                                break;
+                            default:
+                                MenuText.ErrorOutputText("Не правильно введене значення, спробуйте ще раз.");
+                                validInput = false;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        MenuText.ErrorOutputText("Не правильно введене значення, спробуйте ще раз.");
+                    }
+                }
+            }
 
             PrintClients();
 

@@ -1,25 +1,25 @@
 ---------- Receipt ----------
-Date: 19.05.2023 13:01:09
+Date: 25.05.2023 23:43:27
 
 Client Information:
 Name: Олександр
-Email: dasda@gmail.com
+Email: oleks123@gmail.com
 Phone: +380951231212
 
 Vehicle Information:
 Brand: Audi
-Model: a5
+Model: a2
 Color: White
-Price: $14000
+Price: $4000
 
 Supplier Information:
 Name: Європейський
 Price: $800
 
 Carrier Information:
-Name: Амереканський
-Price: $1000
+Name: Європейський
+Price: $800
 
-Total Price: $15800
+Total Price: $5600
 
 -------------------------------
