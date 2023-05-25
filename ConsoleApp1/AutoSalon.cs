@@ -1547,7 +1547,7 @@ namespace CarDealership
                 DateTime.Now
             );
 
-            using (StreamWriter writer = new StreamWriter(accessFileOfReceiptForClient.FilePath!))
+            using (StreamWriter writer = new StreamWriter(accessFileOfReceiptForClient.FilePath!, true))
             {
                 writer.WriteLine("---------- Receipt ----------");
                 writer.WriteLine($"Date: {DateTime.Now}");

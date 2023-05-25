@@ -23,3 +23,28 @@ Price: $800
 Total Price: $5600
 
 -------------------------------
+---------- Receipt ----------
+Date: 26.05.2023 0:11:57
+
+Client Information:
+Name: Михайло
+Email: miasj@gmail.com
+Phone: +380951231221
+
+Vehicle Information:
+Brand: Audi
+Model: a6
+Color: White
+Price: $15600
+
+Supplier Information:
+Name: Європейський
+Price: $800
+
+Carrier Information:
+Name: Американський
+Price: $1000
+
+Total Price: $17400
+
+-------------------------------
